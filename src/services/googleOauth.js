@@ -14,9 +14,6 @@ const googleOauth = (passport) => {
 	passport.use(
 		new GoogleStrategy(
 			{
-				// clientID: process.env.googleClientID,
-				// clientSecret: process.env.googleClientSecret,
-				// callbackURL: process.env.googleCallbackURL,
 				clientID: process.env.GOOGLECLIENTID,
 				clientSecret: process.env.GOOGLECLIENTSECRET,
 				callbackURL: process.env.GOOGLECALLBACKURL,
