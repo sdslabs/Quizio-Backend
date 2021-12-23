@@ -1,4 +1,7 @@
 import GithubDefaultExport from 'passport-github2';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const GithubStrategy = GithubDefaultExport.Strategy;
 

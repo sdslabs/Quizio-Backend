@@ -1,5 +1,7 @@
 import GoogleDefaultExport from 'passport-google-oauth';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const GoogleStrategy = GoogleDefaultExport.OAuth2Strategy;
 
 const googleOauth = (passport) => {
