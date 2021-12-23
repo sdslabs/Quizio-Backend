@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import app from './src/app';
 import logger from './src/helpers/logger';
 
-const MONGOURI = process.env.mongoURI;
+const { MONGOURI } = process.env;
 const port = process.env.PORT || 5050;
 
 mongoose.connect(MONGOURI).then(() => logger

@@ -11,7 +11,7 @@ export const loggerConfig = {
 
 export const authConfig = {
 	jwtExpiry: 86400,
-	jwtKey: process.env.jwtKey,
+	jwtKey: process.env.JWTKEY,
 };
 
 export const falconConfig = {

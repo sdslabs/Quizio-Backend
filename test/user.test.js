@@ -2,10 +2,10 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import app from '../src/app';
 
-import { superAdminToken, MONGOURI } from './test.config';
+import { TEST_SUPERADMINTOKEN, TEST_MONGOURI } from './test.config';
 
 beforeAll(async () => {
-	await mongoose.connect(MONGOURI);
+	await mongoose.connect(TEST_MONGOURI);
 });
 
 afterAll(async () => {
@@ -27,7 +27,7 @@ describe('GET /api/v2/users', () => {
 	describe('should return unauthorizedResponse when the user making the request is not superAdmin', () => {
 		test('should respond with a 403 status code for unauthorized users', async () => {
 			const response = await request(app).get('/api/v2/users')
-				.set('Authorization', `Bearer ${superAdminToken}`);
+				.set('Authorization', `Bearer ${TEST_SUPERADMINTOKEN}`);
 			expect(response.statusCode).toBe(200);
 		});
 		test('response type should be json, utf-8 encoded', async () => {
