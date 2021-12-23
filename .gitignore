@@ -121,7 +121,7 @@ dist
 .DS_Store
 
 # controversial
-package-lock.json
+# package-lock.json
 
 # configs
 test.config.js
