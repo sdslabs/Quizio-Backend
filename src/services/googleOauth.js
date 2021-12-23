@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const GoogleStrategy = GoogleDefaultExport.OAuth2Strategy;
+const clientID = process.env.GOOGLECLIENTID;
+const clientSecret = process.env.GOOGLECLIENTSECRET;
+const callbackURL = process.env.GOOGLECALLBACKURL;
 
 const googleOauth = (passport) => {
 	passport.serializeUser((user, done) => {
@@ -14,9 +17,9 @@ const googleOauth = (passport) => {
 	passport.use(
 		new GoogleStrategy(
 			{
-				clientID: process.env.GOOGLECLIENTID,
-				clientSecret: process.env.GOOGLECLIENTSECRET,
-				callbackURL: process.env.GOOGLECALLBACKURL,
+				clientID,
+				clientSecret,
+				callbackURL,
 			},
 			(accessToken, refreshToken, profile, done) => done(null, {
 				profile,
