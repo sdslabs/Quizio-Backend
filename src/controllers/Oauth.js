@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import passport from 'passport';
+import dotenv from 'dotenv';
 import {
 	redirectToURL, successResponseWithCookieClear, successResponseWithData,
 } from '../helpers/responses';
@@ -10,6 +11,8 @@ import {
 } from '../models/user';
 import getLoggedInUser from '../services/sdslabsOauth';
 import { falconConfig } from '../config/config';
+
+dotenv.config();
 
 export const googleOauth = {
 	signUp: () => passport.authenticate('google', { scope: ['profile', 'email'] }),
