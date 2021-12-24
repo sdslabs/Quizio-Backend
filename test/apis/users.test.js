@@ -9,7 +9,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	await mongoose.connection.close();
+	// await mongoose.connection.close();
+	await mongoose.disconnect();
 });
 
 describe('GET /api/v2/users', () => {
