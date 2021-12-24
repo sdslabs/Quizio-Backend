@@ -51,7 +51,11 @@ const getLoggedInUser = async (cookies) => {
 	const sdsLabsCookie = cookies[COOKIE_NAME];
 	// console.log('sdslabs sdsLabsCookie: ', sdsLabsCookie);
 	if (sdsLabsCookie === '') return null;
-	const token = await getToken(falconConfig.clientId, falconConfig.clientSecret, falconConfig.accessTokenURL);
+	const token = await getToken(
+		falconConfig.clientId,
+		falconConfig.clientSecret,
+		falconConfig.accessTokenURL,
+	);
 	// console.log('token in get logged in user: ', token);
 	const userData = await makeRequest(`${falconConfig.urlResourceOwner}/logged_in_user/${sdsLabsCookie}`, token);
 	return userData;

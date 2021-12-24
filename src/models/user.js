@@ -107,4 +107,6 @@ export const updateUsername = async (username, newUsername) => {
 			msg: 'Username succesfully updated!',
 		};
 	}
+
+	return {};
 };
