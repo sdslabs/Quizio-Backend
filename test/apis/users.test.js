@@ -60,6 +60,10 @@ describe('GET /api/v2/users/test01', () => {
 			const response = await request(app).get('/api/v2/users/test01');
 			expect(response.statusCode).toBe(401);
 		});
+		test('response type should be json, utf-8 encoded', async () => {
+			const response = await request(app).get('/api/v2/users/test01');
+			expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
+		});
 	});
 
 });
