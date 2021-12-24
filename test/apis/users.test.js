@@ -53,3 +53,13 @@ describe('GET /api/v2/users', () => {
 		});
 	});
 });
+
+describe('GET /api/v2/users/test01', () => {
+	describe('should return unauthenticatedResponse when token is missing', () => {
+		test('should respond with a 401 status code for unauthenticated users', async () => {
+			const response = await request(app).get('/api/v2/users/test01');
+			expect(response.statusCode).toBe(401);
+		});
+	});
+
+});
