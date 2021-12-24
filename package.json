@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit --detectOpenHandles",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit --detectOpenHandles",
     "lint": "eslint ."
   },
   "repository": {
