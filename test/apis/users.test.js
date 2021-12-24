@@ -1,8 +1,8 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-import app from '../src/app';
+import app from '../../src/app';
 
-import { TEST_SUPERADMINTOKEN, TEST_MONGOURI, TEST_USERTOKEN } from './test.config';
+import { TEST_SUPERADMINTOKEN, TEST_MONGOURI, TEST_USERTOKEN } from '../test.config';
 
 beforeAll(async () => {
 	await mongoose.connect(TEST_MONGOURI);
@@ -35,11 +35,16 @@ describe('GET /api/v2/users', () => {
 			expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
 		});
 	});
+
 	describe('should return successResponse when the user making the request is not superAdmin', () => {
 		test('should respond with a 200 status code and some data for superAdmin', async () => {
 			const response = await request(app).get('/api/v2/users')
 				.set('Authorization', `Bearer ${TEST_SUPERADMINTOKEN}`);
 			expect(response.statusCode).toBe(200);
+			expect(response.body).toHaveProperty('success');
+			expect(response.body.success).toBe(1);
+			expect(response.body).toHaveProperty('data');
+			expect(response.body.data).toHaveProperty('users'); // ensure that users is an empty array when no users exist
 		});
 		test('response type should be json, utf-8 encoded', async () => {
 			const response = await request(app).get('/api/v2/users');
