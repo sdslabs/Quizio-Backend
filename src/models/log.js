@@ -11,6 +11,11 @@ export const getLogsForUser = async (username) => {
 	return logs;
 };
 
+export const getQuizLogsForUser = async (username, quizId) => {
+	const logs = await log.find({ username, quizId });
+	return logs;
+};
+
 export const updateLog = async ({ username, quizId, logType }) => {
 	const filter = { quizId, username, logType };
 

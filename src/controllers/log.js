@@ -3,6 +3,7 @@ import {
 	updateLog,
 	getLogsForUser,
 	getAllLogs,
+	getQuizLogsForUser,
 } from '../models/log';
 
 const controller = {
@@ -15,9 +16,19 @@ const controller = {
 	},
 
 	getLogsForUser: async (req, res) => {
-		const { username } = req.user;
+		const { username } = req.params;
 
 		const log = await getLogsForUser(username);
+
+		return successResponseWithData(res, {
+			log,
+		}, 200);
+	},
+
+	getQuizLogsForUser: async (req, res) => {
+		const { username, quizId } = req.params;
+
+		const log = await getQuizLogsForUser(username, quizId);
 
 		return successResponseWithData(res, {
 			log,
