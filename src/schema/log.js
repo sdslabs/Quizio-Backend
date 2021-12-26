@@ -25,8 +25,10 @@ const logSchema = new Schema({
 },
 {
 	capped: {
+		capped: true,
 		size: logConfig.maxCappedSize,
 		max: logConfig.maxCappedValue,
+		autoIndexId: true,
 	},
 });
 export default mongoose.model('Log', logSchema);

@@ -27,5 +27,5 @@ export const falconConfig = {
 
 export const logConfig = {
 	maxCappedSize: 1024,
-	maxCappedValue: 10,
+	maxCappedValue: 5,
 };
