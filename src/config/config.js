@@ -24,3 +24,8 @@ export const falconConfig = {
 	urlResourceOwner: 'http://falcon.sdslabs.local/users',
 	accountsUrl: 'http://arceus.sdslabs.local',
 };
+
+export const logConfig = {
+	maxCappedSize: 1024,
+	maxCappedValue: 10,
+};

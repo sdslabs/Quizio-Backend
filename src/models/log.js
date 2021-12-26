@@ -1,50 +1,33 @@
 import log from '../schema/log';
 import logger from '../helpers/logger';
 
-export const addLog = async (logData) => {
-	const newLog = new log(logData);
-	const result = await newLog.save();
-	logger.info('new log created!');
-	logger.info(result);
-	return result;
+export const getAllLogs = async () => {
+	const logs = await log.find();
+	return logs;
 };
 
-export const updateLog = async (quizId, userId, logtype) => {
-	const filter = {
-		quizId,
-		userId,
-		logtype,
+export const getLogsForUser = async (username) => {
+	const logs = await log.find({ username });
+	return logs;
+};
+
+export const updateLog = async ({ username, quizId, logType }) => {
+	const filter = { quizId, username, logType };
+
+	const update = {
+		...filter,
+		$inc: {
+			frequency: 1,
+		},
 	};
 
-	const updatedLog = await log.findOneAndUpdate(filter,
-		{
-			$inc: {
-				frequency: 1,
-			},
-		}, { new: true });
+	const updatedLog = await log.updateOne(filter, update, {
+		new: true,
+		upsert: true,
+	});
+
 	logger.info('log updated!');
 	logger.info(updatedLog);
 
 	return updatedLog;
-};
-
-export const fetchLogForUpdate = async ({ id, userId, logtype }) => {
-	const filter = {
-		quizId: id,
-		userId,
-		logtype,
-	};
-
-	const fetchedLog = await log.find(filter);
-	return fetchedLog;
-};
-
-export const fetchLogsForUser = async (quizId, userId) => {
-	const logs = await log.find({ quizId, userId });
-	return logs;
-};
-
-export const fetchAllLogs = async () => {
-	const logs = await log.find();
-	return logs;
 };
