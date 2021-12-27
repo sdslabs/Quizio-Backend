@@ -23,7 +23,8 @@ describe('GET /api/v2/auth/logout', () => {
 			expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
 		});
 	});
-	describe('should return valid response with status code 200 for authenticated users', () => {			
+	describe('should return valid response with status code 200 for authenticated users', () => {
+		// TODO: @sai => Should clear all cookies
 		test('should respond with a 200 status code', async () => {
 			const response = await request(app).get('/api/v2/auth/logout')
 				.set('Authorization', `Bearer ${TEST_USERTOKEN}`);
