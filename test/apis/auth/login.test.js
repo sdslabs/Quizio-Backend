@@ -1,6 +1,16 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 import app from '../../../src/app';
-import { TEST_USERTOKEN } from '../../test.config';
+import { TEST_MONGOURI, TEST_USERTOKEN } from '../../test.config';
+
+beforeAll(async () => {
+	await mongoose.connect(TEST_MONGOURI);
+});
+
+afterAll(async () => {
+	// await mongoose.connection.close();
+	await mongoose.disconnect();
+});
 
 describe('GET /api/v2/auth/login', () => {
 	describe('should return unauthorized response when token is missing', () => {
@@ -28,25 +38,26 @@ describe('GET /api/v2/auth/login', () => {
 		// 	const response = await request(app).get('/api/v2/auth/login');
 		// 	expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
 		// });
+
+		// test('should respond with a 404 status code', async () => {
+		// 	const response = await request(app).post('/api/v2/auth/login');
+		// 	expect(response.statusCode).toBe(404);
+		// });
+		// test('should respond with a 404 status code', async () => {
+		// 	const response = await request(app).put('/api/v2/auth/login');
+		// 	expect(response.statusCode).toBe(404);
+		// });
+		// test('should respond with a 404 status code', async () => {
+		// 	const response = await request(app).delete('/api/v2/auth/login');
+		// 	expect(response.statusCode).toBe(404);
+		// });
+		// test('should respond with a 404 status code', async () => {
+		// 	const response = await request(app).trace('/api/v2/auth/login');
+		// 	expect(response.statusCode).toBe(404);
+		// });
+		// test('should respond with a 404 status code', async () => {
+		// 	const response = await request(app).patch('/api/v2/auth/login');
+		// 	expect(response.statusCode).toBe(404);
+		// });
 	});
 });
-// test('should respond with a 404 status code', async () => {
-// 	const response = await request(app).post('/api/v2/auth/login');
-// 	expect(response.statusCode).toBe(404);
-// });
-// test('should respond with a 404 status code', async () => {
-// 	const response = await request(app).put('/api/v2/auth/login');
-// 	expect(response.statusCode).toBe(404);
-// });
-// test('should respond with a 404 status code', async () => {
-// 	const response = await request(app).delete('/api/v2/auth/login');
-// 	expect(response.statusCode).toBe(404);
-// });
-// test('should respond with a 404 status code', async () => {
-// 	const response = await request(app).trace('/api/v2/auth/login');
-// 	expect(response.statusCode).toBe(404);
-// });
-// test('should respond with a 404 status code', async () => {
-// 	const response = await request(app).patch('/api/v2/auth/login');
-// 	expect(response.statusCode).toBe(404);
-// });
