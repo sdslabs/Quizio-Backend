@@ -18,7 +18,6 @@ const controller = {
 	getLogsForUser: async (req, res) => {
 		const { username } = req.params;
 		const log = await getLogsForUser(username);
-
 		return successResponseWithData(res, {
 			log,
 		}, 200);
