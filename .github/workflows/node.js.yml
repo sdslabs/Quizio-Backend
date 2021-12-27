@@ -23,7 +23,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main,tests_sai]
 
 jobs:
   build:
