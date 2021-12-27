@@ -14,7 +14,7 @@ afterAll(async () => {
 });
 
 describe('PUT /api/v2/quizzes/:quizId', () => {
-    describe('should return unauthenticatedResponse when token is missing', () => {
+	describe('should return unauthenticatedResponse when token is missing', () => {
 		test('should respond with a 401 status code for unauthenticated users', async () => {
 			const response = await request(app).put('/api/v2/quizzes/617f17edeb203da3fb579d86');
 			expect(response.statusCode).toBe(StatusCodes.UNAUTHORIZED);
@@ -25,16 +25,16 @@ describe('PUT /api/v2/quizzes/:quizId', () => {
 		});
 	});
 
-    describe('should return successResponse when user is authenticated', () => {
-        test('should respond with a 200 status code for authorized users', async () => {
-            const response = await request(app).put('/api/v2/quizzes/617f17edeb203da3fb579d86')
-                .set('Authorization', `Bearer ${TEST_USERTOKEN}`);
-            expect(response.statusCode).toBe(StatusCodes.OK);
-            expect(response.body).toHaveProperty('success');
-            expect(response.body.success).toBe(1);
-            expect(response.body).toHaveProperty('data');
-            expect(response.body.data).toHaveProperty('quiz');
-            expect(response.body.data).toHaveProperty('message');
-        })
-    })
+	describe('should return successResponse when user is authenticated', () => {
+		test('should respond with a 200 status code for authorized users', async () => {
+			const response = await request(app).put('/api/v2/quizzes/617f17edeb203da3fb579d86')
+				.set('Authorization', `Bearer ${TEST_USERTOKEN}`);
+			expect(response.statusCode).toBe(StatusCodes.OK);
+			expect(response.body).toHaveProperty('success');
+			expect(response.body.success).toBe(1);
+			expect(response.body).toHaveProperty('data');
+			expect(response.body.data).toHaveProperty('quiz');
+			expect(response.body.data).toHaveProperty('message');
+		});
+	});
 });
