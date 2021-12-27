@@ -21,9 +21,9 @@ env:
 
 on:
   push:
-    branches: [main]
+    branches: '*'
   pull_request:
-    branches: [main,tests_sai]
+    branches: '*'
 
 jobs:
   build:

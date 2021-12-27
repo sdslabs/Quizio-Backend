@@ -1,5 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
 import app from '../../src/app';
 
 import { TEST_SUPERADMINTOKEN, TEST_MONGOURI, TEST_USERTOKEN } from '../test.config';
@@ -9,7 +10,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	// await mongoose.connection.close();
+	await mongoose.connection.close();
 	await mongoose.disconnect();
 });
 
@@ -17,7 +18,7 @@ describe('GET /api/v2/users', () => {
 	describe('should return unauthenticatedResponse when token is missing', () => {
 		test('should respond with a 401 status code for unauthenticated users', async () => {
 			const response = await request(app).get('/api/v2/users');
-			expect(response.statusCode).toBe(401);
+			expect(response.statusCode).toBe(StatusCodes.UNAUTHORIZED);
 		});
 		test('response type should be json, utf-8 encoded', async () => {
 			const response = await request(app).get('/api/v2/users');
@@ -29,7 +30,7 @@ describe('GET /api/v2/users', () => {
 		test('should respond with a 403 status code for unauthorized users', async () => {
 			const response = await request(app).get('/api/v2/users')
 				.set('Authorization', `Bearer ${TEST_USERTOKEN}`);
-			expect(response.statusCode).toBe(403);
+			expect(response.statusCode).toBe(StatusCodes.FORBIDDEN);
 		});
 		test('response type should be json, utf-8 encoded', async () => {
 			const response = await request(app).get('/api/v2/users');
@@ -41,7 +42,7 @@ describe('GET /api/v2/users', () => {
 		test('should respond with a 200 status code and some data for superAdmin', async () => {
 			const response = await request(app).get('/api/v2/users')
 				.set('Authorization', `Bearer ${TEST_SUPERADMINTOKEN}`);
-			expect(response.statusCode).toBe(200);
+			expect(response.statusCode).toBe(StatusCodes.OK);
 			expect(response.body).toHaveProperty('success');
 			expect(response.body.success).toBe(1);
 			expect(response.body).toHaveProperty('data');
