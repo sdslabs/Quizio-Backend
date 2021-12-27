@@ -1,8 +1,10 @@
+/*
+
 import request from 'supertest';
 import mongoose from 'mongoose';
-import app from '../../src/app';
+import app from '../../../src/app';
 
-import { TEST_MONGOURI } from '../test.config';
+import { TEST_MONGOURI } from '../../test.config';
 
 beforeAll(async () => {
 	await mongoose.connect(TEST_MONGOURI);
@@ -123,3 +125,5 @@ describe('DELETE /api/v2/register/quizzes/:quizId', () => {
 		expect(response.statusCode).toBe(404);
 	});
 });
+
+*/
