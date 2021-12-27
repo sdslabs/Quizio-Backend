@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../../../src/app';
 import mongoose from 'mongoose';
+import app from '../../../src/app';
 import { TEST_MONGOURI, TEST_USERTOKEN } from '../../test.config';
 
 beforeAll(async () => {
