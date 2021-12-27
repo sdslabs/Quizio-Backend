@@ -29,6 +29,8 @@ describe('GET /api/v2/quizzes', () => {
 			const response = await request(app).get('/api/v2/quizzes')
 				.set('Authorization', `Bearer ${TEST_USERTOKEN}`);
 			expect(response.statusCode).toBe(StatusCodes.OK);
+			expect(response.body).toHaveProperty('success');
+			expect(response.body.success).toBe(1);
 		});
 	});
 });
