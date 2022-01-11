@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import { authConfig } from '../config/config';
-import { tokenErrorResponse } from './responses';
 
 const JWT_KEY = authConfig.jwtKey;
 // const expiresIn = authConfig.jwtExpiry;
@@ -12,7 +11,6 @@ export const verifyToken = (res, token) => {
 		const payload = jwt.verify(token, JWT_KEY);
 		return payload;
 	} catch (err) {
-		tokenErrorResponse(res);
-		throw err;
+		return 0;
 	}
 };

@@ -14,17 +14,6 @@ export const authConfig = {
 	jwtKey: process.env.JWTKEY,
 };
 
-export const falconConfig = {
-	clientId: process.env.falconClientID,
-	clientSecret: process.env.falconClientSecret,
-	tokenHost: 'http://falcon.sdslabs.local',
-	accessTokenURL: 'http://falcon.sdslabs.local/access_token',
-	authorizePath: 'http://falcon.sdslabs.local/authorize',
-	scopes: ['email', 'image_url', 'organizations'],
-	urlResourceOwner: 'http://falcon.sdslabs.local/users',
-	accountsUrl: 'http://arceus.sdslabs.local',
-};
-
 export const logConfig = {
 	maxCappedSize: 1024,
 	maxCappedValue: 5,

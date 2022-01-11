@@ -11,7 +11,6 @@ import ROLE from './enums';
  * @returns callback to the next function if auth else unauthenticated response
  */
 export const isAuth = async (req, res, next) => {
-	// const { token } = req.cookies;
 	const authHeader = req.headers.authorization;
 	let token;
 	if (authHeader) {
@@ -23,8 +22,11 @@ export const isAuth = async (req, res, next) => {
 	}
 	req.token = token;
 	const username = verifyToken(res, token);
-	req.user = await findUserByUsername(username);
-	return next();
+	if (username) {
+		req.user = await findUserByUsername(username);
+		return next();
+	}
+	return unauthenticatedResponse(res);
 };
 
 /**
@@ -36,20 +38,6 @@ export const isAuth = async (req, res, next) => {
  */
 export const isSuperAdmin = (req, res, next) => {
 	if (req.user.role === ROLE.SUPERADMIN) {
-		return next();
-	}
-	return unauthorizedResponse(res);
-};
-
-/**
- * Check if user is public
- * @param {*} req
- * @param {*} res
- * @param {*} next
- * @returns callback to the next function if public else unauthenticated response
- */
-export const isPublic = (req, res, next) => {
-	if (req.user.role === ROLE.PUBLIC) {
 		return next();
 	}
 	return unauthorizedResponse(res);

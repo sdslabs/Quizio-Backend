@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import oauthController, { googleOauth, githubOauth, sdslabsOauth } from '../controllers/Oauth';
+import oauthController, { googleOauth, githubOauth } from '../controllers/Oauth';
 import { isAuth } from '../helpers/authorizer';
 
 const router = express.Router();
@@ -24,15 +24,11 @@ router.get('/github/callback',
 	}),
 	githubOauth.signUpCallback);
 
-/* Signup with sdslabs */
-router.get('/sdslabs', sdslabsOauth.signUp);
-// router.get('/sdslabs/callback',	sdslabsOauth.signUpCallback);
-
 /* Protected route for testing */
 router.get('/protected', isAuth, (req, res) => res.status(200).json({ message: `Welcome the the club! @${req.user.username}` }));
 
 /* Logout */
-router.get('/login', isAuth, oauthController.login);
+router.get('/login', oauthController.login);
 router.get('/logout', isAuth, oauthController.logout);
 
 export default router;

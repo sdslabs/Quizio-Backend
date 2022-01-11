@@ -2,15 +2,18 @@
 /* eslint-disable no-underscore-dangle */
 import passport from 'passport';
 import dotenv from 'dotenv';
+import logger from '../helpers/logger';
 import {
-	redirectToURL, successResponseWithCookieClear, successResponseWithData,
+	redirectToURL,
+	successResponseWithCookieClear,
+	successResponseWithData,
+	tokenErrorResponse,
+	unauthenticatedResponse,
 } from '../helpers/responses';
-import { generateToken } from '../helpers/token';
+import { generateToken, verifyToken } from '../helpers/token';
 import {
 	addNewUser, updateUserByEmail, findUserByEmail,
 } from '../models/user';
-import getLoggedInUser from '../services/sdslabsOauth';
-import { falconConfig } from '../config/config';
 
 dotenv.config();
 
@@ -32,16 +35,18 @@ export const googleOauth = {
 			lastName: family_name,
 			googleAvatar: picture,
 		};
-		const token = generateToken(userData.username);
+		const jwtToken = generateToken(userData.username);
 
 		const users = await findUserByEmail(email);
-		if (!users || (users && users.length === 0)) {
-			const newUser = await addNewUser(userData);
-			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${newUser.username}&token=${token}`);
-		}
 
+		if (!users || (users && users.length === 0)) {
+			// User not found, so it's a new user
+			const newUser = await addNewUser(userData);
+			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
+		}
+		// User found, so it's an old user
 		const user = await updateUserByEmail(userData);
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${user.username}&token=${token}`);
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${user.username}&jwtToken=${jwtToken}&new=false`);
 	},
 };
 
@@ -64,41 +69,49 @@ export const githubOauth = {
 			githubUserName: login,
 			githubAvatar: avatar_url,
 		};
-		const token = generateToken(userData.username);
+		const jwtToken = generateToken(userData.username);
 
 		const users = await findUserByEmail(email);
 		if (!users || (users && users.length === 0)) {
 			const newUser = await addNewUser(userData);
-			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${newUser.username}&token=${token}`);
+			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
 
 		const user = await updateUserByEmail(userData);
 
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${user.username}&token=${token}`);
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${user.username}&&jwtToken=${jwtToken}&new=false`);
 	},
-};
-
-export const sdslabsOauth = {
-	signUp: async (req, res) => {
-		const user = await getLoggedInUser();
-		if (!user) return redirectToURL(res, `${falconConfig.accountsUrl}/login?redirect=http://quizioapi.sdslabs.local/api/v2/auth/`);
-		return successResponseWithData(res, user);
-	}
-	,
-
-	// signUpCallback = () => {
-
-	// }
 };
 
 const oauthController = {
 	/**
-	 * [Must reach here only after doing isAuth first]
 	 * @returns the user data and the jwt token */
-	login: async (req, res) => successResponseWithData(res, {
-		user: req.user,
-		token: req.token,
-	}, 200),
+	login: async (req, res) => {
+		const { jwtToken } = req.query;
+
+		if (jwtToken) {
+			logger.info('Login with Token');
+			const payload = verifyToken(res, jwtToken);
+			if (payload) {
+				return successResponseWithData(res,
+					{
+						msg: 'Token verified!',
+						jwtToken,
+					});
+				// return successResponseWithCookie(res,
+				// 	'User logged in successfully!', {
+				// 		name: 'jwtToken',
+				// 		value: jwtToken,
+				// 	});
+			}
+			return tokenErrorResponse(res);
+		}
+		return unauthenticatedResponse(res, 'jwtToken not found');
+		// successResponseWithData(res, {
+		// 	user: req.user,
+		// 	token: req.token,
+		// }, 200);
+	},
 
 	/**
 	 * Clears the cookies
