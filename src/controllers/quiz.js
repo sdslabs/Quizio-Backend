@@ -31,6 +31,13 @@ const controller = {
 			quiz,
 		}, 200);
 	},
+	addQuizDetails: async (req, res) => {
+		const quiz = await addNewQuiz(req.body.quiz);
+		return successResponseWithData(res, {
+			message: 'Added new Quiz to db!',
+			quiz,
+		}, 200);
+	},
 	deleteQuiz: async (req, res) => {
 		const quiz = await deleteQuiz(req.params.quizId);
 		return successResponseWithData(res, {

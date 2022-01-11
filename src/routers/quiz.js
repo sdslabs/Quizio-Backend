@@ -10,6 +10,7 @@ const router = express.Router();
 router.get('/', isAuth, controller.getAllQuizzes);
 router.get('/:quizId', isAuth, controller.getQuizById);
 router.post('/', isAuth, controller.addNewQuiz);
+router.post('/quiz-details', isAuth, controller.addQuizDetails);
 router.delete('/:quizId', isAuth, controller.deleteQuiz);
 router.put('/:quizId', isAuth, controller.updateQuiz);
 

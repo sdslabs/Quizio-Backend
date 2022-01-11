@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import quiz from '../schema/quiz';
 import user from '../schema/user';
 import logger from '../helpers/logger';
@@ -16,7 +17,8 @@ export const getAllQuizzes = async () => {
  * @returns quiz data of the new quiz added to the db
  */
 export const addNewQuiz = async (quizData) => {
-	const newQuiz = new quiz(quizData);
+	const quizId = nanoid();
+	const newQuiz = new quiz({ ...quizData, quizId });
 	const result = await newQuiz.save();
 	logger.info('new quiz created!');
 	logger.info(result);
