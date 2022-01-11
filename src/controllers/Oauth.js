@@ -86,6 +86,13 @@ export const githubOauth = {
 const oauthController = {
 	/**
 	 * @returns the user data and the jwt token */
+
+	check: async (req, res) => successResponseWithData(res,
+		{
+			user: req.user,
+		}),
+	/**
+	 * @returns the user data and the jwt token */
 	login: async (req, res) => {
 		const { jwtToken } = req.query;
 

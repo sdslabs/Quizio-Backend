@@ -27,8 +27,10 @@ router.get('/github/callback',
 /* Protected route for testing */
 router.get('/protected', isAuth, (req, res) => res.status(200).json({ message: `Welcome the the club! @${req.user.username}` }));
 
-/* Logout */
+/* Login using jwtToken (query params) */
 router.get('/login', oauthController.login);
+/* Login using jwtToken (unsafe cookie) */
+router.get('/check', isAuth, oauthController.check);
 router.get('/logout', isAuth, oauthController.logout);
 
 export default router;
