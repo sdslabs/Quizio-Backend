@@ -7,6 +7,7 @@ import {
 	addQuizforUser,
 	removeQuizforUser,
 	updateUsername,
+	findUserByEmail,
 } from '../models/user';
 import { getAllQuizzesForUser } from '../models/quiz';
 
@@ -23,6 +24,18 @@ const controller = {
 		return successResponseWithData(res, {
 			user,
 		}, 200);
+	},
+
+	getUserWithEmail: async (req, res) => {
+		const user = await findUserByEmail(req.params.email);
+		console.log({ user }, req.params.email);
+		if (user) {
+			// TODO: must not send entire data to other user
+			return successResponseWithData(res, {
+				user,
+			}, 200);
+		}
+		return notFoundResponse(res);
 	},
 
 	addQuizforUser: async (req, res) => {
