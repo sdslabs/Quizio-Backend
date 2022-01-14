@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    command: npm start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - 5050:5050
