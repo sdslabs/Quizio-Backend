@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import quiz from '../schema/quiz';
 
 /**
@@ -5,11 +6,12 @@ import quiz from '../schema/quiz';
  * @returns quizId and section data of the new section added to the quiz
  */
 export const addNewSectionToQuiz = async (quizId, sectionData) => {
+	const sectionId = nanoid();
 	const updatedQuiz = await quiz.updateOne(
 		{ quizId },
-		{ $push: { sections: sectionData } },
+		{ $push: { sections: { ...sectionData, sectionId } } },
 	);
-	return updatedQuiz;
+	return { ...updatedQuiz, sectionId };
 };
 
 /**
@@ -17,9 +19,9 @@ export const addNewSectionToQuiz = async (quizId, sectionData) => {
  * @returns quizId and section data of the new section added to the quiz
  */
 export const getSectionInQuiz = async (quizId, sectionId) => {
-	const filter = { _id: quizId };
+	const filter = { quizId };
 	const section = await quiz.findOne(filter)
-		.select({ sections: { $elemMatch: { _id: sectionId } } });
+		.select({ sections: { $elemMatch: { sectionId } } });
 	return section;
 };
 
@@ -29,7 +31,7 @@ export const getSectionInQuiz = async (quizId, sectionId) => {
  */
 export const deleteSectionInQuiz = async (quizId, sectionId) => {
 	const filter = {
-		_id: quizId,
+		quizId,
 	};
 
 	const updatedQuiz = await quiz.findOneAndUpdate(filter,
@@ -50,8 +52,8 @@ export const deleteSectionInQuiz = async (quizId, sectionId) => {
  */
 export const updateSectionInQuiz = async (quizId, sectionId, sectionData) => {
 	const filter = {
-		_id: quizId,
-		'sections._id': sectionId,
+		quizId,
+		'sections.sectionId': sectionId,
 	};
 
 	const updateSectionData = {};

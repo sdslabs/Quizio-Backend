@@ -4,6 +4,8 @@ import { logConfig } from '../config/config';
 const { Schema } = mongoose;
 
 const logSchema = new Schema({
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
 	quizId: {
 		// TODO: use another id
 		type: mongoose.Schema.Types.ObjectId,

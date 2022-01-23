@@ -4,6 +4,9 @@ import questionSchema from './question';
 const { Schema } = mongoose;
 
 const sectionSchema = new Schema({
+
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
 	/** Time when the section was created */
 	createdOn: {
 		type: Date,

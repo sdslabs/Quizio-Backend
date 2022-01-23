@@ -28,3 +28,10 @@ Backend for Quizio!
 ```
 - run `sudo apachectl start`.
 - To verify the setup was successful, go to `http://quizioapi.sdslabs.local/` and you should be able to see the homepage!
+
+
+## Developer notes:
+
+### ID generation for documents in mongodb:
+[nanoid]() is used for generating unique ids to identify every document in the db. The ids follow the following format: `quizioID.${nanoid()}`.
+Any client making an API call must confirm that the id is valid using the `/api/v2/utils/verifyQuizioID/:id` endpoint.

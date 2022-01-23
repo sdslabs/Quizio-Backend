@@ -16,13 +16,14 @@ export const getAllQuizzes = async () => {
  * Add a new quiz to the db
  * @returns quiz data of the new quiz added to the db
  */
-export const addNewQuiz = async (quizData) => {
-	const quizId = nanoid();
-	const newQuiz = new quiz({ ...quizData, quizId });
+export const addNewQuiz = async (creator) => {
+	const quizioID = nanoid();
+	const newQuiz = new quiz({ quizioID, creator });
 	const result = await newQuiz.save();
-	logger.info('new quiz created!');
-	logger.info(result);
-	return result;
+	if (result) {
+		return { quizioID, creator };
+	}
+	return null;
 };
 
 /**
@@ -54,7 +55,7 @@ export const updateQuiz = async (quizId, quizData) => {
  * @returns The quiz having the specified quizId
  */
 export const getQuizById = async (quizId) => {
-	const quizData = await quiz.find({ _id: quizId });
+	const quizData = await quiz.find({ quizId });
 	return quizData;
 };
 

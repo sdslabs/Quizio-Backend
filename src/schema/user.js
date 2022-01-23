@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
+
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
 	/** Unique Username to identify every user */
 	username: {
 		type: String,
@@ -21,6 +24,7 @@ const userSchema = new Schema({
 		enum: [
 			'superadmin', // Can do everything
 			'public', // Default role, can attempt quizzes
+			'banned', // Cannot do anything
 		],
 		default: 'public',
 	},

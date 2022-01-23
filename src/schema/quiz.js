@@ -4,20 +4,18 @@ import sectionSchema from './section';
 const { Schema } = mongoose;
 
 const quizSchema = new Schema({
-
-	quizId: {
-		type: String,
-	},
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
 	/** Name of the quiz */
-	quizName: {
+	name: {
 		type: String,
 	},
 	/** Description of the quiz */
-	quizDesc: {
+	description: {
 		type: String,
 	},
 	/** Instructions of the quiz */
-	quizInst: {
+	instructions: {
 		type: String,
 	},
 	/** The date on which the quiz was created */
@@ -50,8 +48,8 @@ const quizSchema = new Schema({
 		type: Date,
 		// required: true,
 	},
-	/** The duration of the quiz */
-	examDuration: {
+	/** The window in which quiz can be started */
+	startWindow: {
 		type: Date,
 		// required: true,
 	},

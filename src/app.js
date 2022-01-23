@@ -18,6 +18,7 @@ import staticRouter from './routers/static';
 import userRouter from './routers/users';
 import quizRouter from './routers/quiz';
 import logRouter from './routers/log';
+import utilsRouter from './routers/utils';
 import registerRouter from './routers/register';
 
 /* Initialize */
@@ -50,6 +51,7 @@ app.use('/api/v2/users', userRouter);
 app.use('/api/v2/quizzes', quizRouter);
 app.use('/api/v2/register', registerRouter);
 app.use('/api/v2/logs', logRouter);
+app.use('/api/v2/utils', utilsRouter);
 app.use('*', (req, res) => notFoundResponse(res, 'Endpoint does not exist or has been removed!'));
 
 export default app;

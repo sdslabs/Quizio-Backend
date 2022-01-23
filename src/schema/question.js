@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const optionsSchema = new Schema({
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
 	/** Body of the Option */
 	body: {
 		type: String,

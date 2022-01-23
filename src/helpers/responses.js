@@ -31,6 +31,14 @@ export const successResponseWithMessage = (res, msg) => res.status(200).json({
 /**
  * Send a response with 400 status code and a message
  */
+export const failureResponseWithMessage = (res, msg) => res.status(400).json({
+	success: 0,
+	message: msg,
+});
+
+/**
+ * Send a response with 400 status code and a message
+ */
 export const badRequestResponseWithMessage = (res, msg) => res.status(400).json({
 	success: 0,
 	message: msg,

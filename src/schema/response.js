@@ -4,6 +4,9 @@ const { Schema } = mongoose;
 const { ObjectId } = Schema;
 
 const responseSchema = new Schema({
+
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
 	time: {
 		type: Date,
 		required: true,
