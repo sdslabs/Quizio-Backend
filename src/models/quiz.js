@@ -1,14 +1,50 @@
-import { nanoid } from 'nanoid';
 import quiz from '../schema/quiz';
 import user from '../schema/user';
 import logger from '../helpers/logger';
+import { generateQuizioID } from '../helpers/utils';
 
 /**
  * Get all the quizzes in the db
  * @returns An array of all the quizzes in the db
  */
 export const getAllQuizzes = async () => {
-	const quizzes = await quiz.find();
+	const result = await quiz.find();
+	const quizzes = result.map(({
+		quizioID,
+		name,
+		description,
+		instructions,
+		createdOn,
+		creator,
+		owners,
+		startTime,
+		endTime,
+		startWindow,
+		accessCode,
+		sections,
+		registrants,
+		detail1,
+		detail2,
+		detail3,
+	}) => ({
+		quizioID,
+		name,
+		description,
+		instructions,
+		createdOn,
+		creator,
+		owners,
+		startTime,
+		endTime,
+		startWindow,
+		accessCode,
+		sections,
+		registrants,
+		detail1,
+		detail2,
+		detail3,
+	}));
+
 	return quizzes;
 };
 
@@ -17,7 +53,7 @@ export const getAllQuizzes = async () => {
  * @returns quiz data of the new quiz added to the db
  */
 export const addNewQuiz = async (creator) => {
-	const quizioID = nanoid();
+	const quizioID = generateQuizioID();
 	const newQuiz = new quiz({ quizioID, creator });
 	const result = await newQuiz.save();
 	if (result) {
@@ -30,11 +66,16 @@ export const addNewQuiz = async (creator) => {
  * Deletes the quiz using the quizId
  * @returns quiz data of the quiz deleted from the db
  */
-export const deleteQuiz = async (quizId) => {
-	const deletedQuiz = await quiz.findByIdAndDelete(quizId);
-	logger.info('quiz deleted!');
-	logger.info(deletedQuiz);
-	return deletedQuiz;
+export const deleteQuiz = async (quizioID) => {
+	const found = await quiz.findOne({ quizioID }).exec();
+	if (!quizioID || !found) {
+		return false;
+	}
+	const deletedQuiz = await quiz.findOneAndDelete({ quizioID });
+	if (deletedQuiz) {
+		return true;
+	}
+	return false;
 };
 
 /**

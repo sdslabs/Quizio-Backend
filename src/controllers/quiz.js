@@ -1,4 +1,8 @@
-import { successResponseWithData } from '../helpers/responses';
+import {
+	successResponseWithData,
+	successResponseWithMessage,
+	failureResponseWithMessage,
+} from '../helpers/responses';
 import {
 	getAllQuizzes,
 	addNewQuiz,
@@ -39,11 +43,11 @@ const controller = {
 	},
 
 	deleteQuiz: async (req, res) => {
-		const quiz = await deleteQuiz(req.params.quizId);
-		return successResponseWithData(res, {
-			message: 'Quiz deleted successfully!',
-			quiz,
-		}, 200);
+		const deleted = await deleteQuiz(req.params.quizioId);
+		if (deleted) {
+			return successResponseWithMessage(res, 'Quiz deleted successfully!');
+		}
+		return failureResponseWithMessage(res, 'Failed to delete quiz!');
 	},
 
 };

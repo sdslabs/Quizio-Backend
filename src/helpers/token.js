@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { authConfig } from '../config/config';
 
 const JWT_KEY = authConfig.jwtKey;
-// const expiresIn = authConfig.jwtExpiry;
+// const expiresIn = authConfig.jwtExpiry; // TODO
 
 export const generateToken = (payload) => jwt.sign(payload, JWT_KEY);
 
