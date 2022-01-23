@@ -21,3 +21,13 @@ export const extractQuizData = (data) => ({
 	detail1: data.detail1,
 	detail2: data.detail2,
 });
+
+export const extractSectionData = (data) => ({
+	quizioID: data.quizioID,
+	quizID: data.quizID,
+	title: data.title,
+	description: data.description,
+	createdOn: data.createdOn,
+	creator: data.creator,
+	questions: data.questions,
+});

@@ -1,5 +1,4 @@
 import quiz from '../schema/quiz';
-import user from '../schema/user';
 import { extractQuizData, generateQuizioID } from '../helpers/utils';
 
 /**
@@ -35,7 +34,7 @@ export const addNewQuiz = async (creator) => {
 	const newQuiz = new quiz({ quizioID, creator });
 	const result = await newQuiz.save();
 	if (result) {
-		return { quizioID, creator };
+		return extractQuizData(result);
 	}
 	return null;
 };
@@ -66,15 +65,4 @@ export const updateQuiz = async (quizioId, quizData) => {
 		{ new: true });
 	const quizz = extractQuizData(updatedQuiz);
 	return quizz;
-};
-
-/**
- * Get the quiz with the given quizId
- * @returns The quiz having the specified quizId
- * @deprecated Use the function exported from the register model instead
- */
-export const getAllQuizzesForUser = async (username) => {
-	const userData = await user.findOne({ username });
-	const quizzes = await quiz.find({ _id: { $in: userData.quizzes } });
-	return quizzes;
 };

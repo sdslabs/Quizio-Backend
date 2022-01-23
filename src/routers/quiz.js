@@ -14,8 +14,8 @@ router.put('/:quizioID', isAuth, controller.updateQuiz);
 router.delete('/:quizioID', isAuth, controller.deleteQuiz);
 
 // Section Level
-router.post('/:quizId/sections', isAuth, sectionController.addNewSectionToQuiz);
-router.get('/:quizId/sections/:sectionId', isAuth, sectionController.getSectionInQuiz);
+router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz);
+router.get('/:quizId/sections/:sectionId', isAuth, sectionController.getSectionById);
 router.put('/:quizId/sections/:sectionId', isAuth, sectionController.updateSectionInQuiz);
 router.delete('/:quizId/sections/:sectionId', isAuth, sectionController.deleteSectionInQuiz);
 

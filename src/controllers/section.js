@@ -1,28 +1,53 @@
-import { successResponseWithData } from '../helpers/responses';
+import {
+	errorResponse, notFoundResponse, successResponseWithData, unauthorizedResponse,
+} from '../helpers/responses';
+import { getQuizById } from '../models/quiz';
 import {
 	addNewSectionToQuiz,
 	deleteSectionInQuiz,
 	updateSectionInQuiz,
-	getSectionInQuiz,
+
+	getSectionByID,
 } from '../models/section';
 
 const controller = {
 	addNewSectionToQuiz: async (req, res) => {
-		const quiz = await addNewSectionToQuiz(req.params.quizId,
-			req.body.section);
-		return successResponseWithData(res, {
-			message: 'Quiz updated successfully!',
-			quiz,
-		}, 200);
+		const { username, role } = req.user;
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
+		if (quiz) {
+			if (role === 'superadmin'
+				|| quiz.creator === username
+				|| quiz.owners.includes(username)) {
+				const section = await addNewSectionToQuiz(quizID, username);
+				if (section) {
+					return successResponseWithData(res, {
+						message: 'Section updated successfully!',
+						section,
+					});
+				}
+				return errorResponse(res, 'Unable to Add Section');
+			}
+		}
+		return notFoundResponse(res, 'Quiz not found!');
 	},
 
-	getSectionInQuiz: async (req, res) => {
-		const section = await getSectionInQuiz(req.params.quizId,
-			req.params.sectionId);
-		return successResponseWithData(res, {
-			message: 'Section fetched successfully!',
-			section,
-		}, 200);
+	getSectionById: async (req, res) => {
+		const { username, role } = req.user;
+		const { quizioID } = req.params;
+		const section = await getSectionByID(quizioID);
+		const quiz = await getQuizById(section.quizID);
+		if (section && quiz) {
+			if (role === 'superadmin'
+			|| quiz.creator === username
+			|| quiz.owners.includes(username)
+			|| quiz.registrants.includes(username)) {
+				return successResponseWithData(res, { section });
+			}
+			return unauthorizedResponse(res);
+		}
+
+		return notFoundResponse(res, 'Quiz not found!');
 	},
 
 	updateSectionInQuiz: async (req, res) => {

@@ -1,28 +1,38 @@
-import { nanoid } from 'nanoid';
+import { extractSectionData, generateQuizioID } from '../helpers/utils';
+import section from '../schema/section';
 import quiz from '../schema/quiz';
 
 /**
  * Add a new section to a quiz
  * @returns quizId and section data of the new section added to the quiz
  */
-export const addNewSectionToQuiz = async (quizId, sectionData) => {
-	const sectionId = nanoid();
-	const updatedQuiz = await quiz.updateOne(
-		{ quizId },
-		{ $push: { sections: { ...sectionData, sectionId } } },
-	);
-	return { ...updatedQuiz, sectionId };
+export const addNewSectionToQuiz = async (quizID, creator) => {
+	const quizioID = generateQuizioID();
+
+	const newSection = new section({ quizioID, quizID, creator });
+	const result = await newSection.save();
+	if (result) {
+		const quizz = await quiz.updateOne({ quizioID: quizID },
+			{ $push: { sections: quizioID } });
+		if (quizz) {
+			return extractSectionData(result);
+		}
+		return null;
+	}
+	return null;
 };
 
 /**
  * Add a new section to a quiz
  * @returns quizId and section data of the new section added to the quiz
  */
-export const getSectionInQuiz = async (quizId, sectionId) => {
-	const filter = { quizId };
-	const section = await quiz.findOne(filter)
-		.select({ sections: { $elemMatch: { sectionId } } });
-	return section;
+export const getSectionByID = async (quizioID) => {
+	const result = await section.findOne({ quizioID });
+	if (result) {
+		const quiz2 = extractSectionData(result);
+		return quiz2;
+	}
+	return null;
 };
 
 /**
@@ -30,20 +40,20 @@ export const getSectionInQuiz = async (quizId, sectionId) => {
  * @returns quizID and section data of the section deleted from the quiz
  */
 export const deleteSectionInQuiz = async (quizId, sectionId) => {
-	const filter = {
-		quizId,
-	};
+	// const filter = {
+	// 	quizId,
+	// };
 
-	const updatedQuiz = await quiz.findOneAndUpdate(filter,
-		{
-			$pull: {
-				sections: {
-					_id: sectionId,
-				},
-			},
-		},
-		{ new: true });
-	return updatedQuiz;
+	// const updatedQuiz = await quiz.findOneAndUpdate(filter,
+	// 	{
+	// 		$pull: {
+	// 			sections: {
+	// 				_id: sectionId,
+	// 			},
+	// 		},
+	// 	},
+	// 	{ new: true });
+	// return updatedQuiz;
 };
 
 /**
@@ -51,19 +61,19 @@ export const deleteSectionInQuiz = async (quizId, sectionId) => {
  * @returns quizID and section data of the section updated in the quiz
  */
 export const updateSectionInQuiz = async (quizId, sectionId, sectionData) => {
-	const filter = {
-		quizId,
-		'sections.sectionId': sectionId,
-	};
+	// const filter = {
+	// 	quizId,
+	// 	'sections.sectionId': sectionId,
+	// };
 
-	const updateSectionData = {};
-	Object.keys(sectionData).forEach((key) => {
-		updateSectionData[`sections.$.${key}`] = sectionData[key];
-	});
+	// const updateSectionData = {};
+	// Object.keys(sectionData).forEach((key) => {
+	// 	updateSectionData[`sections.$.${key}`] = sectionData[key];
+	// });
 
-	const updatedQuiz = await quiz.findOneAndUpdate(filter,
-		{
-			$set: updateSectionData,
-		}, { new: true });
-	return updatedQuiz;
+	// const updatedQuiz = await quiz.findOneAndUpdate(filter,
+	// 	{
+	// 		$set: updateSectionData,
+	// 	}, { new: true });
+	// return updatedQuiz;
 };

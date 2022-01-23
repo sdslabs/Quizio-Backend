@@ -9,7 +9,6 @@ import {
 	updateUsername,
 	findUserByEmail,
 } from '../models/user';
-import { getAllQuizzesForUser } from '../models/quiz';
 
 const controller = {
 	getAllUsers: async (req, res) => {
@@ -52,12 +51,12 @@ const controller = {
 		}, 200);
 	},
 
-	getAllQuizzesForUser: async (req, res) => {
-		const quizzes = await getAllQuizzesForUser(req.params.username);
-		return successResponseWithData(res, {
-			quizzes,
-		}, 200);
-	},
+	getAllQuizzesForUser: async (req, res) => notFoundResponse(),		/*
+		// const quizzes = await getAllQuizzesForUser(req.params.username);
+		// return successResponseWithData(res, {
+		// 	quizzes,
+		// }, 200);
+		*/
 
 	updateUser: async (req, res) => {
 		switch (req.params.type) {

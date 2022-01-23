@@ -102,3 +102,11 @@ export const mongooseValidationErrorResponse = (res, err) => res.status(422).jso
  * Send a response with a redirect to the provided url
  */
 export const redirectToURL = (res, url) => res.redirect(url);
+
+/**
+ * Send a response with the 501 status code when the endpoint is not implemented
+ */
+export const notImplementedResponse = (res) => res.status(501).json({
+	success: 0,
+	msg: 'Endpoint not implemented!',
+});

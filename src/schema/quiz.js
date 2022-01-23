@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import sectionSchema from './section';
 
 const { Schema } = mongoose;
 
@@ -77,7 +76,12 @@ const quizSchema = new Schema({
 	},
 
 	/** Sections in the quiz */
-	sections: [sectionSchema],
+	sections: [
+		{
+			type: String,
+			ref: 'Section',
+		},
+	],
 
 	/** ObjectIds of registered users for the quiz */
 	registrants: [{
