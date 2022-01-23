@@ -10,8 +10,8 @@ const router = express.Router();
 router.get('/', isAuth, isSuperAdmin, controller.getAllQuizzes);
 router.get('/:quizioID', isAuth, controller.getQuizById);
 router.post('/', isAuth, controller.addNewQuiz);
-router.put('/:quizId', isAuth, controller.updateQuiz);
-router.delete('/:quizioId', isAuth, controller.deleteQuiz);
+router.put('/:quizioID', isAuth, controller.updateQuiz);
+router.delete('/:quizioID', isAuth, controller.deleteQuiz);
 
 // Section Level
 router.post('/:quizId/sections', isAuth, sectionController.addNewSectionToQuiz);

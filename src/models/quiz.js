@@ -1,7 +1,6 @@
 import quiz from '../schema/quiz';
 import user from '../schema/user';
-import logger from '../helpers/logger';
-import { generateQuizioID } from '../helpers/utils';
+import { extractQuizData, generateQuizioID } from '../helpers/utils';
 
 /**
  * Get all the quizzes in the db
@@ -9,43 +8,22 @@ import { generateQuizioID } from '../helpers/utils';
  */
 export const getAllQuizzes = async () => {
 	const result = await quiz.find();
-	const quizzes = result.map(({
-		quizioID,
-		name,
-		description,
-		instructions,
-		createdOn,
-		creator,
-		owners,
-		startTime,
-		endTime,
-		startWindow,
-		accessCode,
-		sections,
-		registrants,
-		detail1,
-		detail2,
-		detail3,
-	}) => ({
-		quizioID,
-		name,
-		description,
-		instructions,
-		createdOn,
-		creator,
-		owners,
-		startTime,
-		endTime,
-		startWindow,
-		accessCode,
-		sections,
-		registrants,
-		detail1,
-		detail2,
-		detail3,
-	}));
+	const quizzes = result.map((data) => extractQuizData(data));
 
 	return quizzes;
+};
+
+/**
+ * Get the quiz with the given quizId
+ * @returns The quiz having the specified quizId
+ */
+export const getQuizById = async (quizioID) => {
+	const result = await quiz.findOne({ quizioID });
+	if (result) {
+		const quiz2 = extractQuizData(result);
+		return quiz2;
+	}
+	return null;
 };
 
 /**
@@ -82,31 +60,12 @@ export const deleteQuiz = async (quizioID) => {
  * Updates the quiz using the quizId
  * @returns quiz data of the quiz updated in the db
  */
-export const updateQuiz = async (quizId, quizData) => {
-	const updatedQuiz = await quiz.findByIdAndUpdate(quizId,
+export const updateQuiz = async (quizioId, quizData) => {
+	const updatedQuiz = await quiz.findOneAndUpdate({ quizioId },
 		quizData,
 		{ new: true });
-	logger.info('quiz updated!');
-	logger.info(updatedQuiz);
-	return updatedQuiz;
-};
-
-/**
- * Get the quiz with the given quizId
- * @returns The quiz having the specified quizId
- */
-export const getQuizById = async (quizId) => {
-	const quizData = await quiz.find({ quizId });
-	return quizData;
-};
-
-/**
- * Get the quiz with the given quizId
- * @returns The quiz having the specified quizId
- */
-export const getAllPublicQuizzes = async () => {
-	const quizzes = await quiz.find({ isPublic: true });
-	return quizzes;
+	const quizz = extractQuizData(updatedQuiz);
+	return quizz;
 };
 
 /**
