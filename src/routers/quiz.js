@@ -7,15 +7,15 @@ import questionController from '../controllers/question';
 const router = express.Router();
 
 // Quiz Level
-router.get('/', isAuth, isSuperAdmin, controller.getAllQuizzes);
-router.get('/:quizioID', isAuth, controller.getQuizById);
-router.post('/', isAuth, controller.addNewQuiz);
-router.put('/:quizioID', isAuth, controller.updateQuiz);
-router.delete('/:quizioID', isAuth, controller.deleteQuiz);
+router.get('/', isAuth, isSuperAdmin, controller.getAllQuizzes); // DONE
+router.get('/:quizioID', isAuth, controller.getQuizById); // DONE
+router.post('/', isAuth, controller.addNewQuiz); // DONE
+router.put('/:quizioID', isAuth, controller.updateQuiz); // DONE
+router.delete('/:quizioID', isAuth, controller.deleteQuiz); // DONE
 
 // Section Level
-router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz);
-router.get('/:quizId/sections/:sectionId', isAuth, sectionController.getSectionById);
+router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz); // DONE
+router.get('/sections/:quizioID', isAuth, sectionController.getSectionById);
 router.put('/:quizId/sections/:sectionId', isAuth, sectionController.updateSectionInQuiz);
 router.delete('/:quizId/sections/:sectionId', isAuth, sectionController.deleteSectionInQuiz);
 
