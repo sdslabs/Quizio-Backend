@@ -14,12 +14,14 @@ const userSchema = new Schema({
 		required: true,
 		unique: true,
 	},
+
 	/** Unique Email to identify every user */
 	email: {
 		type: String,
 		required: true,
 		unique: true,
 	},
+
 	/**  Role determines the rights of every user */
 	role: {
 		type: String,
@@ -36,6 +38,7 @@ const userSchema = new Schema({
 	googleAvatar: String,
 	/** github username of the user */
 	githubUserName: String,
+
 	/** first name of the user */
 	firstName: String,
 	/** last name of the user */
@@ -48,6 +51,16 @@ const userSchema = new Schema({
 	handle2: String,
 	handle3: String,
 	/** date on which the user was added */
+
+	instiName: String,
+	country: String,
+	City: String,
+	phoneNumber: String,
+
+	handle1: String,
+	handle2: String,
+	handle3: String,
+
 	dateAdded: {
 		type: Date,
 		default: Date.now,
