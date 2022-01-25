@@ -2,6 +2,7 @@ import { extractQuestionData, generateQuizioID } from '../helpers/utils';
 import quiz from '../schema/quiz';
 import section from '../schema/section';
 import question from '../schema/question';
+import { deleteQuestionInSection } from './section';
 
 /**
  * Add a new question to a section in a quiz
@@ -54,18 +55,16 @@ export const updateQuestionInSection = async (quizId, sectionId, questionId, que
 	return updatedQuiz;
 };
 
-export const deleteQuestionInSection = async (quizId, sectionId, questionId) => {
-	const filter = {
-		_id: quizId,
-		'sections._id': sectionId,
-	};
+export const deleteQuestion = async (quizioID) => {
+	const originalQuestion = await question.findOne({ quizioID });
+	if (!quizioID || !originalQuestion) {
+		return false;
+	}
+	const deletedQuestion = await question.findOneAndDelete({ quizioID });
+	const deletedInSection = await deleteQuestionInSection(originalQuestion.sectionID, quizioID);
 
-	const updatedQuiz = await quiz.findOneAndUpdate(filter,
-		{
-			$pull: {
-				'sections.$.questions': { _id: questionId },
-			},
-		}, { new: true });
-
-	return updatedQuiz;
+	if (deletedQuestion && deletedInSection) {
+		return true;
+	}
+	return false;
 };

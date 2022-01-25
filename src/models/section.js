@@ -61,3 +61,13 @@ export const deleteSection = async (quizioID) => {
 	}
 	return false;
 };
+
+/**
+ * Deletes the question in a section given by it's id and returns the updated quiz
+ */
+export const deleteQuestionInSection = async (quizioID, questionID) => {
+	const updatedSection = await section.findOneAndUpdate({ quizioID },
+		{ $pull: { questions: questionID } },
+		{ new: true });
+	return extractSectionData(updatedSection);
+};
