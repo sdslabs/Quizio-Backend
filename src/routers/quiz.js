@@ -20,7 +20,7 @@ router.put('/sections/:quizioID', isAuth, sectionController.updateSectionByID); 
 router.delete('/sections/:quizioID', isAuth, sectionController.deleteSectionByID); // DONE
 
 // Question Level
-router.post('/:quizId/sections/:sectionId', isAuth, questionController.addNewQuestionToSection);
+router.post('/sections/:sectionID/questions', isAuth, questionController.addNewQuestionToSection);
 router.delete('/:quizId/sections/:sectionId/questions/:questionId', isAuth,
 	questionController.deleteQuestionInSection);
 router.put('/:quizId/sections/:sectionId/questions/:questionId',

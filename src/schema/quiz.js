@@ -2,79 +2,56 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
+/** Schema for every quiz */
 const quizSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** Name of the quiz */
-	name: {
-		type: String,
-	},
+	name: String,
 	/** Description of the quiz */
-	description: {
-		type: String,
-	},
+	description: String,
 	/** Instructions of the quiz */
-	instructions: {
-		type: String,
-	},
-	/** The date on which the quiz was created */
+	instructions: String,
+	/** The date and time on which the quiz was created */
 	createdOn: {
 		type: Date,
 		default: Date.now,
 	},
-	/** Username of the creator of the quiz.
-	 * 1. Must exist in the `users` document
-	*/
+	/** Username of the creator of the quiz. */
 	creator: {
 		type: String,
 		ref: 'User',
-		// required: true,
+		required: true,
 	},
-	/** Usernames of the people added to the quiz.
-	 * 1. Must exist in the `users` document
-	*/
+	/** Usernames of the people managing the quiz (quiz creators and checkers) */
 	owners: [{
 		type: String,
 		ref: 'User',
 	}],
-	/** Timestamp of the first time when the quiz can be started */
-	startTime: {
-		type: Date,
-		// required: true,
-	},
-	/** Timestamp of the last time when the quiz can be started */
-	endTime: {
-		type: Date,
-		// required: true,
-	},
-	/** The window in which quiz can be started */
-	startWindow: {
-		type: Date,
-		// required: true,
-	},
-	/** Code to be able to access the quiz
-	 * 1. Must be securely hashed before storing in db using a one-way hash
-	 */
-	accessCode: {
-		type: String,
-	},
+	/** Timestamp of the first moment when the quiz can be started */
+	startTime: Date,
+	/** Timestamp of the moment when the quiz ends */
+	endTime: Date,
+	/** The window(in seconds) in which quiz can be started after the startTime */
+	startWindow: Number,
+	/** Code to be able to access the quiz (for quiz givers) */
+	accessCode: String,
 
-	/* Additional details for this particular quiz */
+	/* Additional details for the quiz */
 	detail1: {
 		key: String,
 		value: String,
 	},
-	/* Additional details for this particular quiz */
+	/* Additional details for the quiz */
 	detail2: {
 		key: String,
 		value: String,
 	},
-	/* Additional details for this particular quiz */
+	/* Additional details for the quiz */
 	detail3: {
 		key: String,
 		value: String,
 	},
-
 	/** Sections in the quiz */
 	sections: [
 		{
@@ -82,12 +59,6 @@ const quizSchema = new Schema({
 			ref: 'Section',
 		},
 	],
-
-	/** ObjectIds of registered users for the quiz */
-	registrants: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Registrant',
-	}],
 });
 
 export default mongoose.model('Quiz', quizSchema);

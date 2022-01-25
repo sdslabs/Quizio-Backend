@@ -2,10 +2,18 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
+/** Schema for every user */
 const userSchema = new Schema({
-
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
+	/** Unique Username to identify every user
+	 * (TODO: user quizioID for internal purposes and email for client side)
+	 * */
+	username: {
+		type: String,
+		required: true,
+		unique: true,
+	},
 
 	/** Unique Email to identify every user */
 	email: {
@@ -19,8 +27,8 @@ const userSchema = new Schema({
 		type: String,
 		enum: [
 			'superadmin', // Can do everything
-			'banned', // Cannot do anything
 			'public', // Default role, can attempt quizzes
+			'banned', // Cannot do anything at all on quizio
 		],
 		default: 'public',
 	},
@@ -35,6 +43,13 @@ const userSchema = new Schema({
 	firstName: String,
 	/** last name of the user */
 	lastName: String,
+	instiName: String,
+	country: String,
+	city: String,
+	phoneNumber: String,
+	handle1: String,
+	handle2: String,
+	handle3: String,
 	/** date on which the user was added */
 
 	instiName: String,
@@ -50,13 +65,6 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	quizzes: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Quiz',
-			role: String,
-		},
-	],
 });
 
 export default mongoose.model('User', userSchema);
