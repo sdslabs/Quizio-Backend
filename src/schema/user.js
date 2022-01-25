@@ -35,10 +35,21 @@ const userSchema = new Schema({
 	/** github username of the user */
 	githubUserName: String,
 	/** first name of the user */
+
 	firstName: String,
 	/** last name of the user */
 	lastName: String,
 	/** date on which the user was added */
+
+	instiName: String,
+	country: String,
+	City: String,
+	phoneNumber: String,
+
+	handle1: String,
+	handle2: String,
+	handle3: String,
+
 	dateAdded: {
 		type: Date,
 		default: Date.now,
