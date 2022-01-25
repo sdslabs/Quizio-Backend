@@ -3,48 +3,27 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 const { ObjectId } = Schema;
 
+/** Stores the responses of the quiz takers during the quiz */
 const responseSchema = new Schema({
-
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
-	time: {
-		type: Date,
-		required: true,
-		default: Date.now,
-	},
-	quizId: {
-		type: ObjectId,
-		ref: 'Quizze',
-	},
+	/** Username of the user attempting the question */
 	username: {
 		type: String,
 		ref: 'User',
 	},
-	sectionId: {
-		type: ObjectId,
-		ref: 'Section',
-	},
+	/** quizioID of the attempted question */
 	questionId: {
 		type: ObjectId,
 		ref: 'Question',
 	},
-	body: {
-		type: String,
-		required: true,
+	/** Time when the question was attempted */
+	time: {
+		type: Date,
+		default: Date.now,
 	},
-	score: {
-		type: Number,
-		default: 0,
-	},
-	history: [{
-		evaluator: {
-			type: String,
-			ref: 'User',
-		},
-		score: {
-			type: Number,
-		},
-	}],
+	/** Answer given by the user (both mcq and subjective) */
+	answer: String,
 });
 
 export default mongoose.model('Response', responseSchema);

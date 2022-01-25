@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const optionsSchema = new Schema({
+/** Schema for every choice in a question */
+const choicesSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** Body of the Option */
@@ -22,15 +23,28 @@ const optionsSchema = new Schema({
 	},
 });
 
+/** Schema for every question */
 const questionSchema = new Schema({
-	/** Title of the question */
-	title: {
+	/** Type of the question */
+	type: {
 		type: String,
+		enum: ['mcq', 'subjective'],
+		default: 'mcq',
 	},
-	/** Body of the question */
-	body: {
-		type: String,
+	/** Actual question text */
+	question: String,
+
+	/** is the question an MCQ? */
+	isMCQ: {
+		type: Boolean,
+		default: false,
 	},
+	/** Choices (MCQ Only) */
+	choices: [choicesSchema],
+	/** Answer (MCQ Only) */
+	answer: String,
+	/** Notes for checkers */
+	checkerNotes: String,
 	/** Time when the question was created */
 	createdOn: {
 		type: Date,
@@ -38,35 +52,23 @@ const questionSchema = new Schema({
 	},
 	/** Username of the creator of the question.
 	 * 1. Must exist in the `users` document
-	 * 2. The user must have `superadmin` or `admin` or `staff` role
-	*/
+	 */
 	creator: {
 		type: String,
 		ref: 'User',
-		required: true,
+		// required: true,
 	},
-	/** Array of the authors who worked on the question */
-	authors: [{ type: String, ref: 'User' }],
-	/** Correct answer of the question
-	 * 1. cannot have a string answer for MCQs
-	*/
-	answer: {
-		type: String,
-	},
-	/** is the question an MCQ? */
-	isMCQ: {
-		type: Boolean,
-		default: false,
-	},
-	/** Options for the answer
-	 * 1. Only when the question is an MCQ
-	*/
-	options: [{ optionsSchema }],
+	/** Minimum marks for Subjective questions */
+	minMarks: Number,
+	/** Maximum marks for Subjective questions */
+	maxMarks: Number,
+	/** Default marks for Subjective questions */
+	defaultMarks: Number,
 	/** Can the question be autochecked? */
 	autocheck: {
 		type: Boolean,
-		default: false,
+		default: true,
 	},
 });
 
-export default questionSchema;
+export default mongoose.model('Question', questionSchema);
