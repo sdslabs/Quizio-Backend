@@ -9,7 +9,7 @@ import {
 	addNewQuestionToSection,
 	deleteQuestion,
 	getQuestionByID,
-	updateQuestionInSection,
+	updateQuestionByID,
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
 import { getSectionByID } from '../models/section';
@@ -97,14 +97,32 @@ const controller = {
 	},
 
 	updateQuestionByID: async (req, res) => {
-		const quiz = await updateQuestionInSection(req.params.quizId,
-			req.params.sectionId,
-			req.params.questionId,
-			req.body.question);
-		return successResponseWithData(res, {
-			message: 'Quiz updated successfully!',
-			quiz,
-		}, 200);
+		const { username, role } = req.user;
+		const { questionID } = req.params;
+		const questionData = req.body;
+
+		const question = await getQuestionByID(questionID);
+		if (question) {
+			const section = await getSectionByID(question.sectionID);
+			if (section) {
+				const quiz = await getQuizById(section.quizID);
+				if (quiz) {
+					if (role === 'superadmin'
+						|| quiz.creator === username
+						|| quiz.owners.includes(username)) {
+						const question2 = await updateQuestionByID(questionID, questionData);
+						if (question2) {
+							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
+						}
+						return errorResponse(res, 'Unable to update Question');
+					}
+					return unauthorizedResponse(res);
+				}
+				return notFoundResponse(res, 'Quiz not found!');
+			}
+			return notFoundResponse(res, 'Section not found!');
+		}
+		return notFoundResponse(res, 'Question not found!');
 	},
 };
 

@@ -1,5 +1,4 @@
 import { extractQuestionData, generateQuizioID } from '../helpers/utils';
-import quiz from '../schema/quiz';
 import section from '../schema/section';
 import question from '../schema/question';
 import { deleteQuestionInSection } from './section';
@@ -29,32 +28,20 @@ export const getQuestionByID = async (quizioID) => {
 	const result = await question.findOne({ quizioID });
 	return result ? extractQuestionData(result) : null;
 };
-
-export const updateQuestionInSection = async (quizId, sectionId, questionId, questionData) => {
-	const filter = {
-		_id: quizId,
-		'sections._id': sectionId,
-	};
-
-	const updateQuestionData = {};
-	Object.keys(questionData).forEach((key) => {
-		updateQuestionData[`sections.$[sid].questions.$[qid].${key}`] = questionData[key];
-	});
-
-	const updatedQuiz = await quiz.findOneAndUpdate(filter,
-		{
-			$set: updateQuestionData,
-		},
-		{
-			arrayFilters: [
-				{ 'sid._id': sectionId },
-				{ 'qid._id': questionId },
-			],
-			new: true,
-		});
-	return updatedQuiz;
+/**
+ * Update the section using the quizId and sectionId
+ * @returns quizID and section data of the section updated in the quiz
+ */
+export const updateQuestionByID = async (quizioID, questionData) => {
+	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
+		questionData,
+		{ new: true });
+	return extractQuestionData(updatedQuestion);
 };
 
+/**
+ * Delete a quesiton by Id
+ */
 export const deleteQuestion = async (quizioID) => {
 	const originalQuestion = await question.findOne({ quizioID });
 	if (!quizioID || !originalQuestion) {
