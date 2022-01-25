@@ -21,7 +21,7 @@ const controller = {
 				if (role === 'superadmin'
 				|| quiz.creator === username
 				|| quiz.owners.includes(username)) {
-					const question = addNewQuestionToSection(sectionID, username);
+					const question = await addNewQuestionToSection(sectionID, username);
 					if (question) {
 						return successResponseWithData(res, {
 							msg: 'question added to section',

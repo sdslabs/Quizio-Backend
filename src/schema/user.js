@@ -51,16 +51,6 @@ const userSchema = new Schema({
 	handle2: String,
 	handle3: String,
 	/** date on which the user was added */
-
-	instiName: String,
-	country: String,
-	City: String,
-	phoneNumber: String,
-
-	handle1: String,
-	handle2: String,
-	handle3: String,
-
 	dateAdded: {
 		type: Date,
 		default: Date.now,

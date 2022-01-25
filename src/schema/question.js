@@ -4,8 +4,6 @@ const { Schema } = mongoose;
 
 /** Schema for every choice in a question */
 const choicesSchema = new Schema({
-	/** Unique id for every document in quizio database, generated using nanoid */
-	quizioID: String,
 	/** Body of the Option */
 	body: {
 		type: String,
@@ -25,6 +23,13 @@ const choicesSchema = new Schema({
 
 /** Schema for every question */
 const questionSchema = new Schema({
+	/** Unique id for every document in quizio database, generated using nanoid */
+	quizioID: String,
+	/** quizioID of the parent section */
+	sectionID: {
+		type: String,
+		ref: 'Section',
+	},
 	/** Type of the question */
 	type: {
 		type: String,
@@ -33,11 +38,10 @@ const questionSchema = new Schema({
 	},
 	/** Actual question text */
 	question: String,
-
 	/** is the question an MCQ? */
 	isMCQ: {
 		type: Boolean,
-		default: false,
+		default: true,
 	},
 	/** Choices (MCQ Only) */
 	choices: [choicesSchema],

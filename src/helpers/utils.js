@@ -31,3 +31,18 @@ export const extractSectionData = (data) => ({
 	creator: data.creator,
 	questions: data.questions,
 });
+
+export const extractQuestionData = (data) => ({
+	quizioID: data.quizioID,
+	sectionID: data.sectionID,
+	type: data.type,
+	question: data.question,
+	isMCQ: data.isMCQ,
+	choices: data.choices,
+	answer: data.answer,
+	checkerNotes: data.checkerNotes,
+	minMarks: data.minMarks,
+	maxMarks: data.maxMarks,
+	defaultMarks: data.defaultMarks,
+	autocheck: data.autocheck,
+});

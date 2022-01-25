@@ -1,4 +1,4 @@
-import { generateQuizioID } from '../helpers/utils';
+import { extractQuestionData, generateQuizioID } from '../helpers/utils';
 import quiz from '../schema/quiz';
 import section from '../schema/section';
 import question from '../schema/question';
@@ -15,6 +15,11 @@ export const addNewQuestionToSection = async (sectionID, creator) => {
 	if (result) {
 		const sectionn = await section.updateOne({ quizioID: sectionID },
 			{ $push: { questions: quizioID } });
+
+		if (sectionn) {
+			return extractQuestionData(result);
+		}
+		return null;
 	}
 	return null;
 };
