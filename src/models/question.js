@@ -24,6 +24,11 @@ export const addNewQuestionToSection = async (sectionID, creator) => {
 	return null;
 };
 
+export const getQuestionByID = async (quizioID) => {
+	const result = await question.findOne({ quizioID });
+	return result ? extractQuestionData(result) : null;
+};
+
 export const updateQuestionInSection = async (quizId, sectionId, questionId, questionData) => {
 	const filter = {
 		_id: quizId,

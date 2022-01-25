@@ -4,6 +4,7 @@ import {
 import {
 	addNewQuestionToSection,
 	deleteQuestionInSection,
+	getQuestionByID,
 	updateQuestionInSection,
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
@@ -19,8 +20,8 @@ const controller = {
 			const quiz = await getQuizById(section.quizID);
 			if (quiz) {
 				if (role === 'superadmin'
-				|| quiz.creator === username
-				|| quiz.owners.includes(username)) {
+					|| quiz.creator === username
+					|| quiz.owners.includes(username)) {
 					const question = await addNewQuestionToSection(sectionID, username);
 					if (question) {
 						return successResponseWithData(res, {
@@ -37,7 +38,33 @@ const controller = {
 		return notFoundResponse(res, 'Section not found!');
 	},
 
-	deleteQuestionInSection: async (req, res) => {
+	getQuestionByID: async (req, res) => {
+		const { username, role } = req.user;
+		const { questionID } = req.params;
+
+		const question = await getQuestionByID(questionID);
+		if (question) {
+			const section = await getSectionByID(question.sectionID);
+
+			if (section) {
+				const quiz = await getQuizById(section.quizID);
+				if (quiz) {
+					if (role === 'superadmin'
+						|| quiz.creator === username
+						|| quiz.owners.includes(username)
+						|| quiz.registrants.includes(username)) {
+						return successResponseWithData(res, { question });
+					}
+					return unauthorizedResponse(res);
+				}
+				return notFoundResponse(res, 'Quiz not found!');
+			}
+			return notFoundResponse(res, 'Section not found!');
+		}
+		return notFoundResponse(res, 'Question not found!');
+	},
+
+	deleteQuestionByID: async (req, res) => {
 		const quiz = await deleteQuestionInSection(req.params.quizId,
 			req.params.sectionId,
 			req.params.questionId);
@@ -46,7 +73,7 @@ const controller = {
 			quiz,
 		}, 200);
 	},
-	updateQuestionInSection: async (req, res) => {
+	updateQuestionByID: async (req, res) => {
 		const quiz = await updateQuestionInSection(req.params.quizId,
 			req.params.sectionId,
 			req.params.questionId,

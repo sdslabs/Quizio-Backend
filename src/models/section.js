@@ -29,11 +29,7 @@ export const addNewSectionToQuiz = async (quizID, creator) => {
  */
 export const getSectionByID = async (quizioID) => {
 	const result = await section.findOne({ quizioID });
-	if (result) {
-		const quiz2 = extractSectionData(result);
-		return quiz2;
-	}
-	return null;
+	return result ? extractSectionData(result) : null;
 };
 
 /**
