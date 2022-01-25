@@ -42,11 +42,11 @@ export const googleOauth = {
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
 			const newUser = await addNewUser(userData);
-			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
+			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/login?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
 		// User found, so it's an old user
 		const user = await updateUserByEmail(userData);
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${user.username}&jwtToken=${jwtToken}&new=false`);
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/login?username=${user.username}&jwtToken=${jwtToken}&new=false`);
 	},
 };
 
@@ -74,12 +74,12 @@ export const githubOauth = {
 		const users = await findUserByEmail(email);
 		if (!users || (users && users.length === 0)) {
 			const newUser = await addNewUser(userData);
-			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
+			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/login?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
 
 		const user = await updateUserByEmail(userData);
 
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/#/login?username=${user.username}&&jwtToken=${jwtToken}&new=false`);
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/login?username=${user.username}&&jwtToken=${jwtToken}&new=false`);
 	},
 };
 
