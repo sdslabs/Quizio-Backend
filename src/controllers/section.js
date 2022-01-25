@@ -43,10 +43,10 @@ const controller = {
 	 * Returns the section by it's id if the requesting user
 	 * is superadmin, owner, creator, or registrant of the parent quiz
 	 */
-	getSectionById: async (req, res) => {
+	getSectionByID: async (req, res) => {
 		const { username, role } = req.user;
-		const { quizioID } = req.params;
-		const section = await getSectionByID(quizioID);
+		const { sectionID } = req.params;
+		const section = await getSectionByID(sectionID);
 		if (section) {
 			const quiz = await getQuizById(section.quizID);
 			if (section && quiz) {
@@ -69,10 +69,10 @@ const controller = {
 	 */
 	updateSectionByID: async (req, res) => {
 		const { username, role } = req.user;
-		const { quizioID } = req.params;
+		const { sectionID } = req.params;
 		const sectionData = req.body;
 
-		const section = await getSectionByID(quizioID);
+		const section = await getSectionByID(sectionID);
 		if (section) {
 			const quiz = await getQuizById(section.quizID);
 
@@ -80,7 +80,7 @@ const controller = {
 				if (role === 'superadmin'
 					|| quiz.creator === username
 					|| quiz.owners.includes(username)) {
-					const section2 = await updateSectionByID(quizioID, sectionData);
+					const section2 = await updateSectionByID(sectionID, sectionData);
 					if (section2) {
 						return successResponseWithData(res, {
 							msg: 'Section updated successfully!',
@@ -98,9 +98,9 @@ const controller = {
 
 	deleteSectionByID: async (req, res) => {
 		const { username, role } = req.user;
-		const { quizioID } = req.params;
+		const { sectionID } = req.params;
 
-		const section = await getSectionByID(quizioID);
+		const section = await getSectionByID(sectionID);
 
 		if (section) {
 			const quiz = await getQuizById(section.quizID);
@@ -108,7 +108,7 @@ const controller = {
 				if (role === 'superadmin'
 					|| quiz.creator === username
 					|| quiz.owners.includes(username)) {
-					const section2 = await deleteSection(quizioID);
+					const section2 = await deleteSection(sectionID);
 					if (section2) {
 						return successResponseWithMessage(res, 'Section deleted successfully!');
 					}

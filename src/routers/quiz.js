@@ -7,23 +7,24 @@ import questionController from '../controllers/question';
 const router = express.Router();
 
 // Quiz Level
-router.get('/', isAuth, isSuperAdmin, controller.getAllQuizzes); // DONE
-router.get('/:quizioID', isAuth, controller.getQuizById); // DONE
 router.post('/', isAuth, controller.addNewQuiz); // DONE
-router.put('/:quizioID', isAuth, controller.updateQuiz); // DONE
-router.delete('/:quizioID', isAuth, controller.deleteQuiz); // DONE
+router.get('/', isAuth, isSuperAdmin, controller.getAllQuizzes); // DONE
+router.get('/:quizID', isAuth, controller.getQuizByID); // DONE
+router.put('/:quizID', isAuth, controller.updateQuiz); // DONE
+router.delete('/:quizID', isAuth, controller.deleteQuiz); // DONE
 
 // Section Level
 router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz); // DONE
-router.get('/sections/:quizioID', isAuth, sectionController.getSectionById); // DONE
-router.put('/sections/:quizioID', isAuth, sectionController.updateSectionByID); // DONE
-router.delete('/sections/:quizioID', isAuth, sectionController.deleteSectionByID); // DONE
+router.get('/sections/:sectionID', isAuth, sectionController.getSectionByID); // DONE
+router.put('/sections/:sectionID', isAuth, sectionController.updateSectionByID); // DONE
+router.delete('/sections/:sectionID', isAuth, sectionController.deleteSectionByID); // DONE
 
 // Question Level
 router.post('/sections/:sectionID/questions', isAuth, questionController.addNewQuestionToSection); // DONE
-router.delete('/:quizId/sections/:sectionId/questions/:questionId', isAuth,
-	questionController.deleteQuestionInSection);
-router.put('/:quizId/sections/:sectionId/questions/:questionId',
-	isAuth, questionController.updateQuestionInSection);
+router.get('/sections/questions/:questionID', isAuth, questionController.getQuestionByID); // DONE
+router.put('/sections/questions/:questionID',
+	isAuth, questionController.updateQuestionByID);
+router.delete('/sections/questions/:questionID', isAuth,
+	questionController.deleteQuestionByID);
 
 export default router;

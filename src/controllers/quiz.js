@@ -28,10 +28,10 @@ const controller = {
 	 * Returns the requested quiz data only for superadmins,
 	 * quiz creator, quiz owners and quiz registrants
 	 */
-	getQuizById: async (req, res) => {
+	getQuizByID: async (req, res) => {
 		const { username, role } = req.user;
-		const { quizioID } = req.params;
-		const quiz = await getQuizById(quizioID);
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
 		if (quiz) {
 			if (role === 'superadmin'
 				|| quiz.creator === username
@@ -64,8 +64,8 @@ const controller = {
 	 */
 	updateQuiz: async (req, res) => {
 		const { username, role } = req.user;
-		const { quizioID } = req.params;
-		const quiz = await getQuizById(quizioID);
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
 		if (quiz) {
 			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
 				const quiz2 = await updateQuiz(req.params.quizioId, req.body);
@@ -87,12 +87,12 @@ const controller = {
 	 */
 	deleteQuiz: async (req, res) => {
 		const { username, role } = req.user;
-		const { quizioID } = req.params;
-		const quiz = await getQuizById(quizioID);
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
 
 		if (quiz) {
 			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
-				const deleted = await deleteQuiz(quizioID);
+				const deleted = await deleteQuiz(quizID);
 				if (deleted) {
 					return successResponseWithMessage(res, 'Quiz deleted successfully!');
 				}
