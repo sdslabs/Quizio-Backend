@@ -66,3 +66,14 @@ export const updateQuiz = async (quizioId, quizData) => {
 	const quizz = extractQuizData(updatedQuiz);
 	return quizz;
 };
+
+/**
+ * Deletes the section in a quiz given by it's id and returns the updated quiz
+ */
+export const deleteSectionInQuiz = async (quizioId, sectionID) => {
+	const updatedQuiz = await quiz.findOneAndUpdate({ quizioId },
+		{ $pull: { sections: sectionID } },
+		{ new: true });
+	const quizz = extractQuizData(updatedQuiz);
+	return quizz;
+};

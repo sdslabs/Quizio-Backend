@@ -1,6 +1,7 @@
 import { extractSectionData, generateQuizioID } from '../helpers/utils';
 import section from '../schema/section';
 import quiz from '../schema/quiz';
+import { deleteSectionInQuiz } from './quiz';
 
 /**
  * Add a new section to a quiz
@@ -36,44 +37,31 @@ export const getSectionByID = async (quizioID) => {
 };
 
 /**
- * Delete the section using the quizId and sectionId
- * @returns quizID and section data of the section deleted from the quiz
- */
-export const deleteSectionInQuiz = async (quizId, sectionId) => {
-	// const filter = {
-	// 	quizId,
-	// };
-
-	// const updatedQuiz = await quiz.findOneAndUpdate(filter,
-	// 	{
-	// 		$pull: {
-	// 			sections: {
-	// 				_id: sectionId,
-	// 			},
-	// 		},
-	// 	},
-	// 	{ new: true });
-	// return updatedQuiz;
-};
-
-/**
  * Update the section using the quizId and sectionId
  * @returns quizID and section data of the section updated in the quiz
  */
-export const updateSectionInQuiz = async (quizId, sectionId, sectionData) => {
-	// const filter = {
-	// 	quizId,
-	// 	'sections.sectionId': sectionId,
-	// };
+export const updateSectionByID = async (quizioID, sectionData) => {
+	const updatedSection = await section.findOneAndUpdate({ quizioID },
+		sectionData,
+		{ new: true });
+	const quizz = extractSectionData(updatedSection);
+	return quizz;
+};
 
-	// const updateSectionData = {};
-	// Object.keys(sectionData).forEach((key) => {
-	// 	updateSectionData[`sections.$.${key}`] = sectionData[key];
-	// });
+/**
+ * Delete the section using the quizId and sectionId
+ * @returns quizID and section data of the section deleted from the quiz
+ */
+export const deleteSection = async (quizioID) => {
+	const originalSection = await section.findOne({ quizioID }).exec();
+	if (!quizioID || !originalSection) {
+		return false;
+	}
+	const deletedSection = await section.findOneAndDelete({ quizioID });
+	const deletedInQuiz = await deleteSectionInQuiz(originalSection.quizID, quizioID);
 
-	// const updatedQuiz = await quiz.findOneAndUpdate(filter,
-	// 	{
-	// 		$set: updateSectionData,
-	// 	}, { new: true });
-	// return updatedQuiz;
+	if (deletedSection && deletedInQuiz) {
+		return true;
+	}
+	return false;
 };
