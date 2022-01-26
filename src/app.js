@@ -33,6 +33,7 @@ const corsOptions = {
 
 /* Middlewares */
 app.use(express.json());
+// TODO: fix cors allowing every origin
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
