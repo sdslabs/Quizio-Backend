@@ -2,25 +2,6 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-/** Schema for every choice in a question */
-const choicesSchema = new Schema({
-	/** Body of the Option */
-	body: {
-		type: String,
-		required: true,
-	},
-	/** Marks awarded for choosing this option (can be negetive) */
-	marks: {
-		type: Number,
-		default: 0,
-	},
-	/** Does this option have to be chosen? (for MCQ all-in type questions) */
-	isNeeded: {
-		type: Boolean,
-		default: false,
-	},
-});
-
 /** Schema for every question */
 const questionSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
@@ -44,7 +25,24 @@ const questionSchema = new Schema({
 		default: true,
 	},
 	/** Choices (MCQ Only) */
-	choices: [choicesSchema],
+	choices: [{
+		quizioID: String,
+		/** Body of the Option */
+		body: {
+			type: String,
+			required: true,
+		},
+		/** Marks awarded for choosing this option (can be negetive) */
+		marks: {
+			type: Number,
+			default: 0,
+		},
+		/** Does this option have to be chosen? (for MCQ all-in type questions) */
+		isNeeded: {
+			type: Boolean,
+			default: false,
+		},
+	}],
 	/** Answer (MCQ Only) */
 	answer: String,
 	/** Notes for checkers */

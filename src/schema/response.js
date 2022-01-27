@@ -22,7 +22,10 @@ const responseSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	/** Answer given by the user (both mcq and subjective) */
+	/** Answer given by the user (mcq) */
+	answerChoice: String,
+
+	/** Answer given by the user (subjective) */
 	answer: String,
 });
 

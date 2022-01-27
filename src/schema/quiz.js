@@ -20,14 +20,10 @@ const quizSchema = new Schema({
 	/** Username of the creator of the quiz. */
 	creator: {
 		type: String,
-		ref: 'User',
 		required: true,
 	},
 	/** Usernames of the people managing the quiz (quiz creators and checkers) */
-	owners: [{
-		type: String,
-		ref: 'User',
-	}],
+	owners: [String],
 	/** Timestamp of the first moment when the quiz can be started */
 	startTime: Date,
 	/** Timestamp of the moment when the quiz ends */
@@ -53,12 +49,7 @@ const quizSchema = new Schema({
 		value: String,
 	},
 	/** Sections in the quiz */
-	sections: [
-		{
-			type: String,
-			ref: 'Section',
-		},
-	],
+	sections: [String],
 });
 
 export default mongoose.model('Quiz', quizSchema);

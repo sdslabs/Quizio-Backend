@@ -1,0 +1,77 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGOURI")
+}
+
+model logs {
+  id        String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v         Int    @map("__v")
+  frequency Int
+  logType   String
+  quizId    String @db.ObjectId
+  username  String
+}
+
+model questions {
+  id        String                  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v         Int                     @map("__v")
+  autocheck Boolean
+  choices   Unsupported("Unknown")?
+  createdOn DateTime                @db.Date
+  creator   String
+  isMCQ     Boolean
+  quizioID  String
+  sectionID String
+  type      String
+}
+
+model quizzes {
+  id          String                  @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v           Int                     @map("__v")
+  createdOn   DateTime                @db.Date
+  creator     String
+  owners      Unsupported("Unknown")?
+  quizioID    String
+  registrants Unsupported("Unknown")?
+  sections    String[]
+}
+
+model registers {
+  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v        Int    @map("__v")
+  quizId   String
+  username String
+}
+
+model sections {
+  id          String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v           Int      @map("__v")
+  createdOn   DateTime @db.Date
+  creator     String
+  description String?
+  questions   String[]
+  quizID      String?
+  quizioID    String
+  title       String?
+}
+
+model users {
+  id             String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v              Int       @map("__v")
+  date           DateTime? @db.Date
+  dateAdded      DateTime? @db.Date
+  email          String    @unique(map: "email_1")
+  firstName      String
+  githubAvatar   String?
+  githubUserName String?
+  googleAvatar   String
+  lastName       String
+  quizzes        String[]  @db.ObjectId
+  role           String
+  username       String    @unique(map: "username_1")
+}
