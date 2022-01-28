@@ -1,4 +1,4 @@
-import { extractRegistrantData, generateQuizioID } from '../helpers/utils';
+import { extractRegistrantData, extractRegistrantQuizList, generateQuizioID } from '../helpers/utils';
 import register from '../schema/register';
 
 /**
@@ -20,7 +20,7 @@ export const registerUserForQuiz = async (username, quizID) => {
  */
 export const getRegisteredQuizzesForUser = async (username) => {
 	const result = await register.find({ username }).exec();
-	return result ? result.map((e) => extractRegistrantData(e)) : null;
+	return result ? extractRegistrantQuizList(result) : null;
 };
 
 export const getRegisteredUsers = async (quizId) => {

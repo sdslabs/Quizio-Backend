@@ -54,3 +54,5 @@ export const extractRegistrantData = (data) => ({
 	quizID: data.quizID,
 	username: data.username,
 });
+
+export const extractRegistrantQuizList = (data) => data.map((entry) => (entry.quizID));
