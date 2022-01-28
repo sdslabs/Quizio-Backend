@@ -1,5 +1,5 @@
 import quiz from '../schema/quiz';
-import { extractQuizData, generateQuizioID } from '../helpers/utils';
+import { extractQuizData, extractQuizzesData, generateQuizioID } from '../helpers/utils';
 
 /**
  * Get all the quizzes in the db
@@ -7,9 +7,7 @@ import { extractQuizData, generateQuizioID } from '../helpers/utils';
  */
 export const getAllQuizzes = async () => {
 	const result = await quiz.find();
-	const quizzes = result.map((data) => extractQuizData(data));
-
-	return quizzes;
+	return result ? extractQuizzesData(result) : null;
 };
 
 /**
@@ -18,11 +16,16 @@ export const getAllQuizzes = async () => {
  */
 export const getQuizById = async (quizioID) => {
 	const result = await quiz.findOne({ quizioID });
-	if (result) {
-		const quiz2 = extractQuizData(result);
-		return quiz2;
-	}
-	return null;
+	return result ? extractQuizData(result) : null;
+};
+
+/**
+ * Get all the quizzes owned or created by the given username
+ * @returns List of quizzes
+ */
+export const getQuizzesByUsername = async (username) => {
+	const result = await quiz.find({ owner: username });
+	return result ? extractQuizzesData(result) : null;
 };
 
 /**
@@ -33,10 +36,7 @@ export const addNewQuiz = async (creator) => {
 	const quizioID = generateQuizioID();
 	const newQuiz = new quiz({ quizioID, creator });
 	const result = await newQuiz.save();
-	if (result) {
-		return extractQuizData(result);
-	}
-	return null;
+	return result ? extractQuizData(result) : null;
 };
 
 /**
@@ -49,10 +49,7 @@ export const deleteQuiz = async (quizioID) => {
 		return false;
 	}
 	const deletedQuiz = await quiz.findOneAndDelete({ quizioID });
-	if (deletedQuiz) {
-		return true;
-	}
-	return false;
+	return !!deletedQuiz;
 };
 
 /**
@@ -63,8 +60,7 @@ export const updateQuiz = async (quizioId, quizData) => {
 	const updatedQuiz = await quiz.findOneAndUpdate({ quizioId },
 		quizData,
 		{ new: true });
-	const quizz = extractQuizData(updatedQuiz);
-	return quizz;
+	return extractQuizData(updatedQuiz);
 };
 
 /**
@@ -74,6 +70,5 @@ export const deleteSectionInQuiz = async (quizioID, sectionID) => {
 	const updatedQuiz = await quiz.findOneAndUpdate({ quizioID },
 		{ $pull: { sections: sectionID } },
 		{ new: true });
-	const quizz = extractQuizData(updatedQuiz);
-	return quizz;
+	return extractQuizData(updatedQuiz);
 };

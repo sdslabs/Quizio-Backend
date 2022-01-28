@@ -19,10 +19,7 @@ const controller = {
 	 */
 	getAllQuizzes: async (req, res) => {
 		const quizzes = await getAllQuizzes();
-		if (quizzes) {
-			return successResponseWithData(res, { quizzes });
-		}
-		return notFoundResponse(res);
+		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
 	},
 	/**
 	 * Returns the requested quiz data only for superadmins,

@@ -22,6 +22,8 @@ export const extractQuizData = (data) => ({
 	detail2: data.detail2,
 });
 
+export const extractQuizzesData = (data) => data.map((entry) => extractQuizData(entry));
+
 export const extractSectionData = (data) => ({
 	quizioID: data.quizioID,
 	quizID: data.quizID,

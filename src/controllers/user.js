@@ -1,12 +1,13 @@
 import {
-	badRequestResponseWithMessage, notFoundResponse, successResponseWithData,
+	notFoundResponse,
+	successResponseWithData,
 } from '../helpers/responses';
+import { getQuizzesByUsername } from '../models/quiz';
 import {
 	getAllUsers,
 	findUserByUsername,
 	addQuizforUser,
 	removeQuizforUser,
-	updateUsername,
 	findUserByEmail,
 } from '../models/user';
 
@@ -15,7 +16,13 @@ const controller = {
 		const users = await getAllUsers();
 		return successResponseWithData(res, {
 			users,
-		}, 200);
+		});
+	},
+
+	getAllQuizzesOwnedByUser: async (req, res) => {
+		const { username } = req.user;
+		const quizzes = await getQuizzesByUsername(username);
+		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
 	},
 
 	getUserWithUsername: async (req, res) => {
@@ -58,24 +65,6 @@ const controller = {
 		// }, 200);
 		*/
 
-	updateUser: async (req, res) => {
-		switch (req.params.type) {
-		case 'updateUsername': {
-			const { success, msg } = await updateUsername(req.body.username, req.body.newUsername);
-
-			if (success) {
-				return successResponseWithData(res, {
-					msg,
-				});
-			}
-			return badRequestResponseWithMessage(res, {
-				msg,
-			});
-		}
-		default:
-			return notFoundResponse();
-		}
-	},
 };
 
 export default controller;
