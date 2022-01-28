@@ -2,7 +2,7 @@ import {
 	notFoundResponse,
 	successResponseWithData,
 } from '../helpers/responses';
-import { getQuizzesByUsername } from '../models/quiz';
+import { getQuizzesOwnedByUser } from '../models/quiz';
 import {
 	getAllUsers,
 	findUserByUsername,
@@ -21,7 +21,7 @@ const controller = {
 
 	getAllQuizzesOwnedByUser: async (req, res) => {
 		const { username } = req.user;
-		const quizzes = await getQuizzesByUsername(username);
+		const quizzes = await getQuizzesOwnedByUser(username);
 		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
 	},
 

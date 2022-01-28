@@ -23,9 +23,8 @@ export const getQuizById = async (quizioID) => {
  * Get all the quizzes owned or created by the given username
  * @returns List of quizzes
  */
-export const getQuizzesByUsername = async (username) => {
-	console.log({ username });
-	const filter = { creator: username };
+export const getQuizzesOwnedByUser = async (username) => {
+	const filter = { $or: [{ owners: username }, { creator: username }] };
 	const result = await quiz.find(filter);
 	return result ? extractQuizzesData(result) : null;
 };

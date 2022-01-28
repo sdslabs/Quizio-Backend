@@ -121,4 +121,4 @@ dist
 .DS_Store
 
 # controversial
-# package-lock.json
+*.creds.json
