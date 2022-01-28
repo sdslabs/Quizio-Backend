@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuth, isSuperAdmin } from '../helpers/authorizer';
+import { isAuth } from '../helpers/authorizer';
 import controller from '../controllers/quiz';
 import sectionController from '../controllers/section';
 import questionController from '../controllers/question';
@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Quiz Level
 router.post('/', isAuth, controller.addNewQuiz); // DONE
-router.get('/', isAuth, isSuperAdmin, controller.getAllQuizzes); // DONE
+router.get('/', isAuth, controller.getAllQuizzes); // DONE
 router.get('/:quizID', isAuth, controller.getQuizByID); // DONE
 router.put('/:quizID', isAuth, controller.updateQuiz); // DONE
 router.delete('/:quizID', isAuth, controller.deleteQuiz); // DONE

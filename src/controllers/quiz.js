@@ -12,19 +12,29 @@ import {
 	updateQuiz,
 	getQuizById,
 } from '../models/quiz';
+import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 
 const controller = {
 	/**
 	 * Returns the list of all quizzes only for superadmins
 	 */
 	getAllQuizzes: async (req, res) => {
+		const { username, role } = req.user;
 		const quizzes = await getAllQuizzes();
-		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
+		if (role === 'superadmin') {
+			return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
+		}
+
+		const registerr = quizzes.map((quiz) => checkIfUserIsRegisteredForQuiz(username,
+			quiz.quizioID));
+		const registered = await Promise.all(registerr);
+		const results = quizzes.map((quiz, i) => ({ ...quiz, registered: registered[i] }));
+		return quizzes ? successResponseWithData(res, { results }) : notFoundResponse(res);
 	},
 	/**
-	 * Returns the requested quiz data only for superadmins,
-	 * quiz creator, quiz owners and quiz registrants
-	 */
+ * Returns the requested quiz data only for superadmins,
+ * quiz creator, quiz owners and quiz registrants
+ */
 	getQuizByID: async (req, res) => {
 		const { username, role } = req.user;
 		const { quizID } = req.params;
@@ -56,9 +66,9 @@ const controller = {
 		return errorResponse(res, 'Failed to add new quiz!');
 	},
 	/**
-	 * Updates the quiz to the data sent in the body only when superadmin
-	 * or quiz owner or quiz creator makes the call
-	 */
+		 * Updates the quiz to the data sent in the body only when superadmin
+		 * or quiz owner or quiz creator makes the call
+		 */
 	updateQuiz: async (req, res) => {
 		const { username, role } = req.user;
 		const { quizID } = req.params;
@@ -79,9 +89,9 @@ const controller = {
 		return notFoundResponse(res, 'Quiz not found!');
 	},
 	/**
-	 * Deletes the quiz only when superadmin
-	 * or quiz owner or quiz creator makes the call
-	 */
+			 * Deletes the quiz only when superadmin
+			 * or quiz owner or quiz creator makes the call
+			 */
 	deleteQuiz: async (req, res) => {
 		const { username, role } = req.user;
 		const { quizID } = req.params;

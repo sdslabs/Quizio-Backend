@@ -35,3 +35,13 @@ export const getRegisteredUsersForQuiz = async (quizID) => {
 	const result = await register.find({ quizID }).exec();
 	return result ? extractRegistrantUserNameList(result) : null;
 };
+
+/**
+ * Check if user is registered for a quiz
+ */
+
+export const checkIfUserIsRegisteredForQuiz = async (username, quizID) => {
+	const exists = await register.findOne({ quizID, username }).exec();
+	console.log(!!exists);
+	return !!exists;
+};
