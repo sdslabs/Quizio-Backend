@@ -7,15 +7,9 @@ const registerSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** quizioID of the quiz */
-	quizId: {
-		type: String,
-		ref: 'Quiz',
-	},
+	quizID: String,
 	/** username of the user */
-	username: {
-		type: String,
-		ref: 'User',
-	},
+	username: String,
 });
 
 export default mongoose.model('Register', registerSchema);

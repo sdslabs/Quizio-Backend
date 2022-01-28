@@ -4,8 +4,9 @@ import controller from '../controllers/register';
 
 const router = express.Router();
 
-router.get('/quizzes/:quizId', isAuth, controller.getRegisteredUsers);
-router.post('/quizzes', isAuth, controller.AddToQuiz);
-router.delete('/quizzes', isAuth, controller.removeFromQuiz);
+router.post('/quizzes/:quizID', isAuth, controller.registerUserForQuiz); // DONE
+
+// router.get('/quizzes/:quizId', isAuth, controller.getRegisteredUsers);
+// router.delete('/quizzes', isAuth, controller.removeFromQuiz);
 
 export default router;

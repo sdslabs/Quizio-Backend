@@ -1,13 +1,19 @@
+import { extractRegistrantData, generateQuizioID } from '../helpers/utils';
 import register from '../schema/register';
 
-export const AddToQuiz = async (registerData) => {
-	const exists = await register.find(registerData);
-	if (exists.length === 0) {
-		const newRegister = new register(registerData);
-		const result = await newRegister.save();
-		return result;
+/**
+ * Add a user as a registrant to a quiz
+ */
+export const registerUserForQuiz = async (username, quizID) => {
+	const quizioID = generateQuizioID();
+
+	const exists = register.find({ quizID, username });
+	if (exists) {
+		return 'exists';
 	}
-	return 'User already registered!';
+	const newRegistrant = new register({ quizioID, quizID, username });
+	const result = await newRegistrant.save();
+	return result ? extractRegistrantData(result) : null;
 };
 
 export const removeFromQuiz = async (registerData) => {

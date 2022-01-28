@@ -1,12 +1,26 @@
-import { successResponseWithData } from '../helpers/responses';
-import { AddToQuiz, getRegisteredUsers, removeFromQuiz } from '../models/register';
+import { errorResponse, failureResponseWithMessage, successResponseWithData } from '../helpers/responses';
+import {
+	getRegisteredUsers,
+	registerUserForQuiz,
+	removeFromQuiz,
+} from '../models/register';
 
 const controller = {
-	AddToQuiz: async (req, res) => {
-		const register = await AddToQuiz({ quizId: req.body.quizId, username: req.body.username });
-		successResponseWithData(res, {
-			register,
-		}, 200);
+	registerUserForQuiz: async (req, res) => {
+		const { username } = req.user;
+		const { quizID } = req.params;
+		const register = await registerUserForQuiz(username, quizID);
+
+		if (register === 'exists') {
+			return failureResponseWithMessage(res, 'Already Registered for quiz!');
+		}
+		if (register) {
+			return successResponseWithData(res, {
+				message: 'Registered for quiz!',
+				register,
+			});
+		}
+		return errorResponse(res, 'Failed to register for quiz!');
 	},
 
 	removeFromQuiz: async (req, res) => {
