@@ -1,8 +1,9 @@
-import { errorResponse, failureResponseWithMessage, successResponseWithData } from '../helpers/responses';
 import {
-	getRegisteredUsers,
+	errorResponse, failureResponseWithMessage, notFoundResponse, successResponseWithData,
+} from '../helpers/responses';
+import {
+	getRegisteredQuizzesForUser,
 	registerUserForQuiz,
-	removeFromQuiz,
 } from '../models/register';
 
 const controller = {
@@ -23,20 +24,13 @@ const controller = {
 		return errorResponse(res, 'Failed to register for quiz!');
 	},
 
-	removeFromQuiz: async (req, res) => {
-		const register = await removeFromQuiz({ quizId: req.body.quizId, username: req.body.username });
-		successResponseWithData(res, {
-			message: 'Remove User from a quiz',
-			register,
-		}, 200);
-	},
-
-	getRegisteredUsers: async (req, res) => {
-		const users = await getRegisteredUsers(req.params.quizId);
-		successResponseWithData(res, {
-			message: 'Get all users registered for quiz with quizId',
-			users,
-		}, 200);
+	getRegisteredQuizzesForUser: async (req, res) => {
+		const { username } = req.user;
+		const quizzes = await getRegisteredQuizzesForUser(username);
+		if (quizzes) {
+			return successResponseWithData(res, { quizzes });
+		}
+		return notFoundResponse(res, 'No quizzes found');
 	},
 
 };

@@ -6,8 +6,7 @@ import register from '../schema/register';
  */
 export const registerUserForQuiz = async (username, quizID) => {
 	const quizioID = generateQuizioID();
-
-	const exists = register.find({ quizID, username });
+	const exists = await register.findOne({ quizID, username }).exec();
 	if (exists) {
 		return 'exists';
 	}
@@ -16,9 +15,12 @@ export const registerUserForQuiz = async (username, quizID) => {
 	return result ? extractRegistrantData(result) : null;
 };
 
-export const removeFromQuiz = async (registerData) => {
-	const result = await register.findOneAndDelete(registerData);
-	return result;
+/**
+ * Get list of quizzes for which user has registered
+ */
+export const getRegisteredQuizzesForUser = async (username) => {
+	const result = await register.find({ username }).exec();
+	return result ? result.map((e) => extractRegistrantData(e)) : null;
 };
 
 export const getRegisteredUsers = async (quizId) => {
