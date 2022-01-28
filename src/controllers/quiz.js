@@ -29,7 +29,7 @@ const controller = {
 			quiz.quizioID));
 		const registered = await Promise.all(registerr);
 		const results = quizzes.map((quiz, i) => ({ ...quiz, registered: registered[i] }));
-		return quizzes ? successResponseWithData(res, { results }) : notFoundResponse(res);
+		return quizzes ? successResponseWithData(res, { quizzes: results }) : notFoundResponse(res);
 	},
 	/**
  * Returns the requested quiz data only for superadmins,
