@@ -24,7 +24,9 @@ export const getQuizById = async (quizioID) => {
  * @returns List of quizzes
  */
 export const getQuizzesByUsername = async (username) => {
-	const result = await quiz.find({ owner: username });
+	console.log({ username });
+	const filter = { creator: username };
+	const result = await quiz.find(filter);
 	return result ? extractQuizzesData(result) : null;
 };
 
