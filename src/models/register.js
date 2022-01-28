@@ -1,4 +1,9 @@
-import { extractRegistrantData, extractRegistrantQuizList, generateQuizioID } from '../helpers/utils';
+import {
+	extractRegistrantData,
+	extractRegistrantQuizList,
+	extractRegistrantUserNameList,
+	generateQuizioID,
+} from '../helpers/utils';
 import register from '../schema/register';
 
 /**
@@ -23,8 +28,10 @@ export const getRegisteredQuizzesForUser = async (username) => {
 	return result ? extractRegistrantQuizList(result) : null;
 };
 
-export const getRegisteredUsers = async (quizId) => {
-	const users = await register.find({ quiz: quizId });
-	const result = users.map((user) => user.username);
-	return result;
+/**
+ * Get list of users registered for a quiz
+ */
+export const getRegisteredUsersForQuiz = async (quizID) => {
+	const result = await register.find({ quizID }).exec();
+	return result ? extractRegistrantUserNameList(result) : null;
 };

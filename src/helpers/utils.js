@@ -49,10 +49,11 @@ export const extractQuestionData = (data) => ({
 	autocheck: data.autocheck,
 });
 
+// Registrant helpers
 export const extractRegistrantData = (data) => ({
 	quizioID: data.quizioID,
 	quizID: data.quizID,
 	username: data.username,
 });
-
 export const extractRegistrantQuizList = (data) => data.map((entry) => (entry.quizID));
+export const extractRegistrantUserNameList = (data) => data.map((entry) => (entry.username));
