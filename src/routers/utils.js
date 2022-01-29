@@ -5,5 +5,5 @@ import controller from '../controllers/utils';
 
 const router = express.Router();
 
-router.get('/verifyQuizioID/:id', isAuth, controller.verifyQuizioID);
+router.get('/verifyQuizioID/:id', isAuth, controller.verifyQuizioID); // DONE
 export default router;

@@ -57,3 +57,13 @@ export const extractRegistrantData = (data) => ({
 });
 export const extractRegistrantQuizList = (data) => data.map((entry) => (entry.quizID));
 export const extractRegistrantUserNameList = (data) => data.map((entry) => (entry.username));
+
+// response helpers
+export const extractResponseData = (data) => ({
+	quizioID: data.quizioID,
+	username: data.username,
+	questionID: data.questionID,
+	time: data.time,
+	answerChoice: data.answerChoice,
+	answer: data.answer,
+});

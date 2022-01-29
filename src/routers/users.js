@@ -7,7 +7,7 @@ import controller from '../controllers/user';
 const router = express.Router();
 
 router.get('/', isAuth, isSuperAdmin, controller.getAllUsers);
-router.get('/quizzes/owned', isAuth, controller.getAllQuizzesOwnedByUser);
+router.get('/quizzes/owned', isAuth, controller.getAllQuizzesOwnedByUser); // DONE
 router.get('/:email', isAuth, controller.getUserWithEmail);
 
 router.put('/:username/quizzes', isAuth, controller.getAllQuizzesForUser);

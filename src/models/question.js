@@ -28,6 +28,7 @@ export const getQuestionByID = async (quizioID) => {
 	const result = await question.findOne({ quizioID });
 	return result ? extractQuestionData(result) : null;
 };
+
 /**
  * Update the section using the quizId and sectionId
  * @returns quizID and section data of the section updated in the quiz
@@ -35,6 +36,16 @@ export const getQuestionByID = async (quizioID) => {
 export const updateQuestionByID = async (quizioID, questionData) => {
 	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
 		questionData,
+		{ new: true });
+	return extractQuestionData(updatedQuestion);
+};
+/**
+ * Update the section using the quizId and sectionId
+ * @returns quizID and section data of the section updated in the quiz
+ */
+export const addChoiceToQuestionByID = async (quizioID, choiceData) => {
+	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
+		{ $push: { choices: choiceData } },
 		{ new: true });
 	return extractQuestionData(updatedQuestion);
 };

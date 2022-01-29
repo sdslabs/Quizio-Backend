@@ -23,8 +23,10 @@ router.delete('/sections/:sectionID', isAuth, sectionController.deleteSectionByI
 router.post('/sections/:sectionID/questions', isAuth, questionController.addNewQuestionToSection); // DONE
 router.get('/sections/questions/:questionID', isAuth, questionController.getQuestionByID); // DONE
 router.put('/sections/questions/:questionID',
-	isAuth, questionController.updateQuestionByID);
+	isAuth, questionController.updateQuestionByID); // DONE
+router.put('/sections/questions/:questionID/choices',
+	isAuth, questionController.addChoiceToQuestionByID); // DONE
 router.delete('/sections/questions/:questionID', isAuth,
-	questionController.deleteQuestionByID);
+	questionController.deleteQuestionByID); // DONE
 
 export default router;

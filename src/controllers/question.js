@@ -5,7 +5,9 @@ import {
 	successResponseWithMessage,
 	unauthorizedResponse,
 } from '../helpers/responses';
+import { generateQuizioID } from '../helpers/utils';
 import {
+	addChoiceToQuestionByID,
 	addNewQuestionToSection,
 	deleteQuestion,
 	getQuestionByID,
@@ -111,6 +113,36 @@ const controller = {
 						|| quiz.creator === username
 						|| quiz.owners.includes(username)) {
 						const question2 = await updateQuestionByID(questionID, questionData);
+						if (question2) {
+							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
+						}
+						return errorResponse(res, 'Unable to update Question');
+					}
+					return unauthorizedResponse(res);
+				}
+				return notFoundResponse(res, 'Quiz not found!');
+			}
+			return notFoundResponse(res, 'Section not found!');
+		}
+		return notFoundResponse(res, 'Question not found!');
+	},
+
+	addChoiceToQuestionByID: async (req, res) => {
+		const quizioID = generateQuizioID();
+		const { username, role } = req.user;
+		const { questionID } = req.params;
+		const choiceData = { ...req.body, quizioID };
+
+		const question = await getQuestionByID(questionID);
+		if (question) {
+			const section = await getSectionByID(question.sectionID);
+			if (section) {
+				const quiz = await getQuizById(section.quizID);
+				if (quiz) {
+					if (role === 'superadmin'
+						|| quiz.creator === username
+						|| quiz.owners.includes(username)) {
+						const question2 = await addChoiceToQuestionByID(questionID, choiceData);
 						if (question2) {
 							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
 						}
