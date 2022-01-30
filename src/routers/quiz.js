@@ -26,6 +26,8 @@ router.put('/sections/questions/:questionID',
 	isAuth, questionController.updateQuestionByID); // DONE
 router.put('/sections/questions/:questionID/choices',
 	isAuth, questionController.addChoiceToQuestionByID); // DONE
+router.delete('/sections/questions/:questionID/choices/:choiceID',
+	isAuth, questionController.deleteChoiceInQuestionByID); // DONE
 router.delete('/sections/questions/:questionID', isAuth,
 	questionController.deleteQuestionByID); // DONE
 

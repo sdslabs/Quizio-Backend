@@ -9,6 +9,7 @@ import { generateQuizioID } from '../helpers/utils';
 import {
 	addChoiceToQuestionByID,
 	addNewQuestionToSection,
+	deleteChoiceInQuestionByID,
 	deleteQuestion,
 	getQuestionByID,
 	updateQuestionByID,
@@ -143,6 +144,34 @@ const controller = {
 						|| quiz.creator === username
 						|| quiz.owners.includes(username)) {
 						const question2 = await addChoiceToQuestionByID(questionID, choiceData);
+						if (question2) {
+							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
+						}
+						return errorResponse(res, 'Unable to update Question');
+					}
+					return unauthorizedResponse(res);
+				}
+				return notFoundResponse(res, 'Quiz not found!');
+			}
+			return notFoundResponse(res, 'Section not found!');
+		}
+		return notFoundResponse(res, 'Question not found!');
+	},
+
+	deleteChoiceInQuestionByID: async (req, res) => {
+		const { username, role } = req.user;
+		const { questionID, choiceID } = req.params;
+
+		const question = await getQuestionByID(questionID);
+		if (question) {
+			const section = await getSectionByID(question.sectionID);
+			if (section) {
+				const quiz = await getQuizById(section.quizID);
+				if (quiz) {
+					if (role === 'superadmin'
+						|| quiz.creator === username
+						|| quiz.owners.includes(username)) {
+						const question2 = await deleteChoiceInQuestionByID(questionID, choiceID);
 						if (question2) {
 							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
 						}

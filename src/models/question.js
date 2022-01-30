@@ -51,6 +51,17 @@ export const addChoiceToQuestionByID = async (quizioID, choiceData) => {
 };
 
 /**
+ * Update the section using the quizId and sectionId
+ * @returns quizID and section data of the section updated in the quiz
+ */
+export const deleteChoiceInQuestionByID = async (quizioID, choiceID) => {
+	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
+		{ $pull: { choices: { choiceID } } },
+		{ new: true });
+	return extractQuestionData(updatedQuestion);
+};
+
+/**
  * Delete a quesiton by Id
  */
 export const deleteQuestion = async (quizioID) => {
