@@ -4,6 +4,6 @@ import controller from '../controllers/submit';
 
 const router = express.Router();
 
-router.post('/quiz/:quizID', isAuth, controller.SubmitUser);
+router.post('/quiz/:quizID', isAuth, controller.submitUser);
 
 export default router;
