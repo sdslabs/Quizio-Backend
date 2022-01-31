@@ -21,8 +21,8 @@ const submitSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
-    /** Current time */
-    time: {
+	/** Current time */
+	time: {
 		type: Date,
 		default: Date.now,
 	},
