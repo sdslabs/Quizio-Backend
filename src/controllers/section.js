@@ -12,6 +12,7 @@ import {
 	getSectionByID,
 	updateSectionByID,
 } from '../models/section';
+import { isUserSubmitted } from '../models/submit';
 
 const controller = {
 	/**
@@ -49,11 +50,13 @@ const controller = {
 		const section = await getSectionByID(sectionID);
 		if (section) {
 			const quiz = await getQuizById(section.quizID);
+			const isSubmitted = await isUserSubmitted(username);
 			if (section && quiz) {
-				if (role === 'superadmin'
+				if ((role === 'superadmin'
 					|| quiz.creator === username
 					|| quiz.owners.includes(username)
-					|| quiz.registrants.includes(username)) {
+					|| quiz.registrants.includes(username))
+					&& !isSubmitted) {
 					return successResponseWithData(res, { section });
 				}
 				return unauthorizedResponse(res);

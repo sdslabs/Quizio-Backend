@@ -1,5 +1,5 @@
 import { successResponseWithData, failureResponseWithMessage } from '../helpers/responses';
-import submitUser from '../models/submit';
+import { submitUser } from '../models/submit';
 
 const controller = {
 	submitUser: async (req, res) => {
