@@ -7,20 +7,9 @@ const submitSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** quizioID of the quiz */
-	quizID: {
-		type: String,
-		ref: 'Quiz',
-	},
+	quizID: String,
 	/** username of the user */
-	username: {
-		type: String,
-		ref: 'User',
-	},
-	/** Boolean stating if quiz is submitted or not */
-	isSubmitted: {
-		type: Boolean,
-		default: false,
-	},
+	username: String,
 	/** Current time */
 	time: {
 		type: Date,

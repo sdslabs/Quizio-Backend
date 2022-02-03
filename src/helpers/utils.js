@@ -46,3 +46,10 @@ export const extractQuestionData = (data) => ({
 	defaultMarks: data.defaultMarks,
 	autocheck: data.autocheck,
 });
+
+export const extractSubmitData = (data) => ({
+	quizioID: data.quizioID,
+	quizID: data.quizID,
+	username: data.username,
+	time: data.time,
+});

@@ -1,17 +1,17 @@
 import submit from '../schema/submit';
-import { generateQuizioID } from '../helpers/utils';
+import { generateQuizioID, extractSubmitData } from '../helpers/utils';
 
 /**
  * Submits quiz for user
- * @returns a boolean stating if quiz is successfully submitted or not
+ @returns the entry in the db  if quiz is successfully submitted or null
  */
 const submitUser = async (username, quizID) => {
 	const quizioID = generateQuizioID();
 	const newSubmission = new submit({
-		quizioID, quizID, username, isSubmitted: true,
+		quizioID, quizID, username,
 	});
 	const result = await newSubmission.save();
-	return !!result;
+	return result ? extractSubmitData(result) : null;
 };
 
 export default submitUser;
