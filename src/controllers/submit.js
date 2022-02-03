@@ -1,10 +1,12 @@
-import { successResponseWithMessage, failureResponseWithMessage } from '../helpers/responses';
+import { successResponseWithData, failureResponseWithMessage } from '../helpers/responses';
 import submitUser from '../models/submit';
 
 const controller = {
 	submitUser: async (req, res) => {
-		const submit = await submitUser(req.user.username, req.params.quizID);
-		if (submit) successResponseWithMessage(res, 'Quiz submission successful');
+		const { quizID } = req.params;
+		const { username } = req.user;
+		const submit = await submitUser(username, quizID);
+		if (submit) successResponseWithData(res, { submit });
 		else failureResponseWithMessage(res, 'Quiz submission unsuccessful');
 	},
 };

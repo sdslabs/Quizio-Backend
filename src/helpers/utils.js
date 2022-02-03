@@ -67,3 +67,10 @@ export const extractResponseData = (data) => ({
 	answerChoice: data.answerChoice,
 	answer: data.answer,
 });
+
+export const extractSubmitData = (data) => ({
+	quizioID: data.quizioID,
+	quizID: data.quizID,
+	username: data.username,
+	time: data.time,
+});
