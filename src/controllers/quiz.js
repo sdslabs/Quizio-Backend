@@ -13,6 +13,7 @@ import {
 	getQuizById,
 } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz } from '../models/register';
+import { isUserSubmitted } from '../models/submit';
 
 const controller = {
 	/**
@@ -39,11 +40,13 @@ const controller = {
 		const { username, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
+		const isSubmitted = await isUserSubmitted(username);
 		if (quiz) {
-			if (role === 'superadmin'
+			if ((role === 'superadmin'
 				|| quiz.creator === username
 				|| quiz.owners.includes(username)
-				|| quiz.registrants.includes(username)) {
+				|| quiz.registrants.includes(username))
+				&& !isSubmitted) {
 				return successResponseWithData(res, { quiz });
 			}
 			return unauthorizedResponse(res);

@@ -16,6 +16,7 @@ import {
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
 import { getSectionByID } from '../models/section';
+import { isUserSubmitted } from '../models/submit';
 
 const controller = {
 	addNewQuestionToSection: async (req, res) => {
@@ -52,14 +53,15 @@ const controller = {
 		const question = await getQuestionByID(questionID);
 		if (question) {
 			const section = await getSectionByID(question.sectionID);
-
+			const isSubmitted = await isUserSubmitted(username);
 			if (section) {
 				const quiz = await getQuizById(section.quizID);
 				if (quiz) {
-					if (role === 'superadmin'
+					if ((role === 'superadmin'
 						|| quiz.creator === username
 						|| quiz.owners.includes(username)
-						|| quiz.registrants.includes(username)) {
+						|| quiz.registrants.includes(username))
+						&& !isSubmitted) {
 						return successResponseWithData(res, { question });
 					}
 					return unauthorizedResponse(res);

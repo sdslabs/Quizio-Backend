@@ -5,7 +5,7 @@ import { generateQuizioID, extractSubmitData } from '../helpers/utils';
  * Submits quiz for user
  @returns the entry in the db  if quiz is successfully submitted or null
  */
-const submitUser = async (username, quizID) => {
+export const submitUser = async (username, quizID) => {
 	const quizioID = generateQuizioID();
 	const newSubmission = new submit({
 		quizioID, quizID, username,
@@ -14,4 +14,11 @@ const submitUser = async (username, quizID) => {
 	return result ? extractSubmitData(result) : null;
 };
 
-export default submitUser;
+/**
+ * Find if user's quiz is submitted
+ * @returns true if user's quiz is submitted, else false
+ */
+export const isUserSubmitted = async (username) => {
+	const result = await submit.findOne({ username });
+	return !!result;
+};

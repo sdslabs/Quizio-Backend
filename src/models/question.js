@@ -62,7 +62,7 @@ export const deleteChoiceInQuestionByID = async (quizioID, choiceID) => {
 };
 
 /**
- * Delete a quesiton by Id
+ * Delete a question by Id
  */
 export const deleteQuestion = async (quizioID) => {
 	const originalQuestion = await question.findOne({ quizioID });
