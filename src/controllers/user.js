@@ -58,12 +58,12 @@ const controller = {
 		}, 200);
 	},
 
-	getAllQuizzesForUser: async (req, res) => notFoundResponse(),		/*
-		// const quizzes = await getAllQuizzesForUser(req.params.username);
-		// return successResponseWithData(res, {
-		// 	quizzes,
-		// }, 200);
-		*/
+	/*	getAllQuizzesForUser: async (req, res) => notFoundResponse(),
+		// // const quizzes = await getAllQuizzesForUser(req.params.username);
+		// // return successResponseWithData(res, {
+		// // 	quizzes,
+		// // }, 200);
+		// */
 
 };
 
