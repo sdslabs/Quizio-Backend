@@ -10,7 +10,7 @@ router.get('/', isAuth, isSuperAdmin, controller.getAllUsers);
 router.get('/quizzes/owned', isAuth, controller.getAllQuizzesOwnedByUser); // DONE
 router.get('/:email', isAuth, controller.getUserWithEmail);
 
-router.put('/:username/quizzes', isAuth, controller.getAllQuizzesForUser);
+// router.put('/:username/quizzes', isAuth, controller.getAllQuizzesForUser);
 router.put('/:username/quizzes/:quizId', isAuth, controller.addQuizforUser);
 router.delete('/:username/quizzes/:quizId', isAuth, controller.removeQuizforUser);
 
