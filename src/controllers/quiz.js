@@ -22,7 +22,7 @@ const controller = {
 	getAllQuizzes: async (req, res) => {
 		const { username, role } = req.user;
 		const quizzes = await getAllQuizzes();
-		var quizzesQuizioID = [];
+		const quizzesQuizioID = [];
 		quizzes.map((quiz) => quizzesQuizioID.push(quiz.quizioID));
 		if (role === 'superadmin') {
 			return quizzes ? successResponseWithData(res, { quizzesQuizioID }) : notFoundResponse(res);
