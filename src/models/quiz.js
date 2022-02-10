@@ -57,8 +57,8 @@ export const deleteQuiz = async (quizioID) => {
  * Updates the quiz using the quizId
  * @returns quiz data of the quiz updated in the db
  */
-export const updateQuiz = async (quizioId, quizData) => {
-	const updatedQuiz = await quiz.findOneAndUpdate({ quizioId },
+export const updateQuiz = async (quizioID, quizData) => {
+	const updatedQuiz = await quiz.findOneAndUpdate({ quizioID },
 		quizData,
 		{ new: true });
 	return extractQuizData(updatedQuiz);

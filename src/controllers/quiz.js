@@ -75,7 +75,7 @@ const controller = {
 		const quiz = await getQuizById(quizID);
 		if (quiz) {
 			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
-				const quiz2 = await updateQuiz(req.params.quizioId, req.body);
+				const quiz2 = await updateQuiz(quizID, req.body);
 				if (quiz2) {
 					return successResponseWithData(res, {
 						message: 'Quiz updated successfully!',
