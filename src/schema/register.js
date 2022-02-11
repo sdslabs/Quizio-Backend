@@ -10,6 +10,33 @@ const registerSchema = new Schema({
 	quizID: String,
 	/** username of the user */
 	username: String,
+
+	/* First Name of the registrant */
+	firstName: String,
+	/* Last Name of the registrant */
+	lastName: String,
+	/* Email of the registrant */
+	email: String,
+	/* Contact Number of the registrant */
+	contactNo: String,
+	/* Organisation Name of the registrant */
+	orgName: String,
+
+	/* Additional details for the quiz */
+	detail1: {
+		key: String,
+		value: String,
+	},
+	/* Additional details for the quiz */
+	detail2: {
+		key: String,
+		value: String,
+	},
+	/* Additional details for the quiz */
+	detail3: {
+		key: String,
+		value: String,
+	},
 });
 
 export default mongoose.model('Register', registerSchema);
