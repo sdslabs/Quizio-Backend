@@ -9,13 +9,14 @@ import register from '../schema/register';
 /**
  * Add a user as a registrant to a quiz
  */
-export const registerUserForQuiz = async (username, quizID) => {
+export const registerUserForQuiz = async (username, data) => {
 	const quizioID = generateQuizioID();
+	const { quizID } = data;
 	const exists = await register.findOne({ quizID, username }).exec();
 	if (exists) {
 		return 'exists';
 	}
-	const newRegistrant = new register({ quizioID, quizID, username });
+	const newRegistrant = new register({ quizioID, username, ...data });
 	const result = await newRegistrant.save();
 	return result ? extractRegistrantData(result) : null;
 };

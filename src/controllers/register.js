@@ -15,8 +15,8 @@ import {
 const controller = {
 	registerUserForQuiz: async (req, res) => {
 		const { username } = req.user;
-		const { quizID } = req.params;
-		const register = await registerUserForQuiz(username, quizID);
+		const data = req.body;
+		const register = await registerUserForQuiz(username, data);
 
 		if (register === 'exists') {
 			return failureResponseWithMessage(res, 'Already Registered for quiz!');

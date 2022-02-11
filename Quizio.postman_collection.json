@@ -139,7 +139,7 @@
 			]
 		},
 		{
-			"name": "Quizzes",
+			"name": "Quizzes [DONE]",
 			"item": [
 				{
 					"name": "Sections",
@@ -277,7 +277,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.X1M21qa6T3u_ghm0v0yge",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -287,7 +287,83 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.X1M21qa6T3u_ghm0v0yge"
+												"quizioID.YlTjX-cN67uRkDSoDHvyd"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "add choice to question by ID {done}",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"body\": \"choice 1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd/choices",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"quizzes",
+												"sections",
+												"questions",
+												"quizioID.YlTjX-cN67uRkDSoDHvyd",
+												"choices"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete choice in question by ID {done}",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd/choices/quizioID.8bM0v-JkrxSwgXbmQeCw4",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"quizzes",
+												"sections",
+												"questions",
+												"quizioID.YlTjX-cN67uRkDSoDHvyd",
+												"choices",
+												"quizioID.8bM0v-JkrxSwgXbmQeCw4"
 											]
 										}
 									},
@@ -571,7 +647,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"new quiz22!\"\n}",
+							"raw": "{\n    \"name\": \"Recruitment Test 1\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec. And it is important do attend.\",\n    \"startTime\": \"2018-12-31T18:30:00.000+00:00\",\n    \"endTime\": \"2018-12-31T18:30:00.000+00:00\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -579,7 +655,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.gxLhh9sztwDQnKdGYarR3",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.Ihx9r2dKo7tjUp9rvdMMl",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -587,7 +663,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.gxLhh9sztwDQnKdGYarR3"
+								"quizioID.Ihx9r2dKo7tjUp9rvdMMl"
 							]
 						}
 					},
@@ -1351,6 +1427,49 @@
 								"v2",
 								"logs",
 								"code.capriciousrebel@gmail.com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Response",
+			"item": [
+				{
+					"name": "Add quiz response {done}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"questionID\" : \"quizioID.YlTjX-cN67uRkDSoDHvyd\",\n    \"answerChoice\": [\"quizioID.8bM0v-JkrxSwgXbmQeCw4\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v2/responses",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"responses"
 							]
 						}
 					},
