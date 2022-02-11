@@ -20,6 +20,7 @@ import quizRouter from './routers/quiz';
 import logRouter from './routers/log';
 import utilsRouter from './routers/utils';
 import registerRouter from './routers/register';
+import submitRouter from './routers/submit';
 import responseRouter from './routers/response';
 
 /* Initialize */
@@ -53,6 +54,7 @@ app.use('/api/v2/users', userRouter);
 app.use('/api/v2/quizzes', quizRouter);
 app.use('/api/v2/responses', responseRouter);
 app.use('/api/v2/register', registerRouter);
+app.use('/api/v2/submit', submitRouter);
 app.use('/api/v2/logs', logRouter);
 app.use('/api/v2/utils', utilsRouter);
 app.use('*', (req, res) => notFoundResponse(res, 'Endpoint does not exist or has been removed!'));

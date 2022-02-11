@@ -75,3 +75,11 @@ export const extractResponseData = (data) => ({
 	answerChoice: data.answerChoice,
 	answer: data.answer,
 });
+
+// submit helpers
+export const extractSubmitData = (data) => ({
+	quizioID: data.quizioID,
+	username: data.username,
+	quizID: data.questionID,
+	time: data.time,
+});

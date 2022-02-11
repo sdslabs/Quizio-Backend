@@ -21,13 +21,11 @@ const controller = {
 		if (register === 'exists') {
 			return failureResponseWithMessage(res, 'Already Registered for quiz!');
 		}
-		if (register) {
-			return successResponseWithData(res, {
-				message: 'Registered for quiz!',
-				register,
-			});
-		}
-		return errorResponse(res, 'Failed to register for quiz!');
+
+		return register ? successResponseWithData(res, {
+			message: 'Registered for quiz!',
+			register,
+		}) : errorResponse(res, 'Failed to register for quiz!');
 	},
 
 	getRegisteredQuizzesForUser: async (req, res) => {
