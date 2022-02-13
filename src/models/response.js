@@ -19,7 +19,7 @@ export const saveResponse = async (responseData) => {
 	const subjectiveRes = 'answer' in responseData;
 
 	const question = await getQuestionByID(questionID);
-	if (question) {
+	if (!question) {
 		return null;
 	}
 
