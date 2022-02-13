@@ -21,9 +21,9 @@ export const submitQuiz = async (quizID, username) => {
 };
 
 // Return true if submission already exists else false
-export const checkSubmit = async (quizID,username) => {
+export const checkSubmit = async (quizID, username) => {
 	const exists = await submit.findOne({ quizID, username });
-	return exists ? true : false;
-}
+	return exists;
+};
 
 export const a = 'a';
