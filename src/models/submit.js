@@ -20,4 +20,10 @@ export const submitQuiz = async (quizID, username) => {
 	return result ? extractSubmitData(result) : null;
 };
 
+// Return true if submission already exists else false
+export const checkSubmit = async (quizID,username) => {
+	const exists = await submit.findOne({ quizID, username });
+	return exists ? true : false;
+}
+
 export const a = 'a';
