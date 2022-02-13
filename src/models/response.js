@@ -9,7 +9,6 @@ import { getQuestionByID } from './question';
  * Add a user as a registrant to a quiz
  */
 export const saveResponse = async (responseData) => {
-	console.log({ responseData });
 	const { username, questionID } = responseData;
 
 	const quizioID = generateQuizioID();

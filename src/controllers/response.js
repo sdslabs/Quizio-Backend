@@ -4,6 +4,8 @@ import {
 	successResponseWithData,
 } from '../helpers/responses';
 import { getQuestionByID } from '../models/question';
+import { getSectionByID } from '../models/section';
+import { checkSubmit } from '../models/submit';
 
 import { saveResponse } from '../models/response';
 
@@ -13,6 +15,11 @@ const controller = {
 		const responseData = { ...req.body, username };
 		const questionExists = await getQuestionByID(responseData.questionID);
 		if (questionExists) {
+			const sectionData = await getSectionByID(questionExists.sectionID);
+			const submitExits = await checkSubmit(sectionData.quizID, username);
+			if (submitExits) {
+				return errorResponse(res, 'Quiz already submitted!');
+			}
 			const response = await saveResponse(responseData);
 			return response ? successResponseWithData(res, {
 				msg: 'Response saved',
