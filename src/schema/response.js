@@ -16,7 +16,7 @@ const responseSchema = new Schema({
 		default: Date.now,
 	},
 	/** Answer given by the user (mcq) */
-	answerChoice: String,
+	answerChoice: [String],
 
 	/** Answer given by the user (subjective) */
 	answer: String,
