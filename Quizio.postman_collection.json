@@ -1454,7 +1454,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"questionID\" : \"quizioID.YlTjX-cN67uRkDSoDHvyd\",\n    \"answerChoice\": [\"quizioID.8bM0v-JkrxSwgXbmQeCw4\"]\n}",
+							"raw": "{\n    \"questionID\" : \"quizioID.YlTjX-cN67uRkDSoDHvyd\",\n    \n    \"answer\": \"Subjective answer\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1470,6 +1470,49 @@
 								"api",
 								"v2",
 								"responses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Submit",
+			"item": [
+				{
+					"name": "Submit Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quizID\": \"quizioID.cfAT-79vjJH8q2ldWiaGR5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v2/submit",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"submit"
 							]
 						}
 					},
