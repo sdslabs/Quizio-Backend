@@ -1,8 +1,7 @@
 import express from 'express';
-
-import { isAuth } from '../helpers/authorizer';
 import controller from '../controllers/utils';
 import multer from 'multer';
+import { isAuth } from '../helpers/authorizer';
 
 // const upload = multer({ storage: multer.memoryStorage() });
 const upload = multer({ dest: 'uploads/' });

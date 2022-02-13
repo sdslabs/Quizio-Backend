@@ -122,3 +122,6 @@ dist
 
 # controversial
 *.creds.json
+
+# Upload
+uploads/
