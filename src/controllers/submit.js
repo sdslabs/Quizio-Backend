@@ -26,7 +26,6 @@ const controller = {
 
 		if (quiz) {
 			const isRegistered = await checkIfUserIsRegisteredForQuiz(username, quizID);
-
 			if (isRegistered || role === 'superadmin') {
 				const submit = await submitQuiz(quizID, username);
 
