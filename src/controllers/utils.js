@@ -1,8 +1,12 @@
-import axios from 'axios';
 import fs from 'fs';
 import FormData from 'form-data';
-import { failureResponseWithMessage, successResponseWithMessage, successResponseWithData } from '../helpers/responses';
+import {
+	failureResponseWithMessage, successResponseWithMessage, successResponseWithData, errorsResponse,
+} from '../helpers/responses';
 import { verifyQuizioID, generateQuizioID } from '../helpers/utils';
+import { IMGBB_API_KEY } from '../config/config';
+import logger from '../helpers/logger';
+import uploadToImgBB from '../services/imgBB';
 
 const controller = {
 
@@ -15,26 +19,40 @@ const controller = {
 	},
 
 	uploadImage: async (req, res) => {
-		const form = new FormData();
-		form.append('image', fs.createReadStream(req.file.path));
-		form.append('name', generateQuizioID());
-		form.append('key', process.env.IMGBB_API_KEY);
-
 		try {
-			const apiResponse = await axios.post('https://api.imgbb.com/1/upload',
-				form,
-				{
-					headers: {
-						'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-					},
+			const name = generateQuizioID();
+			const { path } = req.file;
+
+			const form = new FormData();
+			const image = fs.createReadStream(path);
+
+			const headers = {
+				'Content-Type': `multipart/form-data; boundary=${form.getBoundary()}`,
+			};
+
+			form.append('name', name);
+			form.append('image', image);
+			form.append('key', IMGBB_API_KEY);
+
+			fs.unlink(path, (err) => {
+				if (err) {
+					logger.error('Uploaded File was NOT Deleted');
+					logger.info('Path', path);
+					fs.readdir('uploads/', (error, files) => {
+						if (error) {
+							logger.error('Failed to get total number of junk files on server :(');
+						}
+						logger.info(`Total number of junk files on server: ${files.length}`);
+					});
+				}
 			});
-			const fileRes = await fs.unlinkSync(req.file.path);
-			if (fileRes) {
-				console.log('File was not deleted. Recheck the upload image route');
-			}
-			return apiResponse.data.success ? successResponseWithData(res, { url: apiResponse.data.data.url }, 200) : failureResponseWithMessage(res, 'ID is NOT a valid quizio document ID, the format is `quizioID.{nanoid())}`');
+
+			const uploadRes = await uploadToImgBB(form, headers);
+			return uploadRes.data.success
+				? successResponseWithData(res, { url: uploadRes.data.data.url })
+				: failureResponseWithMessage(res, 'Couldnt upload image (service error)');
 		} catch (e) {
-			return failureResponseWithMessage(res, 'Error uploading image');
+			return errorsResponse(res, ['Couldnt upload image (quizio error)', e]);
 		}
 	},
 
