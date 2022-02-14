@@ -62,6 +62,14 @@ export const errorResponse = (res, error = 'something went wrong!', status = 500
 });
 
 /**
+ * Send a response with the given status code and the list of errors
+ */
+export const errorsResponse = (res, errors = ['something went wrong!'], status = 500) => res.status(status).json({
+	success: 0,
+	errors,
+});
+
+/**
  * Send a response with the 401 status code for unauthenticated users
  */
 export const unauthenticatedResponse = (res, error = 'Unauthenticated for this action') => errorResponse(res, error, 401);
