@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6f027940-8e39-4d03-9fe0-309ccd727d8c",
+		"_postman_id": "a76cb604-9ea4-45f8-9181-b7a8027a2845",
 		"name": "Quizio",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -131,6 +131,46 @@
 								"utils",
 								"files",
 								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/blackbird/Pictures/Screenshot from 2022-01-26 00-55-37.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v2/utils/uploadImage",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"utils",
+								"uploadImage"
 							]
 						}
 					},
@@ -1189,7 +1229,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"quizID\":\"quizioID.zoUZxnkcKVSvMfY6eoVDR\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1197,7 +1237,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/register/quizzes/quizioID.cfAT-79vjJH8qldWiaGR5",
+							"raw": "{{baseURL}}/api/v2/register/quizzes",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1205,8 +1245,7 @@
 								"api",
 								"v2",
 								"register",
-								"quizzes",
-								"quizioID.cfAT-79vjJH8qldWiaGR5"
+								"quizzes"
 							]
 						}
 					},
