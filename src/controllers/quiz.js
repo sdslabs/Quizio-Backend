@@ -44,9 +44,9 @@ const controller = {
 				|| quiz.creator === username
 				|| quiz.owners.includes(username)
 				|| quiz.registrants) {
-					if (quiz.registrants.includes(username)){
-						return successResponseWithData(res, { quiz });
-					}
+				if (quiz.registrants.includes(username)) {
+					return successResponseWithData(res, { quiz });
+				}
 			}
 			return unauthorizedResponse(res);
 		}
