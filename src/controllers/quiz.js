@@ -43,8 +43,10 @@ const controller = {
 			if (role === 'superadmin'
 				|| quiz.creator === username
 				|| quiz.owners.includes(username)
-				|| quiz.registrants.includes(username)) {
-				return successResponseWithData(res, { quiz });
+				|| quiz.registrants) {
+				if (quiz.registrants.includes(username)) {
+					return successResponseWithData(res, { quiz });
+				}
 			}
 			return unauthorizedResponse(res);
 		}
