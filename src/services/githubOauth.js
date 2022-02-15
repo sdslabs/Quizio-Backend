@@ -5,7 +5,8 @@ dotenv.config();
 const GithubStrategy = GithubDefaultExport.Strategy;
 const clientID = process.env.GITHUBCLIENTID;
 const clientSecret = process.env.GITHUBCLIENTSECRET;
-const callbackURL = process.env.GITHUBCALLBACKURL;
+const baseURL = process.env.BASE_URL;
+const callbackURL = `${baseURL}/api/v2/auth/github/callback`;
 
 const githubOauth = (passport) => {
 	passport.serializeUser((user, done) => {
