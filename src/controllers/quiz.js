@@ -42,9 +42,8 @@ const controller = {
 		if (quiz) {
 			if (role === 'superadmin'
 				|| quiz.creator === username
-				|| quiz.owners.includes(username)
-				|| quiz.registrants) {
-				if (quiz.registrants.includes(username)) {
+				|| quiz.owners.includes(username)) {
+				if (quiz.registrants && quiz.registrants.includes(username)) {
 					return successResponseWithData(res, { quiz });
 				}
 			}
