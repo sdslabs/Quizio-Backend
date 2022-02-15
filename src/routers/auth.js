@@ -25,7 +25,7 @@ router.get('/github/callback',
 	githubOauth.signUpCallback);
 
 /* Protected route for testing */
-router.get('/protected', isAuth, (req, res) => res.status(200).json({ message: `Welcome the the club! @${req.user.username}` }));
+router.get('/protected', isAuth, (req, res) => res.status(200).json({ message: `Welcome to Quizio! @${req.user.username}` }));
 
 /* Login using jwtToken (query params) */
 router.get('/login', oauthController.login);

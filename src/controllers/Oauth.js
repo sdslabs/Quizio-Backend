@@ -120,13 +120,13 @@ const oauthController = {
 	},
 
 	/**
-	 * Clears the cookies
+	 * Clears the jwtToken Cookie
 	 * @returns A success message string
 	 */
 	logout: (req, res) => successResponseWithCookieClear(res, {
 		message: 'Successfully logged out!',
 	}, {
-		name: 'token',
+		name: 'jwtToken',
 	}),
 };
 
