@@ -5,7 +5,7 @@ import {
 	successResponseWithMessage,
 	unauthorizedResponse,
 } from '../helpers/responses';
-import { generateQuizioID } from '../helpers/utils';
+import { extractChoicesData, generateQuizioID } from '../helpers/utils';
 import {
 	addChoiceToQuestionByID,
 	addNewQuestionToSection,
@@ -145,7 +145,7 @@ const controller = {
 						|| quiz.owners.includes(username)) {
 						const question2 = await addChoiceToQuestionByID(questionID, choiceData);
 						if (question2) {
-							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
+							return successResponseWithData(res, { msg: 'Question updated successfully!', choices: extractChoicesData(question2.choices) });
 						}
 						return errorResponse(res, 'Unable to update Question');
 					}

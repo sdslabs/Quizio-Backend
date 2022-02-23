@@ -28,7 +28,7 @@ const questionSchema = new Schema({
 	choices: [{
 		quizioID: String,
 		/** Body of the Option */
-		body: {
+		choice: {
 			type: String,
 			required: true,
 		},

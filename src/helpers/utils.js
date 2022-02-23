@@ -49,6 +49,15 @@ export const extractQuestionData = (data) => ({
 	autocheck: data.autocheck || null,
 });
 
+export const extractChoiceData = (data) => ({
+	quizioID: data.quizioID || null,
+	choice: data.choice || null,
+	marks: data.marks || 0,
+	isNeeded: data.isNeeded || false,
+});
+
+export const extractChoicesData = (data) => data.map((entry) => extractChoiceData(entry));
+
 // Registrant helpers
 export const extractRegistrantData = (data) => ({
 	quizioID: data.quizioID || null,
