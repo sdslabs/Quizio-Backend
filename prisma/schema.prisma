@@ -8,8 +8,21 @@ datasource db {
   url      = env("MONGOURI")
 }
 
+type QuestionsChoices {
+  id       String  @map("_id") @db.ObjectId
+  body     String
+  isNeeded Boolean
+  marks    Int
+  quizioID String
+}
+
+type RegistersDetail1 {
+  key   String
+  value String
+}
+
 model logs {
-  id        String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   v         Int    @map("__v")
   frequency Int
   logType   String
@@ -18,11 +31,11 @@ model logs {
 }
 
 model questions {
-  id        String                  @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v         Int                     @map("__v")
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int                @map("__v")
   autocheck Boolean
-  choices   Unsupported("Unknown")?
-  createdOn DateTime                @db.Date
+  choices   QuestionsChoices[]
+  createdOn DateTime           @db.Date
   creator   String
   isMCQ     Boolean
   quizioID  String
@@ -31,25 +44,47 @@ model questions {
 }
 
 model quizzes {
-  id          String                  @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v           Int                     @map("__v")
-  createdOn   DateTime                @db.Date
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  v           Int       @map("__v")
+  accessCode  String?
+  createdOn   DateTime  @db.Date
   creator     String
-  owners      Unsupported("Unknown")?
+  description String?
+  endTime     DateTime? @db.Date
+  name        String?
+  owners      String[]
   quizioID    String
-  registrants Unsupported("Unknown")?
   sections    String[]
+  startTime   DateTime? @db.Date
 }
 
 model registers {
-  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v        Int    @map("__v")
-  quizId   String
-  username String
+  id        String            @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int               @map("__v")
+  contactNo String?
+  detail1   RegistersDetail1?
+  email     String?
+  firstName String?
+  lastName  String?
+  orgName   String?
+  quizID    String
+  quizioID  String
+  username  String
+}
+
+model responses {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int      @map("__v")
+  answer       String
+  answerChoice String[]
+  questionID   String
+  quizioID     String
+  time         DateTime @db.Date
+  username     String
 }
 
 model sections {
-  id          String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   v           Int      @map("__v")
   createdOn   DateTime @db.Date
   creator     String
@@ -60,8 +95,17 @@ model sections {
   title       String?
 }
 
+model submits {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int      @map("__v")
+  quizID   String
+  quizioID String
+  time     DateTime @db.Date
+  username String
+}
+
 model users {
-  id             String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
   v              Int       @map("__v")
   date           DateTime? @db.Date
   dateAdded      DateTime? @db.Date

@@ -116,6 +116,22 @@ const controller = {
 		return notFoundResponse(res, 'Quiz not found!');
 	},
 
+	/**
+	 * Check a quiz by ID (only autocheck questions supported)
+	 */
+	checkQuiz: async (req, res) => {
+		const { username, role } = req.user;
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
+		if (quiz) {
+			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+
+			}
+			return unauthorizedResponse(res);
+		}
+		return notFoundResponse(res, 'Quiz not found!');
+	},
+
 };
 
 export default controller;

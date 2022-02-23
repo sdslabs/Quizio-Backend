@@ -34,6 +34,7 @@ export const getQuestionByID = async (quizioID) => {
  * @returns quizID and section data of the section updated in the quiz
  */
 export const updateQuestionByID = async (quizioID, questionData) => {
+	console.log({ questionData });
 	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
 		questionData,
 		{ new: true });

@@ -4,82 +4,82 @@ export const verifyQuizioID = (id) => (id.length === 30 && id.includes('.') && i
 export const generateQuizioID = () => `quizioID.${nanoid()}`;
 
 export const extractQuizData = (data) => ({
-	quizioID: data.quizioID,
-	name: data.name,
-	description: data.description,
-	instructions: data.instructions,
-	createdOn: data.createdOn,
-	creator: data.creator,
-	owners: data.owners,
-	startTime: data.startTime,
-	endTime: data.endTime,
-	startWindow: data.startWindow,
-	accessCode: data.accessCode,
-	sections: data.sections,
-	registrants: data.registrants,
-	detail3: data.detail3,
-	detail1: data.detail1,
-	detail2: data.detail2,
+	quizioID: data.quizioID || null,
+	name: data.name || null,
+	description: data.description || null,
+	instructions: data.instructions || null,
+	createdOn: data.createdOn || null,
+	creator: data.creator || null,
+	owners: data.owners || null,
+	startTime: data.startTime || null,
+	endTime: data.endTime || null,
+	startWindow: data.startWindow || null,
+	accessCode: data.accessCode || null,
+	sections: data.sections || null,
+	registrants: data.registrants || null,
+	detail3: data.detail3 || null,
+	detail1: data.detail1 || null,
+	detail2: data.detail2 || null,
 });
 
 export const extractQuizzesData = (data) => data.map((entry) => extractQuizData(entry));
 
 export const extractSectionData = (data) => ({
-	quizioID: data.quizioID,
-	quizID: data.quizID,
-	title: data.title,
-	description: data.description,
-	createdOn: data.createdOn,
-	creator: data.creator,
-	questions: data.questions,
+	quizioID: data.quizioID || null,
+	quizID: data.quizID || null,
+	title: data.title || null,
+	description: data.description || null,
+	createdOn: data.createdOn || null,
+	creator: data.creator || null,
+	questions: data.questions || null,
 });
 
 export const extractQuestionData = (data) => ({
-	quizioID: data.quizioID,
-	sectionID: data.sectionID,
-	type: data.type,
-	question: data.question,
-	isMCQ: data.isMCQ,
-	choices: data.choices,
-	answer: data.answer,
-	checkerNotes: data.checkerNotes,
-	minMarks: data.minMarks,
-	maxMarks: data.maxMarks,
-	defaultMarks: data.defaultMarks,
-	autocheck: data.autocheck,
+	quizioID: data.quizioID || null,
+	sectionID: data.sectionID || null,
+	type: data.type || null,
+	question: data.question || null,
+	isMCQ: data.isMCQ || null,
+	choices: data.choices || null,
+	answer: data.answer || null,
+	checkerNotes: data.checkerNotes || null,
+	minMarks: data.minMarks || null,
+	maxMarks: data.maxMarks || null,
+	defaultMarks: data.defaultMarks || null,
+	autocheck: data.autocheck || null,
 });
 
 // Registrant helpers
 export const extractRegistrantData = (data) => ({
-	quizioID: data.quizioID,
-	quizID: data.quizID,
-	username: data.username,
-	firstName: data.firstName,
-	lastName: data.lastName,
-	email: data.email,
-	contactNo: data.contactNo,
-	orgName: data.orgName,
-	detail1: data.detail1,
-	detail2: data.detail2,
-	detail3: data.detail3,
+	quizioID: data.quizioID || null,
+	quizID: data.quizID || null,
+	username: data.username || null,
+	firstName: data.firstName || null,
+	lastName: data.lastName || null,
+	email: data.email || null,
+	contactNo: data.contactNo || null,
+	orgName: data.orgName || null,
+	detail1: data.detail1 || null,
+	detail2: data.detail2 || null,
+	detail3: data.detail3 || null,
 });
 export const extractRegistrantQuizList = (data) => data.map((entry) => (entry.quizID));
 export const extractRegistrantUserNameList = (data) => data.map((entry) => (entry.username));
 
 // response helpers
 export const extractResponseData = (data) => ({
-	quizioID: data.quizioID,
-	username: data.username,
-	questionID: data.questionID,
-	time: data.time,
-	answerChoice: data.answerChoice,
-	answer: data.answer,
+	quizioID: data.quizioID || null,
+	username: data.username || null,
+	questionID: data.questionID || null,
+	time: data.time || null,
+	answerChoice: data.answerChoice || null,
+	answer: data.answer || null,
 });
 
 // submit helpers
 export const extractSubmitData = (data) => ({
-	quizioID: data.quizioID,
-	username: data.username,
-	quizID: data.questionID,
-	time: data.time,
+	quizioID: data.quizioID || null,
+	username: data.username || null,
+	quizID: data.questionID || null,
+	time: data.time || null,
 });

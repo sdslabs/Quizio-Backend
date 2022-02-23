@@ -115,7 +115,7 @@ const controller = {
 						|| quiz.owners.includes(username)) {
 						const question2 = await updateQuestionByID(questionID, questionData);
 						if (question2) {
-							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
+							return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });
 						}
 						return errorResponse(res, 'Unable to update Question');
 					}

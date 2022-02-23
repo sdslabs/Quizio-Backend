@@ -1,3 +1,4 @@
+// import logger from '../helpers/logger';
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -16,13 +17,23 @@ const controller = {
 			- Server time must be less than the quiz endTime
 		*/
 
-		const now = new Date();
+		const d = new Date();
+		const now = d.toString();
 
-		console.log({ now });
 		const { username, role } = req.user;
 		const { quizID } = req.params;
 
 		const quiz = await getQuizById(quizID);
+		const startTime = new Date(quiz.startTime).toString();
+		const endTime = new Date(quiz.endTime).toString();
+		console.log({
+			quiz,
+			startTime,
+			now,
+			endTime,
+		});
+
+		// console.log((startTime <= now) && (now <= endTime));
 
 		if (quiz) {
 			const isRegistered = await checkIfUserIsRegisteredForQuiz(username, quizID);
