@@ -41,18 +41,23 @@ const controller = {
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
 		if (quiz) {
-			if (role === 'superadmin'
-				|| quiz.creator === username
-				|| quiz.owners.includes(username)) {
-				if (quiz.registrants && quiz.registrants.includes(username)) {
-					return successResponseWithData(res, { quiz });
-				}
+			if (role === 'superadmin') {
+				return successResponseWithData(res, { role: 'superadmin', quiz });
+			}
+			if (quiz.creator === username) {
+				return successResponseWithData(res, { role: 'creator', quiz });
+			}
+			if (quiz.owners.includes(username)) {
+				return successResponseWithData(res, { role: 'owner', quiz });
+			}
+			if (quiz.registrants && quiz.registrants.includes(username)) {
+				return successResponseWithData(res, { role: 'registrant', quiz });
 			}
 			return unauthorizedResponse(res);
 		}
-
 		return notFoundResponse(res, 'Quiz not found!');
 	},
+
 	/**
 	 * A new quiz is added to the db with the requesting user as the creator
 	 */
@@ -68,9 +73,9 @@ const controller = {
 		return errorResponse(res, 'Failed to add new quiz!');
 	},
 	/**
-		 * Updates the quiz to the data sent in the body only when superadmin
-		 * or quiz owner or quiz creator makes the call
-		 */
+			 * Updates the quiz to the data sent in the body only when superadmin
+			 * or quiz owner or quiz creator makes the call
+			 */
 	updateQuiz: async (req, res) => {
 		const { username, role } = req.user;
 		const { quizID } = req.params;
@@ -91,9 +96,9 @@ const controller = {
 		return notFoundResponse(res, 'Quiz not found!');
 	},
 	/**
-			 * Deletes the quiz only when superadmin
-			 * or quiz owner or quiz creator makes the call
-			 */
+					 * Deletes the quiz only when superadmin
+					 * or quiz owner or quiz creator makes the call
+					 */
 	deleteQuiz: async (req, res) => {
 		const { username, role } = req.user;
 		const { quizID } = req.params;
