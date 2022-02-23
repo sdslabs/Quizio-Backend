@@ -6,7 +6,7 @@ import response from '../schema/response';
 import { getQuestionByID } from './question';
 
 /**
- * Add a user as a registrant to a quiz
+ * Save the reponse of a user to a question
  */
 export const saveResponse = async (responseData) => {
 	const { username, questionID } = responseData;
@@ -37,4 +37,8 @@ export const saveResponse = async (responseData) => {
 	return result ? extractResponseData(result) : null;
 };
 
-export const a = 'a';
+export const getResponse = async (username, questionID) => {
+	console.log('get response', { username, questionID });
+	const responseData = await response.findOne({ username, questionID });
+	return responseData ? extractResponseData(responseData) : null;
+};

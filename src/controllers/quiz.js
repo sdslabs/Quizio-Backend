@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+import logger from '../helpers/logger';
 import {
 	successResponseWithData,
 	successResponseWithMessage,
@@ -5,6 +7,8 @@ import {
 	unauthorizedResponse,
 	errorResponse,
 } from '../helpers/responses';
+import { generateQuizioID } from '../helpers/utils';
+import { getQuestionByID } from '../models/question';
 import {
 	getAllQuizzes,
 
@@ -13,7 +17,9 @@ import {
 	updateQuiz,
 	getQuizById,
 } from '../models/quiz';
-import { checkIfUserIsRegisteredForQuiz } from '../models/register';
+import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
+import { getResponse } from '../models/response';
+import { getSectionByID } from '../models/section';
 
 const controller = {
 	/**
@@ -122,14 +128,72 @@ const controller = {
 	checkQuiz: async (req, res) => {
 		const { username, role } = req.user;
 		const { quizID } = req.params;
+		const checkingID = generateQuizioID();
 		const quiz = await getQuizById(quizID);
+
+		const getRole = () => (role === 'superadmin'
+			? 'superadmin'
+			: quiz.creator === username
+				? 'quiz creator'
+				: quiz.owners.includes(username)
+					? 'quiz owner'
+					: 'unauthorized');
+		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${username}, role="${getRole()}"\nquizID: ${quizID}`);
+
 		if (quiz) {
 			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+				// Get a list of all the questions in the quiz
+				const questions = await Promise.all(
+					quiz.sections.map(async (sectionID) => {
+						const section = await getSectionByID(sectionID);
+						const questions2 = await Promise.all(
+							section.questions.map(async (questionID) => {
+								const question = await getQuestionByID(questionID);
+								return { ...question, questionID, sectionID };
+							}),
+						);
+						return questions2.filter((question) => question.type === 'mcq');
+					}),
+				);
+				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
 
+				// Get a list of all registrants
+				const registrants = await getRegisteredUsersForQuiz(quizID);
+				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all registrants in the quiz...`);
+
+				// return successResponseWithData(res, { questions, registrants });
+				// Calculate result
+				const rankList = await Promise.all(registrants.map(async (registrant) => {
+					const scores = await Promise.all(
+						questions.map(async (question) => {
+							const response = await getResponse(registrant, question[0].quizioID);
+							const answerChoice = response?.answerChoice[0];
+							// console.log({ choices: question[0].choices, answerChoice });
+							if (answerChoice) {
+								const score = question[0].choices?.find(
+									(choice) => choice.quizioID === answerChoice,
+								).marks;
+								return score;
+							}
+							return 0;
+						}),
+					);
+
+					const marks = scores.reduce((prev, curr) => prev + curr, 0);
+
+					return { registrant, marks };
+				}));
+
+				return successResponseWithData(res, {
+					quizID,
+					checkedBy: username,
+					role: getRole(),
+					rankList,
+				});
 			}
 			return unauthorizedResponse(res);
 		}
-		return notFoundResponse(res, 'Quiz not found!');
+		return notFoundResponse(res, 'Quiz not found');
 	},
 
 };

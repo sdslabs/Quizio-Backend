@@ -10,7 +10,7 @@ datasource db {
 
 type QuestionsChoices {
   id       String  @map("_id") @db.ObjectId
-  body     String
+  choice   String
   isNeeded Boolean
   marks    Int
   quizioID String
@@ -96,12 +96,7 @@ model sections {
 }
 
 model submits {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  v        Int      @map("__v")
-  quizID   String
-  quizioID String
-  time     DateTime @db.Date
-  username String
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 }
 
 model users {

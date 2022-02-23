@@ -32,6 +32,6 @@ router.delete('/sections/questions/:questionID', isAuth,
 	questionController.deleteQuestionByID); // DONE
 
 // Check a quiz
-router.post('/check/:quizID', isAuth, controller.checkQuiz);
+router.post('/:quizID/check', isAuth, controller.checkQuiz);
 
 export default router;
