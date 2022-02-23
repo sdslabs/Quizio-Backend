@@ -20,7 +20,7 @@ const controller = {
 
 		console.log({ now });
 		const { username, role } = req.user;
-		const { quizID } = req.body;
+		const { quizID } = req.params;
 
 		const quiz = await getQuizById(quizID);
 

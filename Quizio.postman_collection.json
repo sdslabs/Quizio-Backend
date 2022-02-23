@@ -2,11 +2,12 @@
 	"info": {
 		"_postman_id": "6f027940-8e39-4d03-9fe0-309ccd727d8c",
 		"name": "Quizio",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests a user can send?",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "General",
+			"name": "Misc",
 			"item": [
 				{
 					"name": "/",
@@ -63,7 +64,7 @@
 					"response": []
 				},
 				{
-					"name": "verify quizio ID {done}",
+					"name": "verify quizio ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -94,8 +95,18 @@
 					"response": []
 				},
 				{
-					"name": "Upload File",
+					"name": "Upload Image",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -108,9 +119,9 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "filex",
+									"key": "image",
 									"type": "file",
-									"src": "/Users/sid/Downloads/TransactionSlip.pdf"
+									"src": "/Users/smithpereira/Downloads/Screenshot from 2022-02-09 22-35-44.png"
 								},
 								{
 									"key": "filex",
@@ -121,7 +132,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/utils/files/upload",
+							"raw": "{{baseURL}}/api/v2/utils/images",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -129,8 +140,7 @@
 								"api",
 								"v2",
 								"utils",
-								"files",
-								"upload"
+								"images"
 							]
 						}
 					},
@@ -139,7 +149,7 @@
 			]
 		},
 		{
-			"name": "Quizzes [DONE]",
+			"name": "Quizzes",
 			"item": [
 				{
 					"name": "Sections",
@@ -148,7 +158,7 @@
 							"name": "Questions",
 							"item": [
 								{
-									"name": "Add question to Section {done}",
+									"name": "Add question to Section",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -163,7 +173,7 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.B8vqvxcf4Z885L4QGTyCO/questions",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.KghYCCfyvR8nn1Sfg96Qh/questions",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -172,7 +182,7 @@
 												"v2",
 												"quizzes",
 												"sections",
-												"quizioID.B8vqvxcf4Z885L4QGTyCO",
+												"quizioID.KghYCCfyvR8nn1Sfg96Qh",
 												"questions"
 											]
 										}
@@ -180,7 +190,7 @@
 									"response": []
 								},
 								{
-									"name": "Get question by id{done}",
+									"name": "Get question by id",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -212,7 +222,7 @@
 									"response": []
 								},
 								{
-									"name": "Delete question by ID {done}",
+									"name": "Delete question by ID",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -253,7 +263,7 @@
 									"response": []
 								},
 								{
-									"name": "update question by ID {done}",
+									"name": "update question by ID",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -277,7 +287,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ncXIkWe4j-TIGTL5ZBs8x",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -287,14 +297,14 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.YlTjX-cN67uRkDSoDHvyd"
+												"quizioID.ncXIkWe4j-TIGTL5ZBs8x"
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "add choice to question by ID {done}",
+									"name": "add choice to question by ID",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -310,7 +320,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"body\": \"choice 1\"\n}",
+											"raw": "{\n    \"body\": \"choice 2\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -336,7 +346,7 @@
 									"response": []
 								},
 								{
-									"name": "delete choice in question by ID {done}",
+									"name": "delete choice in question by ID",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -351,7 +361,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd/choices/quizioID.8bM0v-JkrxSwgXbmQeCw4",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd/choices/quizioID.V5xf-7S3ilMTD8lfidyqT",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -363,7 +373,7 @@
 												"questions",
 												"quizioID.YlTjX-cN67uRkDSoDHvyd",
 												"choices",
-												"quizioID.8bM0v-JkrxSwgXbmQeCw4"
+												"quizioID.V5xf-7S3ilMTD8lfidyqT"
 											]
 										}
 									},
@@ -372,7 +382,7 @@
 							]
 						},
 						{
-							"name": "Add section to quiz {done}",
+							"name": "Add section to quiz",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -387,7 +397,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/quizioID.gxLhh9sztwDQnKdGYarR3/sections",
+									"raw": "{{baseURL}}/api/v2/quizzes/quizioID.ZKjXTF08bxIlefi7VdQz0/sections",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -395,7 +405,7 @@
 										"api",
 										"v2",
 										"quizzes",
-										"quizioID.gxLhh9sztwDQnKdGYarR3",
+										"quizioID.ZKjXTF08bxIlefi7VdQz0",
 										"sections"
 									]
 								}
@@ -403,7 +413,7 @@
 							"response": []
 						},
 						{
-							"name": "Get section by id {done}",
+							"name": "Get section by id",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -418,7 +428,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.B8vqvxcf4Z885L4QGTyCO",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.KghYCCfyvR8nn1Sfg96Qh",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -427,14 +437,14 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.B8vqvxcf4Z885L4QGTyCO"
+										"quizioID.KghYCCfyvR8nn1Sfg96Qh"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Update section by id {done{",
+							"name": "Update section by id",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -458,7 +468,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.B8vqvxcf4Z885L4QGTyCO",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.KghYCCfyvR8nn1Sfg96Qh",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -467,14 +477,14 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.B8vqvxcf4Z885L4QGTyCO"
+										"quizioID.KghYCCfyvR8nn1Sfg96Qh"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Delete section by id {done}",
+							"name": "Delete section by id",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -510,7 +520,7 @@
 					"name": "Users",
 					"item": [
 						{
-							"name": "Get All Quizzes owned by User {done}",
+							"name": "Get All Quizzes owned by User",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -543,14 +553,14 @@
 					]
 				},
 				{
-					"name": "Create Quiz {done}",
+					"name": "Create Quiz",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
 									"type": "string"
 								}
 							]
@@ -572,7 +582,7 @@
 					"response": []
 				},
 				{
-					"name": "Get all quizzes {done}",
+					"name": "Get all quizzes",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -601,7 +611,7 @@
 					"response": []
 				},
 				{
-					"name": "Get quiz by id {done}",
+					"name": "Get quiz by id",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -616,7 +626,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.gxLhh9sztwDQnKdGYarR3",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.IckGNt7SWRrjeuhblRolS",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -624,14 +634,14 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.gxLhh9sztwDQnKdGYarR3"
+								"quizioID.IckGNt7SWRrjeuhblRolS"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update quiz by ID {done}",
+					"name": "Update quiz by ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -655,7 +665,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.Ihx9r2dKo7tjUp9rvdMMl",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.IckGNt7SWRrjeuhblRolS",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -663,14 +673,14 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.Ihx9r2dKo7tjUp9rvdMMl"
+								"quizioID.IckGNt7SWRrjeuhblRolS"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete quiz by ID {done}",
+					"name": "Delete quiz by ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -702,10 +712,10 @@
 			]
 		},
 		{
-			"name": "Users",
+			"name": "Users [PENDING]",
 			"item": [
 				{
-					"name": "/api/v2/users",
+					"name": "Get All users",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -734,7 +744,37 @@
 					"response": []
 				},
 				{
-					"name": "/api/v2/users/:username",
+					"name": "Get user by username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/users/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by email",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -764,7 +804,7 @@
 					"response": []
 				},
 				{
-					"name": "/:username/quizzes/",
+					"name": "Get quizzes owned by user",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -779,7 +819,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/users/code.capriciousrebel@gmail.com/quizzes",
+							"raw": "{{baseURL}}/api/v2/users/quizzes/owned",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -787,104 +827,8 @@
 								"api",
 								"v2",
 								"users",
-								"code.capriciousrebel@gmail.com",
-								"quizzes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/:username/quizzes/:quizId",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v2/users/code.capriciousrebel@gmail.com/quizzes/617d32ab1aa3a55fff7fdf03",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"users",
-								"code.capriciousrebel@gmail.com",
 								"quizzes",
-								"617d32ab1aa3a55fff7fdf03"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/:username/quizzes/:quizId",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v2/users/code.capriciousrebel@gmail.com/quizzes/617d32ab1aa3a55fff7fdf03",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"users",
-								"code.capriciousrebel@gmail.com",
-								"quizzes",
-								"617d32ab1aa3a55fff7fdf03"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/:username/quizzes/:quizId Copy",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v2/users/code.capriciousrebel@gmail.com/quizzes/617d32ab1aa3a55fff7fdf03",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v2",
-								"users",
-								"code.capriciousrebel@gmail.com",
-								"quizzes",
-								"617d32ab1aa3a55fff7fdf03"
+								"owned"
 							]
 						}
 					},
@@ -1153,7 +1097,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/auth/login",
+							"raw": "{{baseURL}}/api/v2/auth/login?jwtToken=eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1162,6 +1106,12 @@
 								"v2",
 								"auth",
 								"login"
+							],
+							"query": [
+								{
+									"key": "jwtToken",
+									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8"
+								}
 							]
 						}
 					},
@@ -1170,17 +1120,17 @@
 			]
 		},
 		{
-			"name": "Register [DONE]",
+			"name": "Register",
 			"item": [
 				{
-					"name": "Register for a quiz {done}",
+					"name": "Register for a quiz",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
 									"type": "string"
 								}
 							]
@@ -1189,7 +1139,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"quizID\": \"quizioID.ZKjXTF08bxIlefi7VdQz0\",\n    \"firstName\": \"Smith\",\n    \"lastName\": \"Pereira\",\n    \"email\" : \"code.capriciousrebel@gmail.com\",\n    \"contactNo\": \"7768011236\",\n    \"orgName\": \"SDSLabs\",\n    \"detail1\": {\n        \"key\": \"Codechef ID\",\n        \"value\": \"capriciousrebel\"\n    }\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1197,7 +1147,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/register/quizzes/quizioID.cfAT-79vjJH8qldWiaGR5",
+							"raw": "{{baseURL}}/api/v2/register/quizzes/",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1206,7 +1156,7 @@
 								"v2",
 								"register",
 								"quizzes",
-								"quizioID.cfAT-79vjJH8qldWiaGR5"
+								""
 							]
 						}
 					},
@@ -1255,7 +1205,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All users registered for a quiz {Done}",
+					"name": "Get All users registered for a quiz",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1282,7 +1232,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/register/users/quizzes/quizioID.cfAT-79vjJH8qldWiaGR5",
+							"raw": "{{baseURL}}/api/v2/register/users/quizzes/quizioID.IckGNt7SWRrjeuhblRolS",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1292,7 +1242,7 @@
 								"register",
 								"users",
 								"quizzes",
-								"quizioID.cfAT-79vjJH8qldWiaGR5"
+								"quizioID.IckGNt7SWRrjeuhblRolS"
 							]
 						}
 					},
@@ -1301,7 +1251,7 @@
 			]
 		},
 		{
-			"name": "Logs",
+			"name": "Logs [PENDING]",
 			"item": [
 				{
 					"name": "/api/v2/logs",
@@ -1334,6 +1284,9 @@
 				},
 				{
 					"name": "/api/v2/logs/:username",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1347,8 +1300,17 @@
 						},
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/logs/code.capriciousrebel@gmail.com",
+							"raw": "{{baseURL}}/api/v2/logs/diya",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1356,7 +1318,7 @@
 								"api",
 								"v2",
 								"logs",
-								"code.capriciousrebel@gmail.com"
+								"diya"
 							]
 						}
 					},
@@ -1378,7 +1340,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/logs/code.capriciousrebel@gmail.com/617f17edeb203da3fb579d86",
+							"raw": "{{baseURL}}/api/v2/logs/code.capriciousrebel@gmail.com/222",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1387,7 +1349,7 @@
 								"v2",
 								"logs",
 								"code.capriciousrebel@gmail.com",
-								"617f17edeb203da3fb579d86"
+								"222"
 							]
 						}
 					},
@@ -1408,15 +1370,6 @@
 						},
 						"method": "PUT",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n        \"quizId\": \"617f17edeb203da3fb579d86\",\n\t\t\"logType\":\"rightClick\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{baseURL}}/api/v2/logs/code.capriciousrebel@gmail.com",
 							"host": [
@@ -1438,7 +1391,7 @@
 			"name": "Response",
 			"item": [
 				{
-					"name": "Add quiz response {done}",
+					"name": "Submit quiz response",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1454,7 +1407,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"questionID\" : \"quizioID.YlTjX-cN67uRkDSoDHvyd\",\n    \n    \"answer\": \"Subjective answer\"\n}",
+							"raw": "{\n    \"questionID\" : \"quizioID.ncXIkWe4j-TIGTL5ZBs8x\",\n    \"answer\": \"my ans2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1488,31 +1441,23 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
+									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
 									"type": "string"
 								}
 							]
 						},
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"quizID\": \"quizioID.cfAT-79vjJH8q2ldWiaGR5\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/submit",
+							"raw": "{{baseURL}}/api/v2/submit/quizioID.2PayYAMLmpRwmOtVjiN3J",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"v2",
-								"submit"
+								"submit",
+								"quizioID.2PayYAMLmpRwmOtVjiN3J"
 							]
 						}
 					},
