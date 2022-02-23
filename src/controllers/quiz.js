@@ -53,7 +53,7 @@ const controller = {
 			if (quiz.registrants && quiz.registrants.includes(username)) {
 				return successResponseWithData(res, { role: 'registrant', quiz });
 			}
-			return unauthorizedResponse(res);
+			return successResponseWithData(res, { role: 'public', quiz });
 		}
 		return notFoundResponse(res, 'Quiz not found!');
 	},
