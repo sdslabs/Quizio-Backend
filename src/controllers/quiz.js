@@ -138,23 +138,26 @@ const controller = {
 				: quiz.owners.includes(username)
 					? 'quiz owner'
 					: 'unauthorized');
+
+		/** START QUIZ CHECKING */
 		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${username}, role="${getRole()}"\nquizID: ${quizID}`);
 
 		if (quiz) {
 			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
 				// Get a list of all the questions in the quiz
-				const questions = await Promise.all(
+				const questions = (await Promise.all(
 					quiz.sections.map(async (sectionID) => {
 						const section = await getSectionByID(sectionID);
 						const questions2 = await Promise.all(
 							section.questions.map(async (questionID) => {
 								const question = await getQuestionByID(questionID);
-								return { ...question, questionID, sectionID };
+								return { ...question, sectionID };
 							}),
 						);
 						return questions2.filter((question) => question.type === 'mcq');
 					}),
-				);
+				))[0];
+				console.log({ sections: quiz?.sections, questions });
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
 
 				// Get a list of all registrants
@@ -166,11 +169,16 @@ const controller = {
 				const rankList = await Promise.all(registrants.map(async (registrant) => {
 					const scores = await Promise.all(
 						questions.map(async (question) => {
-							const response = await getResponse(registrant, question[0].quizioID);
+							const response = await getResponse(registrant, question.quizioID);
 							const answerChoice = response?.answerChoice[0];
-							// console.log({ choices: question[0].choices, answerChoice });
+							// console.log({
+							// 	registrant,
+							// 	question: question[0].question,
+							// 	// choices: false && question[0].choices,
+							// 	answerChoice,
+							// });
 							if (answerChoice) {
-								const score = question[0].choices?.find(
+								const score = question.choices.find(
 									(choice) => choice.quizioID === answerChoice,
 								).marks;
 								return score;

@@ -38,7 +38,7 @@ export const saveResponse = async (responseData) => {
 };
 
 export const getResponse = async (username, questionID) => {
-	console.log('get response', { username, questionID });
 	const responseData = await response.findOne({ username, questionID });
+	console.log('got response', { username, questionID, res: responseData?.answerChoice[0] });
 	return responseData ? extractResponseData(responseData) : null;
 };
