@@ -148,16 +148,18 @@ const controller = {
 				const questions = (await Promise.all(
 					quiz.sections.map(async (sectionID) => {
 						const section = await getSectionByID(sectionID);
+						// console.log('section: ', { sectionID, section });
 						const questions2 = await Promise.all(
 							section.questions.map(async (questionID) => {
+								// console.log({ sectionID, questionID });
 								const question = await getQuestionByID(questionID);
 								return { ...question, sectionID };
 							}),
 						);
+						// console.log({ sectionID, questions2 });
 						return questions2.filter((question) => question.type === 'mcq');
 					}),
-				))[0];
-				console.log({ sections: quiz?.sections, questions });
+				)).flat();
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
 
 				// Get a list of all registrants
@@ -171,12 +173,6 @@ const controller = {
 						questions.map(async (question) => {
 							const response = await getResponse(registrant, question.quizioID);
 							const answerChoice = response?.answerChoice[0];
-							// console.log({
-							// 	registrant,
-							// 	question: question[0].question,
-							// 	// choices: false && question[0].choices,
-							// 	answerChoice,
-							// });
 							if (answerChoice) {
 								const score = question.choices.find(
 									(choice) => choice.quizioID === answerChoice,
