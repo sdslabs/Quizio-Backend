@@ -196,7 +196,7 @@ const controller = {
 					quizID,
 					checkedBy: username,
 					role: getRole(),
-					rankList,
+					rankList: rankList.sort((a, b) => b.marks - a.marks),
 				});
 			}
 			return unauthorizedResponse(res);
