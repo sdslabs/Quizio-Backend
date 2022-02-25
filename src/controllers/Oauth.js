@@ -31,7 +31,6 @@ export const googleOauth = {
 		} = req.user.profile._json;
 
 		const userData = {
-			quizioID,
 			username: generateUserName(given_name, family_name),
 			email,
 			firstName: given_name,
@@ -45,7 +44,7 @@ export const googleOauth = {
 
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
-			const newUser = await addNewUser(userData);
+			const newUser = await addNewUser({ ...userData, quizioID });
 			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
 		// User found, so it's an old user
@@ -58,6 +57,7 @@ export const githubOauth = {
 	signUp: () => passport.authenticate('github', { scope: ['user:email'] }),
 
 	signUpCallback: async (req, res) => {
+		console.log('Github signup callback: ');
 		const quizioID = generateQuizioID();
 		const {
 			email,
@@ -67,7 +67,6 @@ export const githubOauth = {
 		} = req.user._json;
 
 		const userData = {
-			quizioID,
 			username: generateUserName(name.split(' ')[0] || '', name.split(' ')[1] || ''),
 			email,
 			firstName: name.split(' ')[0] || '',
@@ -82,7 +81,7 @@ export const githubOauth = {
 		const users = await findUserByEmail(email);
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
-			const newUser = await addNewUser(userData);
+			const newUser = await addNewUser({ ...userData, quizioID });
 			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
 		// User found, so it's an old user
