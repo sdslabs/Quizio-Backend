@@ -15,7 +15,7 @@ export const getAllUsers = async () => {
  * @param {*} email Email id of the user.
  * @returns UserData of the user
  */
-export const findUserByEmail = async (email) => {
+export const getUserByEmail = async (email) => {
 	const users = await user.findOne({ email });
 	return users;
 };
@@ -25,7 +25,7 @@ export const findUserByEmail = async (email) => {
  * @param {*} userID quizioID of the user.
  * @returns UserData of the user
  */
-export const findUserByID = async (userID) => {
+export const getUserWithUserID = async (userID) => {
 	const userData = await user.findOne({ quizioID: userID });
 	return userData;
 };

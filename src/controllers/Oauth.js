@@ -12,7 +12,7 @@ import {
 } from '../helpers/responses';
 import { generateToken, verifyToken } from '../helpers/token';
 import {
-	addNewUser, updateUserByEmail, findUserByEmail,
+	addNewUser, updateUserByEmail, getUserByEmail,
 } from '../models/user';
 import { generateQuizioID, generateUserName } from '../helpers/utils';
 
@@ -37,10 +37,9 @@ export const googleOauth = {
 			lastName: family_name,
 			googleAvatar: picture,
 		};
-		console.log({ userData });
 		const jwtToken = generateToken(quizioID);
 
-		const users = await findUserByEmail(email);
+		const users = await getUserByEmail(email);
 
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
@@ -57,7 +56,6 @@ export const githubOauth = {
 	signUp: () => passport.authenticate('github', { scope: ['user:email'] }),
 
 	signUpCallback: async (req, res) => {
-		console.log('Github signup callback: ');
 		const quizioID = generateQuizioID();
 		const {
 			email,
@@ -75,10 +73,9 @@ export const githubOauth = {
 			githubAvatar: avatar_url,
 		};
 
-		console.log({ userData });
 		const jwtToken = generateToken(quizioID);
 
-		const users = await findUserByEmail(email);
+		const users = await getUserByEmail(email);
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
 			const newUser = await addNewUser({ ...userData, quizioID });

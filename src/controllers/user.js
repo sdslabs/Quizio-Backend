@@ -6,7 +6,7 @@ import {
 } from '../helpers/responses';
 import { extractUserDataPrivate, extractUserDataPublic } from '../helpers/utils';
 import { getQuizzesOwnedByUser } from '../models/quiz';
-import { findUserByID, getAllUsers } from '../models/user';
+import { getAllUsers, getUserWithUserID } from '../models/user';
 
 const controller = {
 	/**
@@ -23,30 +23,35 @@ const controller = {
 	},
 
 	/**
-	 * @returns A list of all quizzes owned(or created) by user
+	 * @returns Private UserData of user with the given userID
 	 */
-	getAllQuizzesOwnedByUser: async (req, res) => {
-		const { username } = req.user;
-		const quizzes = await getQuizzesOwnedByUser(username);
-		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
-	},
-
 	getUserWithUserID: async (req, res) => {
 		const { userID } = req.params;
-		const user = await findUserByID(userID);
+		const user = await getUserWithUserID(userID);
 		if (user) {
 			return successResponseWithData(res, extractUserDataPublic(user));
 		}
 		return notFoundResponse(res, 'User not found!');
 	},
 
+	/**
+	 * @returns Public UserData of user with the given userID
+	 */
 	getSelfWithUserID: async (req, res) => {
-		const { userID } = req.params;
-		const user = await findUserByID(userID);
+		const { user } = req;
 		if (user) {
 			return successResponseWithData(res, extractUserDataPrivate(user));
 		}
 		return notFoundResponse(res, 'User not found!');
+	},
+
+	/**
+	 * @returns A list of all quizzes owned(or created) by user
+	 */
+	getAllQuizzesOwnedByUser: async (req, res) => {
+		const { username } = req.user;
+		const quizzes = await getQuizzesOwnedByUser(username);
+		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
 	},
 };
 

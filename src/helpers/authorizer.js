@@ -1,4 +1,4 @@
-import { findUserByID } from '../models/user';
+import { getUserWithUserID } from '../models/user';
 import { notFoundResponse, unauthenticatedResponse, unauthorizedResponse } from './responses';
 import { verifyToken } from './token';
 
@@ -16,9 +16,8 @@ export const isAuth = async (req, res, next) => {
 		return unauthenticatedResponse(res);
 	}
 	const quizioID = verifyToken(res, token);
-	console.log({ quizioID });
 	if (quizioID) {
-		const user = await findUserByID(quizioID);
+		const user = await getUserWithUserID(quizioID);
 		if (user) {
 			if (user.role === 'banned') {
 				return unauthenticatedResponse(res);
@@ -26,7 +25,7 @@ export const isAuth = async (req, res, next) => {
 			req.user = user;
 			return next();
 		}
-		return notFoundResponse(res, 'User not found');
+		return notFoundResponse(res, 'Your account does NOT exist!');
 	}
 	return unauthenticatedResponse(res);
 };
