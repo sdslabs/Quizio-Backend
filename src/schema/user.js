@@ -5,17 +5,19 @@ const { Schema } = mongoose;
 /** Schema for every user */
 const userSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
-	quizioID: String,
-	/** Unique Username to identify every user
-	 * (TODO: user quizioID for internal purposes and email for client side)
-	 * */
+	quizioID: {
+		type: String,
+		immutable: true,
+	},
+
+	/** Unique Username */
 	username: {
 		type: String,
 		required: true,
 		unique: true,
 	},
 
-	/** Unique Email to identify every user */
+	/** Unique Email id */
 	email: {
 		type: String,
 		required: true,
@@ -38,18 +40,31 @@ const userSchema = new Schema({
 	googleAvatar: String,
 	/** github username of the user */
 	githubUserName: String,
-
 	/** first name of the user */
 	firstName: String,
 	/** last name of the user */
 	lastName: String,
+	/** instituition name of the user */
 	instiName: String,
+	/** country of the user */
 	country: String,
+	/** city of the user */
 	city: String,
+	/** phoneNumber of the user */
 	phoneNumber: String,
-	handle1: String,
-	handle2: String,
-	handle3: String,
+	/** social handles of the user (3) */
+	handle1: {
+		key: String,
+		value: String,
+	},
+	handle2: {
+		key: String,
+		value: String,
+	},
+	handle3: {
+		key: String,
+		value: String,
+	},
 	/** date on which the user was added */
 	dateAdded: {
 		type: Date,

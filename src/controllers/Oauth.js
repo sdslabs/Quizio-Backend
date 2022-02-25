@@ -14,6 +14,7 @@ import { generateToken, verifyToken } from '../helpers/token';
 import {
 	addNewUser, updateUserByEmail, findUserByEmail,
 } from '../models/user';
+import { generateQuizioID, generateUserName } from '../helpers/utils';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ export const googleOauth = {
 	signUp: () => passport.authenticate('google', { scope: ['profile', 'email'] }),
 
 	signUpCallback: async (req, res) => {
+		const quizioID = generateQuizioID();
 		const {
 			email,
 			given_name,
@@ -29,13 +31,13 @@ export const googleOauth = {
 		} = req.user.profile._json;
 
 		const userData = {
-			username: email,
+			username: generateUserName(given_name, family_name),
 			email,
 			firstName: given_name,
 			lastName: family_name,
 			googleAvatar: picture,
 		};
-		const jwtToken = generateToken(userData.username);
+		const jwtToken = generateToken(quizioID);
 
 		const users = await findUserByEmail(email);
 
@@ -54,6 +56,7 @@ export const githubOauth = {
 	signUp: () => passport.authenticate('github', { scope: ['user:email'] }),
 
 	signUpCallback: async (req, res) => {
+		const quizioID = generateQuizioID();
 		const {
 			email,
 			name,
@@ -62,23 +65,23 @@ export const githubOauth = {
 		} = req.user._json;
 
 		const userData = {
-			username: email,
+			username: generateUserName(name.split(' ')[0] || '', name.split(' ')[1] || ''),
 			email,
 			firstName: name.split(' ')[0] || '',
 			lastName: name.split(' ')[1] || '',
 			githubUserName: login,
 			githubAvatar: avatar_url,
 		};
-		const jwtToken = generateToken(userData.username);
+		const jwtToken = generateToken(quizioID);
 
 		const users = await findUserByEmail(email);
 		if (!users || (users && users.length === 0)) {
+			// User not found, so it's a new user
 			const newUser = await addNewUser(userData);
 			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
-
+		// User found, so it's an old user
 		const user = await updateUserByEmail(userData);
-
 		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${user.username}&&jwtToken=${jwtToken}&new=false`);
 	},
 };
@@ -86,10 +89,12 @@ export const githubOauth = {
 const oauthController = {
 	/**
 	 * @returns the user data and the jwt token */
-	check: async (req, res) => successResponseWithData(res,
+	check: async (req, res) => successResponseWithData(
+		res,
 		{
 			user: req.user,
-		}),
+		},
+	),
 	/**
 	 * @returns the user data and the jwt token */
 	login: async (req, res) => {
@@ -99,11 +104,13 @@ const oauthController = {
 			logger.info('Login with Token');
 			const payload = verifyToken(res, jwtToken);
 			if (payload) {
-				return successResponseWithData(res,
+				return successResponseWithData(
+					res,
 					{
 						msg: 'Token verified!',
 						jwtToken,
-					});
+					},
+				);
 				// return successResponseWithCookie(res,
 				// 	'User logged in successfully!', {
 				// 		name: 'jwtToken',

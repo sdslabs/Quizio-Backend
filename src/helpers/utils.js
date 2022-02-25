@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 
 export const verifyQuizioID = (id) => (id.length === 30 && id.includes('.') && id.split('.')[0] === 'quizioID');
 export const generateQuizioID = () => `quizioID.${nanoid()}`;
+export const generateUserName = (firstName, lastName) => `${firstName?.toLowerCase()}_${lastName?.toLowerCase()}_${nanoid(3)}`;
 
 export const extractQuizData = (data) => ({
 	quizioID: data.quizioID || null,
@@ -91,4 +92,43 @@ export const extractSubmitData = (data) => ({
 	username: data.username || null,
 	quizID: data.questionID || null,
 	time: data.time || null,
+});
+
+// user helpers
+export const extractUserDataPrivate = (data) => ({
+	quizioID: data.quizioID || null,
+	username: data.username || null,
+	email: data.email || null,
+	role: data.role || null,
+	githubAvatar: data.githubAvatar || null,
+	googleAvatar: data.googleAvatar || null,
+	githubUsername: data.githubUsername || null,
+	firstName: data.firstName || null,
+	lastName: data.lastName || null,
+	instiName: data.instiName || null,
+	country: data.country || null,
+	city: data.city || null,
+	phoneNumber: data.phoneNumber || null,
+	handle1: data.handle1 || null,
+	handle2: data.handle2 || null,
+	handle3: data.handle3 || null,
+});
+
+export const extractUserDataPublic = (data) => ({
+	quizioID: data.quizioID || null,
+	username: data.username || null,
+	email: data.email || null,
+	role: data.role || null,
+	githubAvatar: data.githubAvatar || null,
+	googleAvatar: data.googleAvatar || null,
+	githubUsername: data.githubUsername || null,
+	firstName: data.firstName || null,
+	lastName: data.lastName || null,
+	instiName: data.instiName || null,
+	country: data.country || null,
+	city: data.city || null,
+	phoneNumber: data.phoneNumber || null,
+	handle1: data.handle1 || null,
+	handle2: data.handle2 || null,
+	handle3: data.handle3 || null,
 });

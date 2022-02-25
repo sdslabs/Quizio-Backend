@@ -1,17 +1,12 @@
 import express from 'express';
-import {
-	isAuth, isSuperAdmin,
-} from '../helpers/authorizer';
+import { isAuth } from '../helpers/authorizer';
 import controller from '../controllers/user';
 
 const router = express.Router();
 
-router.get('/', isAuth, isSuperAdmin, controller.getAllUsers);
-router.get('/quizzes/owned', isAuth, controller.getAllQuizzesOwnedByUser); // DONE
-router.get('/:email', isAuth, controller.getUserWithEmail);
-
-router.put('/:username/quizzes', isAuth, controller.getAllQuizzesForUser);
-router.put('/:username/quizzes/:quizId', isAuth, controller.addQuizforUser);
-router.delete('/:username/quizzes/:quizId', isAuth, controller.removeQuizforUser);
+router.get('/', isAuth, controller.getAllUsers);
+router.get('/:userID', isAuth, controller.getUserWithUserID);
+router.get('/self', isAuth, controller.getSelfWithUserID);
+router.get('/quizzes/owned', isAuth, controller.getAllQuizzesOwnedByUser);
 
 export default router;

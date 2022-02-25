@@ -1,70 +1,53 @@
+import logger from '../helpers/logger';
 import {
 	notFoundResponse,
 	successResponseWithData,
+	unauthorizedResponse,
 } from '../helpers/responses';
+import { extractUserDataPrivate, extractUserDataPublic } from '../helpers/utils';
 import { getQuizzesOwnedByUser } from '../models/quiz';
-import {
-	getAllUsers,
-	findUserByUsername,
-	addQuizforUser,
-	removeQuizforUser,
-	findUserByEmail,
-} from '../models/user';
+import { findUserByID, getAllUsers } from '../models/user';
 
 const controller = {
+	/**
+	 * @returns List of all users iff requesting user is a superadmin
+	 */
 	getAllUsers: async (req, res) => {
-		const users = await getAllUsers();
-		return successResponseWithData(res, {
-			users,
-		});
+		const { username, role } = req.user;
+		if (role === 'superadmin') {
+			logger.info(`Get all users initated by ${username}, role=${role}`);
+			const users = await getAllUsers();
+			return successResponseWithData(res, { username, role, users });
+		}
+		return unauthorizedResponse(res);
 	},
 
+	/**
+	 * @returns A list of all quizzes owned(or created) by user
+	 */
 	getAllQuizzesOwnedByUser: async (req, res) => {
 		const { username } = req.user;
 		const quizzes = await getQuizzesOwnedByUser(username);
-		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
+		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
 	},
 
-	getUserWithUsername: async (req, res) => {
-		const user = await findUserByUsername(req.params.username);
-		return successResponseWithData(res, {
-			user,
-		}, 200);
-	},
-
-	getUserWithEmail: async (req, res) => {
-		const user = await findUserByEmail(req.params.email);
-		console.log({ user }, req.params.email);
+	getUserWithUserID: async (req, res) => {
+		const { userID } = req.params;
+		const user = await findUserByID(userID);
 		if (user) {
-			// TODO: must not send entire data to other user
-			return successResponseWithData(res, {
-				user,
-			}, 200);
+			return successResponseWithData(res, extractUserDataPublic(user));
 		}
-		return notFoundResponse(res);
+		return notFoundResponse(res, 'User not found!');
 	},
 
-	addQuizforUser: async (req, res) => {
-		const user = await addQuizforUser(req.params.username, req.params.quizId);
-		return successResponseWithData(res, {
-			user,
-		}, 200);
+	getSelfWithUserID: async (req, res) => {
+		const { userID } = req.params;
+		const user = await findUserByID(userID);
+		if (user) {
+			return successResponseWithData(res, extractUserDataPrivate(user));
+		}
+		return notFoundResponse(res, 'User not found!');
 	},
-
-	removeQuizforUser: async (req, res) => {
-		const user = await removeQuizforUser(req.params.username, req.params.quizId);
-		return successResponseWithData(res, {
-			user,
-		}, 200);
-	},
-
-	getAllQuizzesForUser: async (req, res) => notFoundResponse(),		/*
-		// const quizzes = await getAllQuizzesForUser(req.params.username);
-		// return successResponseWithData(res, {
-		// 	quizzes,
-		// }, 200);
-		*/
-
 };
 
 export default controller;

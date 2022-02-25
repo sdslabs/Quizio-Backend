@@ -21,12 +21,12 @@ export const findUserByEmail = async (email) => {
 };
 
 /**
- * Find a user by username
- * @param {*} username Username of the user.
+ * Find a user by quizioID
+ * @param {*} userID quizioID of the user.
  * @returns UserData of the user
  */
-export const findUserByUsername = async (username) => {
-	const userData = await user.findOne({ username });
+export const findUserByID = async (userID) => {
+	const userData = await user.findOne({ quizioID: userID });
 	return userData;
 };
 
@@ -51,62 +51,4 @@ export const addNewUser = async (userData) => {
 export const updateUserByEmail = async (userData) => {
 	const newUser = await user.findOneAndUpdate({ email: userData.email }, userData);
 	return newUser;
-};
-
-/**
- * adds quiz to a user
- * @returns user data of the user updated in the db
- */
-export const addQuizforUser = async (username, quizId) => {
-	const updatedUser = await user.updateOne(
-		{ username },
-		{ $addToSet: { quizzes: quizId } },
-	);
-	return updatedUser;
-};
-
-/**
- * deletes quiz for a user
- * @returns user data of the user updated in the db
- * @deprecated use the function exported from the register model instead
- */
-export const removeQuizforUser = async (username, quizId) => {
-	const updatedUser = await user.updateOne(
-		{ username },
-		{ $pull: { quizzes: quizId } },
-	);
-	return updatedUser;
-};
-
-/**
- * updates username of a user in db
- * @param {*} username: Must have username to filter user
- * @param {*} newUsername: Must have newUsername to update username field
- * @returns Updated user data
- */
-export const updateUsername = async (username, newUsername) => {
-	const newUsernameExists = await user.findOne({ username: newUsername });
-	const oldUsernameExists = await user.findOne({ username });
-
-	if (!oldUsernameExists) {
-		return {
-			success: 0,
-			msg: 'Old username not found!',
-		};
-	}
-	if (newUsernameExists) {
-		return {
-			success: 0,
-			msg: 'New username already taken',
-		};
-	}
-	const newUser = await user.findOneAndUpdate({ username }, { username: newUsername });
-	if (newUser) {
-		return {
-			success: 1,
-			msg: 'Username succesfully updated!',
-		};
-	}
-
-	return {};
 };

@@ -1,4 +1,4 @@
-import { findUserByUsername } from '../models/user';
+import { findUserByID } from '../models/user';
 import user from '../schema/user';
 import { unauthenticatedResponse, unauthorizedResponse } from './responses';
 import { verifyToken } from './token';
@@ -16,9 +16,9 @@ export const isAuth = async (req, res, next) => {
 	if (!token || token === 'null' || token === undefined || bearer !== 'Bearer') {
 		return unauthenticatedResponse(res);
 	}
-	const username = verifyToken(res, token);
-	if (username) {
-		req.user = await findUserByUsername(username);
+	const quizioID = verifyToken(res, token);
+	if (quizioID) {
+		req.user = await findUserByID(quizioID);
 		if (user.role === 'banned') {
 			return unauthenticatedResponse(res);
 		}

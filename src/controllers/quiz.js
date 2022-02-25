@@ -32,8 +32,10 @@ const controller = {
 			return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
 		}
 
-		const registerr = quizzes.map((quiz) => checkIfUserIsRegisteredForQuiz(username,
-			quiz.quizioID));
+		const registerr = quizzes.map((quiz) => checkIfUserIsRegisteredForQuiz(
+			username,
+			quiz.quizioID,
+		));
 		const registered = await Promise.all(registerr);
 		const results = quizzes.map((quiz, i) => ({ ...quiz, registered: registered[i] }));
 		return quizzes ? successResponseWithData(res, { quizzes: results }) : notFoundResponse(res);
