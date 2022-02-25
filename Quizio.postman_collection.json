@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6f027940-8e39-4d03-9fe0-309ccd727d8c",
+		"_postman_id": "75a3a296-f006-4a0c-8531-ab8ab4dd7a5f",
 		"name": "Quizio",
 		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests a user can send?",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -722,7 +722,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.cXVpemlvSUQuNktuZWdBZE5DVzNxcVFRblFoeUUy.l97OJu6Rt0FufVFGjOWIwHUbJTa8QVSeNW07v8TVFfs",
 									"type": "string"
 								}
 							]
@@ -744,14 +744,14 @@
 					"response": []
 				},
 				{
-					"name": "Get user by username",
+					"name": "Get user's public profile",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.cXVpemlvSUQuNktuZWdBZE5DVzNxcVFRblFoeUUy.l97OJu6Rt0FufVFGjOWIwHUbJTa8QVSeNW07v8TVFfs",
 									"type": "string"
 								}
 							]
@@ -759,7 +759,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/users/",
+							"raw": "{{baseURL}}/api/v2/users/quizioID.6KnegAdNCW3qqQQnQhyE2",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -767,21 +767,21 @@
 								"api",
 								"v2",
 								"users",
-								""
+								"quizioID.6KnegAdNCW3qqQQnQhyE2"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get user by email",
+					"name": "Get private profile of self",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.cXVpemlvSUQuNktuZWdBZE5DVzNxcVFRblFoeUUy.l97OJu6Rt0FufVFGjOWIwHUbJTa8QVSeNW07v8TVFfs",
 									"type": "string"
 								}
 							]
@@ -789,7 +789,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/users/social.capriciousrebel@gmail.com",
+							"raw": "{{baseURL}}/api/v2/users/self",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -797,7 +797,7 @@
 								"api",
 								"v2",
 								"users",
-								"social.capriciousrebel@gmail.com"
+								"self"
 							]
 						}
 					},
