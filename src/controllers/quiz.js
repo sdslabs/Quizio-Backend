@@ -26,6 +26,7 @@ const controller = {
 	 * Returns the list of all quizzes only for superadmins
 	 */
 	getAllQuizzes: async (req, res) => {
+		console.log({ user: req.user });
 		const { username, role } = req.user;
 		const quizzes = await getAllQuizzes();
 		if (role === 'superadmin') {

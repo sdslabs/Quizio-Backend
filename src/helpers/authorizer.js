@@ -1,6 +1,5 @@
 import { findUserByID } from '../models/user';
-import user from '../schema/user';
-import { unauthenticatedResponse, unauthorizedResponse } from './responses';
+import { notFoundResponse, unauthenticatedResponse, unauthorizedResponse } from './responses';
 import { verifyToken } from './token';
 
 /**
@@ -17,12 +16,17 @@ export const isAuth = async (req, res, next) => {
 		return unauthenticatedResponse(res);
 	}
 	const quizioID = verifyToken(res, token);
+	console.log({ quizioID });
 	if (quizioID) {
-		req.user = await findUserByID(quizioID);
-		if (user.role === 'banned') {
-			return unauthenticatedResponse(res);
+		const user = await findUserByID(quizioID);
+		if (user) {
+			if (user.role === 'banned') {
+				return unauthenticatedResponse(res);
+			}
+			req.user = user;
+			return next();
 		}
-		return next();
+		return notFoundResponse(res, 'User not found');
 	}
 	return unauthenticatedResponse(res);
 };

@@ -31,6 +31,7 @@ export const googleOauth = {
 		} = req.user.profile._json;
 
 		const userData = {
+			quizioID,
 			username: generateUserName(given_name, family_name),
 			email,
 			firstName: given_name,
@@ -65,6 +66,7 @@ export const githubOauth = {
 		} = req.user._json;
 
 		const userData = {
+			quizioID,
 			username: generateUserName(name.split(' ')[0] || '', name.split(' ')[1] || ''),
 			email,
 			firstName: name.split(' ')[0] || '',
