@@ -409,6 +409,27 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get All Quizzes created by User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/v2/users/quizzes/created",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"v2",
+										"users",
+										"quizzes",
+										"created"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
