@@ -59,6 +59,6 @@ export const updateUserByEmail = async (userData) => {
  * @returns true if exists, else false
  */
 export const checkIfEmailExists = async (email) => {
-	const exists = await user.find({ email });
+	const exists = await user.findOne({ email });
 	return !!exists;
 };
