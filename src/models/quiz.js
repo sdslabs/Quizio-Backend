@@ -1,5 +1,8 @@
 import quiz from '../schema/quiz';
-import { extractQuizData, extractQuizzesData, generateQuizioID } from '../helpers/utils';
+import publish from '../schema/publish';
+import {
+	extractPublishData, extractQuizData, extractQuizzesData, generateQuizioID,
+} from '../helpers/utils';
 
 /**
  * Get all the quizzes in the db
@@ -86,4 +89,24 @@ export const deleteSectionInQuiz = async (quizioID, sectionID) => {
 		{ new: true },
 	);
 	return extractQuizData(updatedQuiz);
+};
+
+/**
+ * Publishes a quiz
+ */
+export const publishQuiz = async (quizID, publishedBy) => {
+	const quizioID = generateQuizioID();
+	const exists = await publish.findOne({ quizID, publishedBy });
+	const time = +new Date();
+	if (exists) {
+		const updatedPublish = await publish.findOneAndUpdate(
+			{ quizID },
+			{ quizID, publishedBy, time },
+			{ new: true },
+		);
+		return extractPublishData(updatedPublish);
+	}
+	const newPubish = new publish({ quizioID, quizID, publishedBy });
+	const result = await newPubish.save();
+	return result ? extractPublishData(result) : null;
 };

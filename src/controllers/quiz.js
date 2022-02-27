@@ -6,6 +6,7 @@ import {
 	notFoundResponse,
 	unauthorizedResponse,
 	errorResponse,
+	failureResponseWithMessage,
 } from '../helpers/responses';
 import { generateQuizioID } from '../helpers/utils';
 import { getQuestionByID } from '../models/question';
@@ -16,6 +17,7 @@ import {
 	deleteQuiz,
 	updateQuiz,
 	getQuizById,
+	publishQuiz,
 } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
@@ -200,6 +202,23 @@ const controller = {
 			return unauthorizedResponse(res);
 		}
 		return notFoundResponse(res, 'Quiz not found');
+	},
+
+	publishQuiz: async (req, res) => {
+		const { username, role, quizioID } = req.user;
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
+
+		if (quiz) {
+			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+				const published = await publishQuiz(quizID, quizioID);
+				return published
+					? successResponseWithData(res, { ...published })
+					: failureResponseWithMessage(res, 'failed to publish quiz');
+			}
+		}
+
+		return notFoundResponse(res, 'Quiz not found!');
 	},
 
 };

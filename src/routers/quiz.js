@@ -7,31 +7,45 @@ import questionController from '../controllers/question';
 const router = express.Router();
 
 // Quiz Level
-router.post('/', isAuth, controller.addNewQuiz); // DONE
-router.get('/', isAuth, controller.getAllQuizzes); // DONE
-router.get('/:quizID', isAuth, controller.getQuizByID); // DONE
-router.put('/:quizID', isAuth, controller.updateQuiz); // DONE
-router.delete('/:quizID', isAuth, controller.deleteQuiz); // DONE
+router.post('/', isAuth, controller.addNewQuiz);
+router.get('/', isAuth, controller.getAllQuizzes);
+router.get('/:quizID', isAuth, controller.getQuizByID);
+router.put('/:quizID', isAuth, controller.updateQuiz);
+router.delete('/:quizID', isAuth, controller.deleteQuiz);
 
 // Section Level
-router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz); // DONE
-router.get('/sections/:sectionID', isAuth, sectionController.getSectionByID); // DONE
-router.put('/sections/:sectionID', isAuth, sectionController.updateSectionByID); // DONE
-router.delete('/sections/:sectionID', isAuth, sectionController.deleteSectionByID); // DONE
+router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz);
+router.get('/sections/:sectionID', isAuth, sectionController.getSectionByID);
+router.put('/sections/:sectionID', isAuth, sectionController.updateSectionByID);
+router.delete('/sections/:sectionID', isAuth, sectionController.deleteSectionByID);
 
 // Question Level
-router.post('/sections/:sectionID/questions', isAuth, questionController.addNewQuestionToSection); // DONE
-router.get('/sections/questions/:questionID', isAuth, questionController.getQuestionByID); // DONE
-router.put('/sections/questions/:questionID',
-	isAuth, questionController.updateQuestionByID); // DONE
-router.put('/sections/questions/:questionID/choices',
-	isAuth, questionController.addChoiceToQuestionByID); // DONE
-router.delete('/sections/questions/:questionID/choices/:choiceID',
-	isAuth, questionController.deleteChoiceInQuestionByID); // DONE
-router.delete('/sections/questions/:questionID', isAuth,
-	questionController.deleteQuestionByID); // DONE
+router.post('/sections/:sectionID/questions', isAuth, questionController.addNewQuestionToSection);
+router.get('/sections/questions/:questionID', isAuth, questionController.getQuestionByID);
+router.put(
+	'/sections/questions/:questionID',
+	isAuth,
+	questionController.updateQuestionByID,
+);
+router.put(
+	'/sections/questions/:questionID/choices',
+	isAuth,
+	questionController.addChoiceToQuestionByID,
+);
+router.delete(
+	'/sections/questions/:questionID/choices/:choiceID',
+	isAuth,
+	questionController.deleteChoiceInQuestionByID,
+);
+router.delete(
+	'/sections/questions/:questionID',
+	isAuth,
+	questionController.deleteQuestionByID,
+);
 
 // Check a quiz
 router.post('/:quizID/check', isAuth, controller.checkQuiz);
+// Publish results for a quiz
+router.post('/:quizID/publish', isAuth, controller.publishQuiz);
 
 export default router;

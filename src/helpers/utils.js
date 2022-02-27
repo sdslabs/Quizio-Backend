@@ -134,3 +134,11 @@ export const extractUserDataPublic = (data) => ({
 	handle2: data.handle2 || null,
 	handle3: data.handle3 || null,
 });
+
+// publish helpers
+export const extractPublishData = (data) => ({
+	quizioID: data.quizioID || null,
+	publishedBy: data.publishedBy || null,
+	quizID: data.quizID || null,
+	time: data.time || null,
+});
