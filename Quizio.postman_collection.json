@@ -12,16 +12,6 @@
 				{
 					"name": "/",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -39,16 +29,6 @@
 				{
 					"name": "/404",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -66,16 +46,6 @@
 				{
 					"name": "verify quizio ID",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -97,16 +67,6 @@
 				{
 					"name": "Upload Image",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -121,7 +81,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/Users/smithpereira/Downloads/Screenshot from 2022-02-09 22-35-44.png"
+									"src": "/Users/smithpereira/Desktop/smith.jpg"
 								},
 								{
 									"key": "filex",
@@ -160,20 +120,10 @@
 								{
 									"name": "Add question to Section",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-													"type": "string"
-												}
-											]
-										},
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.KghYCCfyvR8nn1Sfg96Qh/questions",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.Q26ZPNXtkNeitUO2iaJdN/questions",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -182,7 +132,7 @@
 												"v2",
 												"quizzes",
 												"sections",
-												"quizioID.KghYCCfyvR8nn1Sfg96Qh",
+												"quizioID.Q26ZPNXtkNeitUO2iaJdN",
 												"questions"
 											]
 										}
@@ -192,20 +142,10 @@
 								{
 									"name": "Get question by id",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-													"type": "string"
-												}
-											]
-										},
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.JDJYeY8j4HpqEwsmTTtBZ",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -215,7 +155,7 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.JDJYeY8j4HpqEwsmTTtBZ"
+												"quizioID.xxp9pDqBFCmGQpLPK1rgN"
 											]
 										}
 									},
@@ -265,21 +205,11 @@
 								{
 									"name": "update question by ID",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-													"type": "string"
-												}
-											]
-										},
 										"method": "PUT",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"autocheck\": false\n}",
+											"raw": "{\n    \"question\" : \"Which is the best programming language?\",\n    \"answer\": \"javascript\",\n    \"autocheck\": true\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -287,7 +217,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ncXIkWe4j-TIGTL5ZBs8x",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -297,7 +227,7 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.ncXIkWe4j-TIGTL5ZBs8x"
+												"quizioID.xxp9pDqBFCmGQpLPK1rgN"
 											]
 										}
 									},
@@ -306,21 +236,11 @@
 								{
 									"name": "add choice to question by ID",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-													"type": "string"
-												}
-											]
-										},
 										"method": "PUT",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"body\": \"choice 2\"\n}",
+											"raw": "{\n    \"choice\": \"1\",\n    \"marks\": 0\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -328,7 +248,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd/choices",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN/choices",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -338,7 +258,7 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.YlTjX-cN67uRkDSoDHvyd",
+												"quizioID.xxp9pDqBFCmGQpLPK1rgN",
 												"choices"
 											]
 										}
@@ -348,20 +268,10 @@
 								{
 									"name": "delete choice in question by ID",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-													"type": "string"
-												}
-											]
-										},
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.YlTjX-cN67uRkDSoDHvyd/choices/quizioID.V5xf-7S3ilMTD8lfidyqT",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN/choices/quizioID.CnPYo4k2WFMLwmZjFIRbB",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -371,9 +281,9 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.YlTjX-cN67uRkDSoDHvyd",
+												"quizioID.xxp9pDqBFCmGQpLPK1rgN",
 												"choices",
-												"quizioID.V5xf-7S3ilMTD8lfidyqT"
+												"quizioID.CnPYo4k2WFMLwmZjFIRbB"
 											]
 										}
 									},
@@ -384,20 +294,10 @@
 						{
 							"name": "Add section to quiz",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-											"type": "string"
-										}
-									]
-								},
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/quizioID.ZKjXTF08bxIlefi7VdQz0/sections",
+									"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/sections",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -405,7 +305,7 @@
 										"api",
 										"v2",
 										"quizzes",
-										"quizioID.ZKjXTF08bxIlefi7VdQz0",
+										"quizioID.kZUg8vdioGoWRgr2EpVSB",
 										"sections"
 									]
 								}
@@ -415,20 +315,10 @@
 						{
 							"name": "Get section by id",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-											"type": "string"
-										}
-									]
-								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.KghYCCfyvR8nn1Sfg96Qh",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.Q26ZPNXtkNeitUO2iaJdN",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -437,7 +327,7 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.KghYCCfyvR8nn1Sfg96Qh"
+										"quizioID.Q26ZPNXtkNeitUO2iaJdN"
 									]
 								}
 							},
@@ -446,16 +336,6 @@
 						{
 							"name": "Update section by id",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-											"type": "string"
-										}
-									]
-								},
 								"method": "PUT",
 								"header": [],
 								"body": {
@@ -468,7 +348,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.KghYCCfyvR8nn1Sfg96Qh",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.Q26ZPNXtkNeitUO2iaJdN",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -477,7 +357,7 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.KghYCCfyvR8nn1Sfg96Qh"
+										"quizioID.Q26ZPNXtkNeitUO2iaJdN"
 									]
 								}
 							},
@@ -486,20 +366,10 @@
 						{
 							"name": "Delete section by id",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-											"type": "string"
-										}
-									]
-								},
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.CHa-VxVspQh2YW7vHLItg",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.EKWRzSrV5xn7ilrMmQWvO",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -508,7 +378,7 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.CHa-VxVspQh2YW7vHLItg"
+										"quizioID.EKWRzSrV5xn7ilrMmQWvO"
 									]
 								}
 							},
@@ -522,16 +392,6 @@
 						{
 							"name": "Get All Quizzes owned by User",
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
-											"type": "string"
-										}
-									]
-								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -555,16 +415,6 @@
 				{
 					"name": "Create Quiz",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -584,16 +434,6 @@
 				{
 					"name": "Get all quizzes",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -613,20 +453,10 @@
 				{
 					"name": "Get quiz by id",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.IckGNt7SWRrjeuhblRolS",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -634,7 +464,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.IckGNt7SWRrjeuhblRolS"
+								"quizioID.kZUg8vdioGoWRgr2EpVSB"
 							]
 						}
 					},
@@ -643,21 +473,11 @@
 				{
 					"name": "Update quiz by ID",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Recruitment Test 1\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec. And it is important do attend.\",\n    \"startTime\": \"2018-12-31T18:30:00.000+00:00\",\n    \"endTime\": \"2018-12-31T18:30:00.000+00:00\"\n}",
+							"raw": "{\n    \"name\": \"Recruitment Test 1\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"2018-12-31T18:30:00.000+00:00\",\n    \"endTime\": \"2018-12-31T18:30:00.000+00:00\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -665,7 +485,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.IckGNt7SWRrjeuhblRolS",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -673,7 +493,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.IckGNt7SWRrjeuhblRolS"
+								"quizioID.kZUg8vdioGoWRgr2EpVSB"
 							]
 						}
 					},
@@ -682,16 +502,6 @@
 				{
 					"name": "Delete quiz by ID",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -712,21 +522,11 @@
 			]
 		},
 		{
-			"name": "Users [PENDING]",
+			"name": "Users",
 			"item": [
 				{
 					"name": "Get All users",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.cXVpemlvSUQuNktuZWdBZE5DVzNxcVFRblFoeUUy.l97OJu6Rt0FufVFGjOWIwHUbJTa8QVSeNW07v8TVFfs",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -746,16 +546,6 @@
 				{
 					"name": "Get user's public profile",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.cXVpemlvSUQuNktuZWdBZE5DVzNxcVFRblFoeUUy.l97OJu6Rt0FufVFGjOWIwHUbJTa8QVSeNW07v8TVFfs",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -776,16 +566,6 @@
 				{
 					"name": "Get private profile of self",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.cXVpemlvSUQuNktuZWdBZE5DVzNxcVFRblFoeUUy.l97OJu6Rt0FufVFGjOWIwHUbJTa8QVSeNW07v8TVFfs",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -804,22 +584,12 @@
 					"response": []
 				},
 				{
-					"name": "Get quizzes owned by user",
+					"name": "Check if email exists",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/users/quizzes/owned",
+							"raw": "{{baseURL}}/api/v2/users/check/email/code.capriciousrebel@gmail.com",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -827,12 +597,36 @@
 								"api",
 								"v2",
 								"users",
-								"quizzes",
-								"owned"
+								"check",
+								"email",
+								"code.capriciousrebel@gmail.com"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -842,16 +636,6 @@
 				{
 					"name": "/api/v2/auth/",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -872,16 +656,6 @@
 				{
 					"name": "/api/v2/auth/fail",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -902,16 +676,6 @@
 				{
 					"name": "/api/v2/auth/protected",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -932,16 +696,6 @@
 				{
 					"name": "/api/v2/auth/logout",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -962,16 +716,6 @@
 				{
 					"name": "/api/v2/auth/google",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -992,16 +736,6 @@
 				{
 					"name": "/api/v2/auth/google/callback",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1023,16 +757,6 @@
 				{
 					"name": "/api/v2/auth/github",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1084,20 +808,10 @@
 				{
 					"name": "/api/v2/auth/login",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/auth/login?jwtToken=eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
+							"raw": "{{baseURL}}/api/v2/auth/login?jwtToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELnFSY0IzSi1RV19STm0ydnRTNExaNCIsImlhdCI6MTY0NTk1MzA1MCwiZXhwIjoyNTA5ODY2NjUwfQ.0T_W8q_hVZvcFs-kZyi0eVfJb1WcBy6h5ecn8DK74wc",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1110,7 +824,7 @@
 							"query": [
 								{
 									"key": "jwtToken",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8"
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELnFSY0IzSi1RV19STm0ydnRTNExaNCIsImlhdCI6MTY0NTk1MzA1MCwiZXhwIjoyNTA5ODY2NjUwfQ.0T_W8q_hVZvcFs-kZyi0eVfJb1WcBy6h5ecn8DK74wc"
 								}
 							]
 						}
@@ -1125,16 +839,6 @@
 				{
 					"name": "Register for a quiz",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.c29jaWFsLmNhcHJpY2lvdXNyZWJlbEBnbWFpbC5jb20.gWWt3G2quX3rvhiYiXfvX_lHverL7Rd1f7ysb39faz0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1393,21 +1097,11 @@
 				{
 					"name": "Submit quiz response",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"questionID\" : \"quizioID.ncXIkWe4j-TIGTL5ZBs8x\",\n    \"answer\": \"my ans2\"\n}",
+							"raw": "{\n    \"questionID\" : \"quizioID.xxp9pDqBFCmGQpLPK1rgN\",\n    \"answer\": \"javascript\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1436,20 +1130,10 @@
 				{
 					"name": "Submit Quiz",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/submit/quizioID.2PayYAMLmpRwmOtVjiN3J",
+							"raw": "{{baseURL}}/api/v2/submit/quizioID.kZUg8vdioGoWRgr2EpVSB",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1457,13 +1141,43 @@
 								"api",
 								"v2",
 								"submit",
-								"quizioID.2PayYAMLmpRwmOtVjiN3J"
+								"quizioID.kZUg8vdioGoWRgr2EpVSB"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELnFSY0IzSi1RV19STm0ydnRTNExaNCIsImlhdCI6MTY0NTk1MzA1MCwiZXhwIjoyNTA5ODY2NjUwfQ.0T_W8q_hVZvcFs-kZyi0eVfJb1WcBy6h5ecn8DK74wc",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
