@@ -52,3 +52,13 @@ export const updateUserByEmail = async (userData) => {
 	const newUser = await user.findOneAndUpdate({ email: userData.email }, userData);
 	return newUser;
 };
+
+/**
+ * Check if email exists
+ * @param {*} email: emailID to check
+ * @returns true if exists, else false
+ */
+export const checkIfEmailExists = async (email) => {
+	const exists = await user.find({ email });
+	return !!exists;
+};

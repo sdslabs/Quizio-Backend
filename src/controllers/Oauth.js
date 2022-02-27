@@ -37,7 +37,7 @@ export const googleOauth = {
 			lastName: family_name,
 			googleAvatar: picture,
 		};
-		const jwtToken = generateToken(quizioID);
+		const jwtToken = generateToken({ quizioID });
 
 		const users = await getUserByEmail(email);
 
@@ -73,7 +73,7 @@ export const githubOauth = {
 			githubAvatar: avatar_url,
 		};
 
-		const jwtToken = generateToken(quizioID);
+		const jwtToken = generateToken({ quizioID });
 
 		const users = await getUserByEmail(email);
 		if (!users || (users && users.length === 0)) {

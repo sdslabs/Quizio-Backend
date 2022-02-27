@@ -2,11 +2,12 @@ import logger from '../helpers/logger';
 import {
 	notFoundResponse,
 	successResponseWithData,
+	successResponseWithMessage,
 	unauthorizedResponse,
 } from '../helpers/responses';
 import { extractUserDataPrivate, extractUserDataPublic } from '../helpers/utils';
 import { getQuizzesOwnedByUser } from '../models/quiz';
-import { getAllUsers, getUserWithUserID } from '../models/user';
+import { checkIfEmailExists, getAllUsers, getUserWithUserID } from '../models/user';
 
 const controller = {
 	/**
@@ -53,6 +54,16 @@ const controller = {
 		const quizzes = await getQuizzesOwnedByUser(username);
 		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
 	},
+
+	/**
+	 * @returns SuccessResponse if email exists, else 404
+	 */
+	checkIfEmailExists: async (req, res) => {
+		const { emailID } = req.params;
+		const exists = await checkIfEmailExists(emailID);
+		return exists ? successResponseWithMessage(res, 'Email exists!') : notFoundResponse(res, 'Email not found :(');
+	},
+
 };
 
 export default controller;

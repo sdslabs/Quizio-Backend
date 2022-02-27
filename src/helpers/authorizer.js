@@ -12,9 +12,10 @@ import { verifyToken } from './token';
 export const isAuth = async (req, res, next) => {
 	const authHeader = req.headers.authorization;
 	const [bearer, token] = authHeader ? authHeader.split(' ') : [null, null];
-	if (!token || token === 'null' || token === undefined || bearer !== 'Bearer') {
+	if (!token || token === 'null' || token === undefined || token === 'undefined' || bearer !== 'Bearer') {
 		return unauthenticatedResponse(res);
 	}
+
 	const quizioID = verifyToken(res, token);
 	if (quizioID) {
 		const user = await getUserWithUserID(quizioID);

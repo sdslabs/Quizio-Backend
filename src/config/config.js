@@ -10,7 +10,7 @@ export const loggerConfig = {
 };
 
 export const authConfig = {
-	jwtExpiry: 86400,
+	jwtExpiry: 9999 * 24 * 60 * 60, // 9999 days (TODO: realistic expiry)
 	jwtKey: process.env.JWTKEY,
 };
 
