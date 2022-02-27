@@ -34,5 +34,3 @@ export const checkSubmit = async (quizID, userID) => {
 	const exists = await submit.findOne({ quizID, userID });
 	return exists;
 };
-
-export const a = 'a';

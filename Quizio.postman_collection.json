@@ -1146,6 +1146,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Submitted Quizzes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/submit",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"submit"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

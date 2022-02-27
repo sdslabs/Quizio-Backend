@@ -41,6 +41,7 @@ const controller = {
 			endTime,
 		});
 
+		// TODO: submit time validation
 		// console.log((startTime <= now) && (now <= endTime));
 
 		if (quiz) {
