@@ -27,9 +27,11 @@ export const saveResponse = async (responseData) => {
 	}
 
 	if (exists) {
-		const updated = await response.findOneAndUpdate({ username, questionID },
+		const updated = await response.findOneAndUpdate(
+			{ username, questionID },
 			responseData,
-			{ new: true });
+			{ new: true },
+		);
 		return updated ? extractResponseData(updated) : null;
 	}
 	const created = new response({ ...responseData, quizioID });

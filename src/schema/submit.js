@@ -8,6 +8,8 @@ const submitSchema = new Schema({
 	quizioID: String,
 	/** Username of the user attempting the question */
 	username: String,
+	/** UserID of the user attempting the question */
+	userID: String,
 	/** quizioID of the attempted question */
 	quizID: String,
 	/** Time when the question was last updated */

@@ -89,10 +89,12 @@ export const extractResponseData = (data) => ({
 // submit helpers
 export const extractSubmitData = (data) => ({
 	quizioID: data.quizioID || null,
-	username: data.username || null,
-	quizID: data.questionID || null,
+	userID: data.userID || null,
+	quizID: data.quizID || null,
 	time: data.time || null,
 });
+
+export const extractSubmitsData = (data) => data.map((entry) => extractSubmitData(entry));
 
 // user helpers
 export const extractUserDataPrivate = (data) => ({

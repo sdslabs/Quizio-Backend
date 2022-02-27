@@ -7,9 +7,17 @@ import {
 } from '../helpers/responses';
 import { getQuizById } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz } from '../models/register';
-import { submitQuiz } from '../models/submit';
+import { getSubmittedQuizzes, submitQuiz } from '../models/submit';
 
 const controller = {
+
+	getSubmittedQuizzes: async (req, res) => {
+		const { quizioID } = req.user;
+		const submittedQuizzes = await getSubmittedQuizzes(quizioID);
+		return submittedQuizzes
+			? successResponseWithData(res, submittedQuizzes)
+			: notFoundResponse(res, 'no quizzes submitted');
+	},
 	submitQuiz: async (req, res) => {
 		/*
 			- Quiz must exist
@@ -20,7 +28,7 @@ const controller = {
 		const d = new Date();
 		const now = d.toString();
 
-		const { username, role } = req.user;
+		const { username, role, quizioID } = req.user;
 		const { quizID } = req.params;
 
 		const quiz = await getQuizById(quizID);
@@ -38,7 +46,7 @@ const controller = {
 		if (quiz) {
 			const isRegistered = await checkIfUserIsRegisteredForQuiz(username, quizID);
 			if (isRegistered || role === 'superadmin') {
-				const submit = await submitQuiz(quizID, username);
+				const submit = await submitQuiz(quizID, quizioID);
 
 				if (submit === 'exists') {
 					return failureResponseWithMessage(res, 'Quiz already Submitted!');
