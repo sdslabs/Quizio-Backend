@@ -45,7 +45,9 @@ router.delete(
 
 // Check a quiz
 router.post('/:quizID/check', isAuth, controller.checkQuiz);
-// Publish results for a quiz
+// Publish quiz routes
+
+router.get('/:quizID/publish', isAuth, controller.getPublishedQuiz);
 router.post('/:quizID/publish', isAuth, controller.publishQuiz);
 
 export default router;

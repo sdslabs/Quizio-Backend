@@ -18,6 +18,7 @@ import {
 	updateQuiz,
 	getQuizById,
 	publishQuiz,
+	getPublishedQuiz,
 } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
@@ -215,6 +216,23 @@ const controller = {
 				return published
 					? successResponseWithData(res, { ...published })
 					: failureResponseWithMessage(res, 'failed to publish quiz');
+			}
+		}
+
+		return notFoundResponse(res, 'Quiz not found!');
+	},
+
+	getPublishedQuiz: async (req, res) => {
+		const { username, role } = req.user;
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
+
+		if (quiz) {
+			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+				const published = await getPublishedQuiz(quizID);
+				return published
+					? successResponseWithData(res, { ...published })
+					: failureResponseWithMessage(res, 'Quiz not yet published!');
 			}
 		}
 

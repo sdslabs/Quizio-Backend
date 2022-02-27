@@ -110,3 +110,11 @@ export const publishQuiz = async (quizID, publishedBy) => {
 	const result = await newPubish.save();
 	return result ? extractPublishData(result) : null;
 };
+
+/**
+ * Get publish quiz details
+ */
+export const getPublishedQuiz = async (quizID) => {
+	const exists = await publish.findOne({ quizID });
+	return exists ? extractPublishData(exists) : null;
+};

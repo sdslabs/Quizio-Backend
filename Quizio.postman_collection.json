@@ -539,6 +539,69 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Publish Quiz",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/publish",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"quizzes",
+								"quizioID.kZUg8vdioGoWRgr2EpVSB",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Quiz",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/check",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"quizzes",
+								"quizioID.kZUg8vdioGoWRgr2EpVSB",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Published Quiz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/publish",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"quizzes",
+								"quizioID.kZUg8vdioGoWRgr2EpVSB",
+								"publish"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
