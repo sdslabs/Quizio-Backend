@@ -16,6 +16,11 @@ const controller = {
 	registerUserForQuiz: async (req, res) => {
 		const { username } = req.user;
 		const data = req.body;
+		const { quizID } = data;
+
+		const quizExists = await getQuizById(quizID);
+		if (!quizExists) return notFoundResponse(res, 'quiz not found!');
+
 		const register = await registerUserForQuiz(username, data);
 
 		if (register === 'exists') {
