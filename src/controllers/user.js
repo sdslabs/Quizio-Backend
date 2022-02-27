@@ -6,7 +6,7 @@ import {
 	unauthorizedResponse,
 } from '../helpers/responses';
 import { extractUserDataPrivate, extractUserDataPublic } from '../helpers/utils';
-import { getQuizzesOwnedByUser } from '../models/quiz';
+import { getQuizzesCreatedByUser, getQuizzesOwnedByUser } from '../models/quiz';
 import { checkIfEmailExists, getAllUsers, getUserWithUserID } from '../models/user';
 
 const controller = {
@@ -52,6 +52,15 @@ const controller = {
 	getAllQuizzesOwnedByUser: async (req, res) => {
 		const { username } = req.user;
 		const quizzes = await getQuizzesOwnedByUser(username);
+		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
+	},
+
+	/**
+	 * @returns A list of all quizzes created by user
+	 */
+	getAllQuizzesCreatedByUser: async (req, res) => {
+		const { username } = req.user;
+		const quizzes = await getQuizzesCreatedByUser(username);
 		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
 	},
 

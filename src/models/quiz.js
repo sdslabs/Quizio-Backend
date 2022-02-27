@@ -30,6 +30,16 @@ export const getQuizzesOwnedByUser = async (username) => {
 };
 
 /**
+ * Get all the quizzes created by the given username
+ * @returns List of quizzes
+ */
+export const getQuizzesCreatedByUser = async (username) => {
+	const filter = { creator: username };
+	const result = await quiz.find(filter);
+	return result ? extractQuizzesData(result) : null;
+};
+
+/**
  * Add a new quiz to the db
  * @returns quiz data of the new quiz added to the db
  */
@@ -58,9 +68,11 @@ export const deleteQuiz = async (quizioID) => {
  * @returns quiz data of the quiz updated in the db
  */
 export const updateQuiz = async (quizioID, quizData) => {
-	const updatedQuiz = await quiz.findOneAndUpdate({ quizioID },
+	const updatedQuiz = await quiz.findOneAndUpdate(
+		{ quizioID },
 		quizData,
-		{ new: true });
+		{ new: true },
+	);
 	return extractQuizData(updatedQuiz);
 };
 
@@ -68,8 +80,10 @@ export const updateQuiz = async (quizioID, quizData) => {
  * Deletes the section in a quiz given by it's id and returns the updated quiz
  */
 export const deleteSectionInQuiz = async (quizioID, sectionID) => {
-	const updatedQuiz = await quiz.findOneAndUpdate({ quizioID },
+	const updatedQuiz = await quiz.findOneAndUpdate(
+		{ quizioID },
 		{ $pull: { sections: sectionID } },
-		{ new: true });
+		{ new: true },
+	);
 	return extractQuizData(updatedQuiz);
 };

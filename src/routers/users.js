@@ -9,5 +9,6 @@ router.get('/check/email/:emailID', isAuth, controller.checkIfEmailExists);
 router.get('/self', isAuth, controller.getSelfWithUserID);
 router.get('/:userID', isAuth, controller.getUserWithUserID);
 router.get('/quizzes/owned', isAuth, controller.getAllQuizzesOwnedByUser);
+router.get('/quizzes/created', isAuth, controller.getAllQuizzesCreatedByUser);
 
 export default router;
