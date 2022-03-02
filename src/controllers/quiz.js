@@ -131,6 +131,7 @@ const controller = {
 	 * Check a quiz by ID (only autocheck questions supported)
 	 */
 	checkQuiz: async (req, res) => {
+		// TODO: Save checked data to db
 		const { username, role } = req.user;
 		const { quizID } = req.params;
 		const checkingID = generateQuizioID();
@@ -162,16 +163,17 @@ const controller = {
 							}),
 						);
 						// console.log({ sectionID, questions2 });
-						return questions2.filter((question) => question.type === 'mcq');
+						// return questions2.filter((question) => question.type === 'mcq');
+						return questions2;
 					}),
 				)).flat();
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
+				console.log({ questions });
 
 				// Get a list of all registrants
 				const registrants = await getRegisteredUsersForQuiz(quizID);
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all registrants in the quiz...`);
 
-				// return successResponseWithData(res, { questions, registrants });
 				// Calculate result
 				const rankList = await Promise.all(registrants.map(async (registrant) => {
 					const scores = await Promise.all(

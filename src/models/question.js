@@ -13,8 +13,10 @@ export const addNewQuestionToSection = async (sectionID, creator) => {
 	const newQuestion = new question({ quizioID, sectionID, creator });
 	const result = await newQuestion.save();
 	if (result) {
-		const sectionn = await section.updateOne({ quizioID: sectionID },
-			{ $push: { questions: quizioID } });
+		const sectionn = await section.updateOne(
+			{ quizioID: sectionID },
+			{ $push: { questions: quizioID } },
+		);
 
 		if (sectionn) {
 			return extractQuestionData(result);
@@ -35,9 +37,11 @@ export const getQuestionByID = async (quizioID) => {
  */
 export const updateQuestionByID = async (quizioID, questionData) => {
 	console.log({ questionData });
-	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
+	const updatedQuestion = await question.findOneAndUpdate(
+		{ quizioID },
 		questionData,
-		{ new: true });
+		{ new: true },
+	);
 	return extractQuestionData(updatedQuestion);
 };
 /**
@@ -45,9 +49,11 @@ export const updateQuestionByID = async (quizioID, questionData) => {
  * @returns quizID and section data of the section updated in the quiz
  */
 export const addChoiceToQuestionByID = async (quizioID, choiceData) => {
-	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
+	const updatedQuestion = await question.findOneAndUpdate(
+		{ quizioID },
 		{ $push: { choices: choiceData } },
-		{ new: true });
+		{ new: true },
+	);
 	return extractQuestionData(updatedQuestion);
 };
 
@@ -56,9 +62,11 @@ export const addChoiceToQuestionByID = async (quizioID, choiceData) => {
  * @returns quizID and section data of the section updated in the quiz
  */
 export const deleteChoiceInQuestionByID = async (quizioID, choiceID) => {
-	const updatedQuestion = await question.findOneAndUpdate({ quizioID },
+	const updatedQuestion = await question.findOneAndUpdate(
+		{ quizioID },
 		{ $pull: { choices: { quizioID: choiceID } } },
-		{ new: true });
+		{ new: true },
+	);
 	return extractQuestionData(updatedQuestion);
 };
 

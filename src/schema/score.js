@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const rankSchema = new Schema({
+const scoreSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** quizioID of the quiz */
@@ -16,4 +16,4 @@ const rankSchema = new Schema({
 	}],
 });
 
-export default mongoose.model('Rank', rankSchema);
+export default mongoose.model('Score', scoreSchema);

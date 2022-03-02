@@ -7,10 +7,7 @@ const questionSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** quizioID of the parent section */
-	sectionID: {
-		type: String,
-		ref: 'Section',
-	},
+	sectionID: String,
 	/** Type of the question */
 	type: {
 		type: String,
@@ -19,11 +16,6 @@ const questionSchema = new Schema({
 	},
 	/** Actual question text */
 	question: String,
-	/** is the question an MCQ? */
-	isMCQ: {
-		type: Boolean,
-		default: true,
-	},
 	/** Choices (MCQ Only) */
 	choices: [{
 		quizioID: String,
@@ -43,7 +35,7 @@ const questionSchema = new Schema({
 			default: false,
 		},
 	}],
-	/** Answer (MCQ Only) */
+	/** Answer (Subjective Only) */
 	answer: String,
 	/** Notes for checkers */
 	checkerNotes: String,
