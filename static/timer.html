@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Hello world</title>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+
+	* {
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.time {
+		display: flex;
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.colon {
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+</style>
+
+<body>
+	<h1>Quizio Timer Test!</h1>
+	<p>Open <a href="/timer" target="_blank">timer</a> in another tab and ensure that the times are in sync!</p>
+	<div class="time">
+		<div id="hours"></div>
+		<div class="colon">:</div>
+		<div id="minutes"></div>
+		<div class="colon">:</div>
+		<div id="seconds"></div>
+	</div>
+
+	<div id="message">Quiz in Progress</div>
+
+	<script>
+		const socket = io();
+		const hoursEl = document.getElementById('hours');
+		const minutesEl = document.getElementById('minutes');
+		const secondsEl = document.getElementById('seconds');
+		const messageEl = document.getElementById('message');
+
+		socket.on('quizTimer', (time) => {
+			const hours = Math.floor(time / 3600);
+			const minutes = Math.floor(time / 60);
+			const seconds = time - minutes * 60;
+
+			secondsEl.innerHTML = seconds >= 10 ? seconds.toString() : '0' + seconds.toString();
+			minutesEl.innerHTML = minutes >= 10 ? minutes.toString() : '0' + minutes.toString();
+			hoursEl.innerHTML = hours >= 10 ? hours.toString() : '0' + hours.toString();
+		})
+
+		socket.on('quizTimeEnd', (msg) => {
+			hoursEl.innerHTML = '00'
+			minutesEl.innerHTML = '00'
+			secondsEl.innerHTML = '00'
+			messageEl.innerHTML = msg;
+		})
+	</script>
+</body>
+
+</html>

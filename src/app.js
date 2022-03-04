@@ -1,6 +1,7 @@
 /* npm packages */
 import express from 'express';
 import cookieParser from 'cookie-parser';
+
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
@@ -48,7 +49,7 @@ googleOauth(passport);
 githubOauth(passport);
 
 /* Routes */
-app.get('/', staticRouter);
+app.use('/', staticRouter);
 app.use('/api/v2/auth', authRouter);
 app.use('/api/v2/users', userRouter);
 app.use('/api/v2/quizzes', quizRouter);
