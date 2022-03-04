@@ -6,10 +6,16 @@ import logger from './src/helpers/logger';
 import timerService from './src/services/timerService';
 
 const { MONGOURI } = process.env;
+const { CLIENT_HOME_PAGE_URL } = process.env;
 const port = process.env.PORT || 5050;
 
 const server = http.Server(app);
-const io = new Server(server);
+const io = new Server(server, {
+	cors: {
+		// origin: 'http://localhost:3006',
+		origin: CLIENT_HOME_PAGE_URL,
+	},
+});
 
 // Initate timer server
 timerService(io);

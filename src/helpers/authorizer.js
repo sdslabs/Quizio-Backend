@@ -1,4 +1,5 @@
 import { getUserWithUserID } from '../models/user';
+import logger from './logger';
 import { notFoundResponse, unauthenticatedResponse, unauthorizedResponse } from './responses';
 import { verifyToken } from './token';
 
@@ -12,11 +13,13 @@ import { verifyToken } from './token';
 export const isAuth = async (req, res, next) => {
 	const authHeader = req.headers.authorization;
 	const [bearer, token] = authHeader ? authHeader.split(' ') : [null, null];
+
 	if (!token || token === 'null' || token === undefined || token === 'undefined' || bearer !== 'Bearer') {
-		return unauthenticatedResponse(res);
+		return unauthenticatedResponse(res, ['Token is not present or improper format', { token }]);
 	}
 
 	const quizioID = verifyToken(res, token);
+	logger.info(`check is Auth, extracted quizioID: ${quizioID}`);
 	if (quizioID) {
 		const user = await getUserWithUserID(quizioID);
 		if (user) {
@@ -26,7 +29,7 @@ export const isAuth = async (req, res, next) => {
 			req.user = user;
 			return next();
 		}
-		return notFoundResponse(res, 'Your account does NOT exist!');
+		return notFoundResponse(res, ['Your account does NOT exist!', { quizioID }]);
 	}
 	return unauthenticatedResponse(res);
 };

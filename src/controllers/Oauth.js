@@ -79,6 +79,7 @@ export const githubOauth = {
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
 			const newUser = await addNewUser({ ...userData, quizioID });
+			logger.info('added new user: ', { newUser });
 			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
 		// User found, so it's an old user

@@ -38,6 +38,7 @@
 
 	<script>
 		const socket = io();
+		
 		const hoursEl = document.getElementById('hours');
 		const minutesEl = document.getElementById('minutes');
 		const secondsEl = document.getElementById('seconds');
@@ -51,14 +52,15 @@
 			secondsEl.innerHTML = seconds >= 10 ? seconds.toString() : '0' + seconds.toString();
 			minutesEl.innerHTML = minutes >= 10 ? minutes.toString() : '0' + minutes.toString();
 			hoursEl.innerHTML = hours >= 10 ? hours.toString() : '0' + hours.toString();
-		})
+		});
 
 		socket.on('quizTimeEnd', (msg) => {
 			hoursEl.innerHTML = '00'
 			minutesEl.innerHTML = '00'
 			secondsEl.innerHTML = '00'
 			messageEl.innerHTML = msg;
-		})
+		});
+
 	</script>
 </body>
 
