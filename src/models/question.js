@@ -5,6 +5,8 @@ import { deleteQuestionInSection } from './section';
 
 /**
  * Add a new question to a section in a quiz
+ * @param {String} sectionID quizioID of the parent section of the question
+ * @param {String} creator quizioID of the creator of the question
  * @returns The updated quiz
  */
 export const addNewQuestionToSection = async (sectionID, creator) => {
@@ -26,31 +28,40 @@ export const addNewQuestionToSection = async (sectionID, creator) => {
 	return null;
 };
 
-export const getQuestionByID = async (quizioID) => {
-	const result = await question.findOne({ quizioID });
+/**
+ * Get question by id
+ * @param {String} questionID quizioID of the creator of the question
+ * @returns question data of the question if found or null
+ */
+export const getQuestionByID = async (questionID) => {
+	const result = await question.findOne({ quizioID: questionID });
 	return result ? extractQuestionData(result) : null;
 };
 
 /**
- * Update the section using the quizId and sectionId
- * @returns quizID and section data of the section updated in the quiz
+ * Update the question using the quizioID of the question and the new question data
+ * @param {String} questionID quizioID of the question
+ * @param {Object} questionData object with new values of the question to be updated
+ * @returns updated question object
  */
-export const updateQuestionByID = async (quizioID, questionData) => {
-	console.log({ questionData });
+export const updateQuestionByID = async (questionID, questionData) => {
 	const updatedQuestion = await question.findOneAndUpdate(
-		{ quizioID },
+		{ quizioID: questionID },
 		questionData,
 		{ new: true },
 	);
 	return extractQuestionData(updatedQuestion);
 };
+
 /**
- * Update the section using the quizId and sectionId
- * @returns quizID and section data of the section updated in the quiz
+ * Adds a choice to a question
+ * @param {String} questionID quizioID of the question
+ * @param {Object} choiceData object with values of the choice to be added
+ * @returns updated question object
  */
-export const addChoiceToQuestionByID = async (quizioID, choiceData) => {
+export const addChoiceToQuestionByID = async (questionID, choiceData) => {
 	const updatedQuestion = await question.findOneAndUpdate(
-		{ quizioID },
+		{ quizioID: questionID },
 		{ $push: { choices: choiceData } },
 		{ new: true },
 	);
@@ -61,9 +72,16 @@ export const addChoiceToQuestionByID = async (quizioID, choiceData) => {
  * Update the section using the quizId and sectionId
  * @returns quizID and section data of the section updated in the quiz
  */
-export const deleteChoiceInQuestionByID = async (quizioID, choiceID) => {
+
+/**
+ * Update the section using the quizId and sectionId
+ * @param {String} questionID quizioID of the question
+ * @param {Object} choiceData object with values of the choice to be added
+ * @returns updated question object
+ */
+export const deleteChoiceInQuestionByID = async (questionID, choiceID) => {
 	const updatedQuestion = await question.findOneAndUpdate(
-		{ quizioID },
+		{ quizioID: questionID },
 		{ $pull: { choices: { quizioID: choiceID } } },
 		{ new: true },
 	);
@@ -71,18 +89,15 @@ export const deleteChoiceInQuestionByID = async (quizioID, choiceID) => {
 };
 
 /**
- * Delete a quesiton by Id
+ * Delete a quesiton by it's quizioID
+ * @param {String} questionID quizioID of the question
+ * @returns true if deleted else false
  */
-export const deleteQuestion = async (quizioID) => {
-	const originalQuestion = await question.findOne({ quizioID });
-	if (!quizioID || !originalQuestion) {
-		return false;
-	}
-	const deletedQuestion = await question.findOneAndDelete({ quizioID });
-	const deletedInSection = await deleteQuestionInSection(originalQuestion.sectionID, quizioID);
+export const deleteQuestion = async (questionID) => {
+	const originalQuestion = await question.findOne({ quizioID: questionID });
+	if (!questionID || !originalQuestion) return false;
+	const deletedQuestion = await question.findOneAndDelete({ quizioID: questionID });
+	const deletedInSection = await deleteQuestionInSection(originalQuestion.sectionID, questionID);
 
-	if (deletedQuestion && deletedInSection) {
-		return true;
-	}
-	return false;
+	return deletedQuestion && deletedInSection;
 };
