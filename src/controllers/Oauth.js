@@ -46,9 +46,11 @@ export const googleOauth = {
 			const newUser = await addNewUser({ ...userData, quizioID });
 			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
+
 		// User found, so it's an old user
-		const user = await updateUserByEmail(userData);
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${user.username}&jwtToken=${jwtToken}&new=false`);
+		const oldUser = await updateUserByEmail(userData);
+		const oldJwtToken = generateToken({ quizioID: oldUser.quizioID });
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${oldUser.username}&&jwtToken=${oldJwtToken}&new=false`);
 	},
 };
 
@@ -82,9 +84,11 @@ export const githubOauth = {
 			logger.info('added new user: ', { newUser });
 			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
 		}
+
 		// User found, so it's an old user
-		const user = await updateUserByEmail(userData);
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${user.username}&&jwtToken=${jwtToken}&new=false`);
+		const oldUser = await updateUserByEmail(userData);
+		const oldJwtToken = generateToken({ quizioID: oldUser.quizioID });
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${oldUser.username}&&jwtToken=${oldJwtToken}&new=false`);
 	},
 };
 
@@ -103,13 +107,13 @@ const oauthController = {
 		const { jwtToken } = req.query;
 
 		if (jwtToken) {
-			logger.info('Login with Token');
 			const payload = verifyToken(res, jwtToken);
 			if (payload) {
 				return successResponseWithData(
 					res,
 					{
 						msg: 'Token verified!',
+						user: req.user,
 						jwtToken,
 					},
 				);
@@ -133,7 +137,8 @@ const oauthController = {
 	 * @returns A success message string
 	 */
 	logout: (req, res) => successResponseWithCookieClear(res, {
-		message: 'Successfully logged out!',
+		// message: 'Successfully logged out!',
+		message: 'Must clear cookies in the frontend to logout!',
 	}, {
 		name: 'jwtToken',
 	}),
