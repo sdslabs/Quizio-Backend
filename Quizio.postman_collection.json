@@ -205,11 +205,21 @@
 								{
 									"name": "update question by ID",
 									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+													"type": "string"
+												}
+											]
+										},
 										"method": "PUT",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"question\" : \"Which is the best programming language?\",\n    \"answer\": \"javascript\",\n    \"autocheck\": true\n}",
+											"raw": "{\n    \"question\" : \"Which is the best programming language?\",\n    \"answer\": \"javascript2\",\n    \"autocheck\": true,\n    \"minMarks\": 0,\n    \"maxMarks\": 10\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -217,7 +227,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ZcPLqiTGL7Xsq3PoDOslf",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -227,7 +237,40 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.xxp9pDqBFCmGQpLPK1rgN"
+												"quizioID.ZcPLqiTGL7Xsq3PoDOslf"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Toggle question type",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ZcPLqiTGL7Xsq3PoDOslf/toggle",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"quizzes",
+												"sections",
+												"questions",
+												"quizioID.ZcPLqiTGL7Xsq3PoDOslf",
+												"toggle"
 											]
 										}
 									},
@@ -315,10 +358,20 @@
 						{
 							"name": "Get section by id",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.Q26ZPNXtkNeitUO2iaJdN",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.pa8HjGrdPirzhPhDlwsO_",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -327,7 +380,7 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.Q26ZPNXtkNeitUO2iaJdN"
+										"quizioID.pa8HjGrdPirzhPhDlwsO_"
 									]
 								}
 							},
@@ -477,7 +530,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.DA2vvLi_en83TY0z3HVAi",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -485,7 +538,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.kZUg8vdioGoWRgr2EpVSB"
+								"quizioID.DA2vvLi_en83TY0z3HVAi"
 							]
 						}
 					},
@@ -494,11 +547,21 @@
 				{
 					"name": "Update quiz by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Recruitment Test 1\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"2018-12-31T18:30:00.000+00:00\",\n    \"endTime\": \"2018-12-31T18:30:00.000+00:00\"\n}",
+							"raw": "{\n    \"name\": \"Smith's Quiz 2\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"Tue, 01 Mar 2022 18:30:00 IST\",\n    \"endTime\": \"Sat, 5 Mar 2022 22:00:00 IST\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -506,7 +569,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.DA2vvLi_en83TY0z3HVAi",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -514,7 +577,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.kZUg8vdioGoWRgr2EpVSB"
+								"quizioID.DA2vvLi_en83TY0z3HVAi"
 							]
 						}
 					},
@@ -567,7 +630,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/check",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.s2GjkwOU_Vov6tpsMG5dK/check",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -575,7 +638,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.kZUg8vdioGoWRgr2EpVSB",
+								"quizioID.s2GjkwOU_Vov6tpsMG5dK",
 								"check"
 							]
 						}
@@ -583,12 +646,12 @@
 					"response": []
 				},
 				{
-					"name": "Get Published Quiz",
+					"name": "Get Published Quiz Info",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/publish",
+							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.DA2vvLi_en83TY0z3HVAi/publish",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -596,7 +659,7 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.kZUg8vdioGoWRgr2EpVSB",
+								"quizioID.DA2vvLi_en83TY0z3HVAi",
 								"publish"
 							]
 						}
@@ -719,6 +782,26 @@
 			"item": [
 				{
 					"name": "/api/v2/auth/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/auth/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"auth",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/v2/auth/check",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1205,6 +1288,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get response",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userID\": \"\",\n    \"questionID\" : \"quizioID.xxp9pDqBFCmGQpLPK1rgN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v2/responses",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"responses"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1258,7 +1372,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELnFSY0IzSi1RV19STm0ydnRTNExaNCIsImlhdCI6MTY0NTk1MzA1MCwiZXhwIjoyNTA5ODY2NjUwfQ.0T_W8q_hVZvcFs-kZyi0eVfJb1WcBy6h5ecn8DK74wc",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELmVacGhtUUo2VGtYR0JSdzh4cGtkYSIsImlhdCI6MTY0NjQwMTQ4NywiZXhwIjoyNTEwMzE1MDg3fQ.zADABlv_6noydKjRTmsfqiK89AgHmYe5K9lcCDQT0QQ",
 				"type": "string"
 			}
 		]
