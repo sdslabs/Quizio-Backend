@@ -6,8 +6,8 @@ const { Schema } = mongoose;
 const responseSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
-	/** Username of the user attempting the question */
-	username: String,
+	/** quizioID of the user attempting the question */
+	userID: String,
 	/** quizioID of the attempted question */
 	questionID: String,
 	/** Time when the question was last updated */

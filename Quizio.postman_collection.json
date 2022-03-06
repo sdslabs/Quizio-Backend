@@ -331,6 +331,48 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Check Question",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"marks\": 100\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ZcPLqiTGL7Xsq3PoDOslf/check",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"quizzes",
+												"sections",
+												"questions",
+												"quizioID.ZcPLqiTGL7Xsq3PoDOslf",
+												"check"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
@@ -1295,11 +1337,21 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userID\": \"\",\n    \"questionID\" : \"quizioID.xxp9pDqBFCmGQpLPK1rgN\"\n}",
+							"raw": "{\n    \"userID\": \"quizioID.AXrOR22xQHhCHFliTWkyu\",\n    \"questionID\" : \"quizioID.xxp9pDqBFCmGQpLPK1rgN\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

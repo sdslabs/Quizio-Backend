@@ -7,12 +7,12 @@ import { getQuestionByID } from '../models/question';
 import { getSectionByID } from '../models/section';
 import { checkSubmit } from '../models/submit';
 
-import { saveResponse } from '../models/response';
+import { getResponse, saveResponse } from '../models/response';
 
 const controller = {
 	saveResponse: async (req, res) => {
-		const { username, quizioID } = req.user;
-		const responseData = { ...req.body, username };
+		const { quizioID } = req.user;
+		const responseData = { ...req.body, userID: quizioID };
 		const questionExists = await getQuestionByID(responseData.questionID);
 		if (questionExists) {
 			const sectionData = await getSectionByID(questionExists.sectionID);
@@ -27,6 +27,12 @@ const controller = {
 			}) : errorResponse(res, 'Failed to save response!');
 		}
 		return notFoundResponse(res, 'Question does not exist!');
+	},
+
+	getResponse: async (req, res) => {
+		const { questionID, userID } = req.body;
+		const responseData = await getResponse(userID, questionID);
+		return responseData ? successResponseWithData(res, responseData) : notFoundResponse(res, 'response not found!');
 	},
 };
 

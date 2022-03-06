@@ -89,7 +89,7 @@ export const extractRegistrantUserNameList = (data) => data.map((entry) => (entr
 // response helpers
 export const extractResponseData = (data) => ({
 	quizioID: data.quizioID || null,
-	username: data.username || null,
+	userID: data.userID || null,
 	questionID: data.questionID || null,
 	time: data.time || null,
 	answerChoice: data.answerChoice || null,

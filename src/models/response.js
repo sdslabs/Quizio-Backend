@@ -9,10 +9,10 @@ import { getQuestionByID } from './question';
  * Save the reponse of a user to a question
  */
 export const saveResponse = async (responseData) => {
-	const { username, questionID } = responseData;
+	const { userID, questionID } = responseData;
 
 	const quizioID = generateQuizioID();
-	const exists = await response.findOne({ username, questionID }).exec();
+	const exists = await response.findOne({ userID, questionID }).exec();
 
 	const mcqRes = 'answerChoice' in responseData;
 	const subjectiveRes = 'answer' in responseData;
@@ -28,7 +28,7 @@ export const saveResponse = async (responseData) => {
 
 	if (exists) {
 		const updated = await response.findOneAndUpdate(
-			{ username, questionID },
+			{ userID, questionID },
 			responseData,
 			{ new: true },
 		);
@@ -39,7 +39,7 @@ export const saveResponse = async (responseData) => {
 	return result ? extractResponseData(result) : null;
 };
 
-export const getResponse = async (username, questionID) => {
-	const responseData = await response.findOne({ username, questionID });
+export const getResponse = async (userID, questionID) => {
+	const responseData = await response.findOne({ userID, questionID });
 	return responseData ? extractResponseData(responseData) : null;
 };
