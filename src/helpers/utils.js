@@ -152,3 +152,12 @@ export const extractPublishData = (data) => ({
 	quizID: data.quizID || null,
 	time: data.time || null,
 });
+
+export const extractScoreData = (data) => ({
+	quizioID: data.quizioID || null,
+	questionID: data.questionID || null,
+	registrantID: data.registrantID || null,
+	checkBy: data.checkBy || null,
+	marks: data.marks || 0,
+	autochecked: data.autochecked || false,
+});

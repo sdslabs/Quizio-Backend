@@ -1,37 +1,45 @@
+import dayjs from 'dayjs';
+import 'dayjs/locale/en-in';
 import logger from '../helpers/logger';
 import { getAllQuizzes } from '../models/quiz';
 
-const timerService = async (io) => {
-	let clients = 0;
+dayjs.locale('en-in');
 
-	// const quizzes = [{
-	// 	quizioID: 'quizioID.DA2vvLi_en83TY0z3HVAi',
-	// 	time: 10,
-	// }];
-
-	logger.info('TIMER SERVICE: INITIATE');
+const getOngoingQuizzes = async () => {
+	console.log('dayjs()', dayjs().format().toLocaleString());
 	const quizzes = await getAllQuizzes();
-	const ongoingQuizzes = quizzes.filter((quiz) => {
-		const startTime = new Date(quiz.startTime).toString();
-		const endTime = new Date(quiz.endTime).toString();
-		const now = new Date().toString();
 
-		// const startTimeString = new Date(quiz.startTime).toString();
-		// const endTimeString = new Date(quiz.endTime).toString();
-		// const nowString = new Date().toString();
-		// console.log({
-		// 	quizID: quiz.quizioID,
-		// 	startTimeString,
-		// 	endTimeString,
-		// 	nowString,
-		// 	ongoing: (startTime <= now) && (now <= endTime),
-		// });
-		return (startTime <= now) && (now <= endTime);
+	return quizzes.filter((quiz) => {
+		const startTime = dayjs(quiz.startTime);
+		const endTime = dayjs(quiz.endTime);
+		const now = dayjs();
+
+		const startTimeString = startTime.toString();
+		const endTimeString = endTime.toString();
+		const nowString = now.toString();
+
+		if (startTime.isBefore(now) && endTime.isAfter(now)) {
+			console.log({
+				quizID: quiz.quizioID,
+				startTimeString,
+				endTimeString,
+				nowString,
+				ongoing: (startTime <= now) && (now <= endTime),
+				timeLeft: dayjs(quiz.endTime).diff(now, 'seconds'),
+				locale: dayjs.locale(),
+			});
+		}
+		return startTime.isBefore(now) && endTime.isAfter(now);
 	}).map((quiz) => ({
 		quizioID: quiz.quizioID,
-		time: 1500,
+		time: dayjs(quiz.endTime).diff(dayjs(), 'seconds'),
 	}));
-	logger.info('TIMER SERVICE: GET ALL QUIZZES: ');
+};
+
+const timerService = async (io) => {
+	let clients = 0;
+	logger.info('TIMER SERVICE: INITIATE');
+	const ongoingQuizzes = await getOngoingQuizzes();
 	logger.info({ ongoingQuizzes });
 
 	setInterval(() => {

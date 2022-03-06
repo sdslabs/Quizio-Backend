@@ -50,8 +50,9 @@ router.delete(
 
 // Check a quiz
 router.post('/:quizID/check', isAuth, controller.checkQuiz);
-// Publish quiz routes
+router.put('/sections/questions/:questionID/check', isAuth, questionController.checkQuestion);
 
+// Publish quiz routes
 router.get('/:quizID/publish', isAuth, controller.getPublishedQuiz);
 router.post('/:quizID/publish', isAuth, controller.publishQuiz);
 

@@ -16,7 +16,9 @@ import {
 	updateQuestionByID,
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
+import { updateScore } from '../models/score';
 import { getSectionByID } from '../models/section';
+import { getUserWithUserID } from '../models/user';
 
 const controller = {
 	addNewQuestionToSection: async (req, res) => {
@@ -226,6 +228,44 @@ const controller = {
 						return errorResponse(res, 'Unable to update Question');
 					}
 					return unauthorizedResponse(res);
+				}
+				return notFoundResponse(res, 'Quiz not found!');
+			}
+			return notFoundResponse(res, 'Section not found!');
+		}
+		return notFoundResponse(res, 'Question not found!');
+	},
+
+	checkQuestion: async (req, res) => {
+		const { quizioID, role, username } = req.user;
+		const { questionID } = req.params;
+		const { marks, registrantID } = req.body;
+
+		const scoreData = {
+			questionID,
+			registrantID,
+			checkBy: quizioID,
+			marks,
+			autochecked: false,
+		};
+
+		const question = await getQuestionByID(questionID);
+		const registrant = await getUserWithUserID(registrantID);
+		if (!registrant) return notFoundResponse(res, 'Registrant not found');
+		if (question) {
+			const section = await getSectionByID(question.sectionID);
+			if (section) {
+				const quiz = await getQuizById(section.quizID);
+				if (quiz) {
+					if (role === 'superadmin'
+						|| quiz.creator === username
+						|| quiz.owners.includes(username)) {
+						const created = await updateScore(scoreData);
+						if (created) {
+							return successResponseWithData(res, scoreData);
+						}
+						return failureResponseWithMessage(res, 'failed to save score!');
+					}
 				}
 				return notFoundResponse(res, 'Quiz not found!');
 			}
