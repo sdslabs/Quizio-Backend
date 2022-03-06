@@ -1,5 +1,6 @@
 import {
 	errorResponse,
+	failureResponseWithMessage,
 	notFoundResponse,
 	successResponseWithData,
 	successResponseWithMessage,
@@ -108,6 +109,41 @@ const controller = {
 		const { questionID } = req.params;
 		const questionData = req.body;
 
+		if (questionData.choices) {
+			return failureResponseWithMessage(res, 'Cannot add choices from this api, use `/api/v2/quizzes/sections/questions/:questionID/choices`');
+		}
+
+		const question = await getQuestionByID(questionID);
+
+		if (question) {
+			if (question.type === 'mcq' && questionData.answer) {
+				return failureResponseWithMessage(res, 'This is an mcq type question, cannot add a subjective answer to it! use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
+			}
+			const section = await getSectionByID(question.sectionID);
+			if (section) {
+				const quiz = await getQuizById(section.quizID);
+				if (quiz) {
+					if (role === 'superadmin'
+						|| quiz.creator === username
+						|| quiz.owners.includes(username)) {
+						const question2 = await updateQuestionByID(questionID, questionData);
+						if (question2) {
+							return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });
+						}
+						return errorResponse(res, 'Unable to update Question');
+					}
+					return unauthorizedResponse(res);
+				}
+				return notFoundResponse(res, 'Quiz not found!');
+			}
+			return notFoundResponse(res, 'Section not found!');
+		}
+		return notFoundResponse(res, 'Question not found!');
+	},
+
+	toggleQuestionByID: async (req, res) => {
+		const { username, role } = req.user;
+		const { questionID } = req.params;
 		const question = await getQuestionByID(questionID);
 		if (question) {
 			const section = await getSectionByID(question.sectionID);
@@ -117,6 +153,14 @@ const controller = {
 					if (role === 'superadmin'
 						|| quiz.creator === username
 						|| quiz.owners.includes(username)) {
+						const questionData = { ...question };
+						if (question.type === 'mcq') {
+							questionData.type = 'subjective';
+							questionData.choices = [];
+						} else if (question.type === 'subjective') {
+							questionData.type = 'mcq';
+							questionData.answer = null;
+						}
 						const question2 = await updateQuestionByID(questionID, questionData);
 						if (question2) {
 							return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });

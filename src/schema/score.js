@@ -7,6 +7,8 @@ const scoreSchema = new Schema({
 	quizioID: String,
 	/** quizioID of the question */
 	questionId: String,
+	/** quizioID of the registrant */
+	registrantID: String,
 	/** quizioID of the checker */
 	checkBy: String,
 	/** true it was autochecked */

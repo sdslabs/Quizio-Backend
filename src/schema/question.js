@@ -47,11 +47,7 @@ const questionSchema = new Schema({
 	/** Username of the creator of the question.
 	 * 1. Must exist in the `users` document
 	 */
-	creator: {
-		type: String,
-		ref: 'User',
-		// required: true,
-	},
+	creator: String,
 	/** Minimum marks for Subjective questions */
 	minMarks: Number,
 	/** Maximum marks for Subjective questions */
