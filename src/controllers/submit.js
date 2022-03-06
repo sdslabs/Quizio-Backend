@@ -18,6 +18,7 @@ const controller = {
 			? successResponseWithData(res, submittedQuizzes)
 			: notFoundResponse(res, 'no quizzes submitted');
 	},
+
 	submitQuiz: async (req, res) => {
 		/*
 			- Quiz must exist

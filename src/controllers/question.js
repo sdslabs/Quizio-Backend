@@ -5,7 +5,7 @@ import {
 	successResponseWithMessage,
 	unauthorizedResponse,
 } from '../helpers/responses';
-import { extractChoicesData, generateQuizioID } from '../helpers/utils';
+import { extractChoicesData, filterQuestionForRegistrant, generateQuizioID } from '../helpers/utils';
 import {
 	addChoiceToQuestionByID,
 	addNewQuestionToSection,
@@ -58,9 +58,13 @@ const controller = {
 				if (quiz) {
 					if (role === 'superadmin'
 						|| quiz.creator === username
-						|| quiz.owners.includes(username)
-						|| quiz.registrants.includes(username)) {
+						|| quiz.owners.includes(username)) {
 						return successResponseWithData(res, { question });
+					} if (quiz.registrants.includes(username)) {
+						return successResponseWithData(res,
+							{
+								question: filterQuestionForRegistrant(question),
+							});
 					}
 					return unauthorizedResponse(res);
 				}

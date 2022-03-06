@@ -35,21 +35,6 @@ export const extractSectionData = (data) => ({
 	questions: data.questions || null,
 });
 
-export const extractQuestionData = (data) => ({
-	quizioID: data.quizioID || null,
-	sectionID: data.sectionID || null,
-	type: data.type || null,
-	question: data.question || null,
-	isMCQ: data.isMCQ || null,
-	choices: data.choices || null,
-	answer: data.answer || null,
-	checkerNotes: data.checkerNotes || null,
-	minMarks: data.minMarks || null,
-	maxMarks: data.maxMarks || null,
-	defaultMarks: data.defaultMarks || null,
-	autocheck: data.autocheck || null,
-});
-
 export const extractChoiceData = (data) => ({
 	quizioID: data.quizioID || null,
 	choice: data.choice || null,
@@ -58,6 +43,31 @@ export const extractChoiceData = (data) => ({
 });
 
 export const extractChoicesData = (data) => data.map((entry) => extractChoiceData(entry));
+
+export const extractQuestionData = (data) => ({
+	quizioID: data.quizioID || null,
+	sectionID: data.sectionID || null,
+	type: data.type || null,
+	question: data.question || null,
+	isMCQ: data.isMCQ || null,
+	choices: extractChoicesData(data.choices) || null, // array of {quizioID, choice}
+	answer: data.answer || null,
+	checkerNotes: data.checkerNotes || null,
+	minMarks: data.minMarks || null,
+	maxMarks: data.maxMarks || null,
+	defaultMarks: data.defaultMarks || null,
+	autocheck: data.autocheck || null,
+});
+
+export const filterQuestionForRegistrant = (question) => {
+	const question2 = { ...question };
+	question2.choices = question.choices?.map((data) => ({
+		quizioID: data.quizioID,
+		choice: data.choice,
+	}));
+	question2.answer = null;
+	return question2;
+};
 
 // Registrant helpers
 export const extractRegistrantData = (data) => ({

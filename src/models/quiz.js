@@ -15,16 +15,18 @@ export const getAllQuizzes = async () => {
 
 /**
  * Get the quiz with the given quizId
- * @returns The quiz having the specified quizId
+ * @param {String} quizID quizioID of the creator of the question
+ * @returns quiz data of the quiz if found or null
  */
-export const getQuizById = async (quizioID) => {
-	const result = await quiz.findOne({ quizioID });
+export const getQuizById = async (quizID) => {
+	const result = await quiz.findOne({ quizioID: quizID });
 	return result ? extractQuizData(result) : null;
 };
 
 /**
- * Get all the quizzes owned or created by the given username
- * @returns List of quizzes
+ * Get all the quizzes owned OR created by the given username
+ * @param {String} userID TODO
+ * @returns array of quizzes
  */
 export const getQuizzesOwnedByUser = async (username) => {
 	const filter = { $or: [{ owners: username }, { creator: username }] };

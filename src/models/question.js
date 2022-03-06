@@ -30,7 +30,7 @@ export const addNewQuestionToSection = async (sectionID, creator) => {
 
 /**
  * Get question by id
- * @param {String} questionID quizioID of the creator of the question
+ * @param {String} questionID quizioID of the question
  * @returns question data of the question if found or null
  */
 export const getQuestionByID = async (questionID) => {
