@@ -39,7 +39,6 @@ const controller = {
 	},
 
 	getSectionByID: async (req, res) => {
-		console.log('Get section');
 		const { userID, role } = req.user;
 		const { sectionID } = req.params;
 

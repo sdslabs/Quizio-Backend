@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import { quizio } from '../config/config';
 import logger from '../helpers/logger';
 import {
 	successResponseWithData,
@@ -21,6 +22,7 @@ import {
 } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
+import { updateScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 
 const controller = {
@@ -117,7 +119,10 @@ const controller = {
 		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const checkingID = generateQuizioID();
+		let actualUpdated = 0;
+
 		const quiz = await getQuizById(quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found');
 
 		const getRole = () => (role === 'superadmin'
 			? 'superadmin'
@@ -126,69 +131,98 @@ const controller = {
 				: quiz.owners.includes(userID)
 					? 'quiz owner'
 					: 'unauthorized');
+		const getImportantStats = (questions, registrants, mcqQuestions) => `Important stats:\n\tTotal Questions: ${questions.length}\n\tTotal Registrants: ${registrants.length}\n\tTotal MCQs: ${mcqQuestions.length}\n\tIdeal Document count to be updated(mcq * registrants: ${mcqQuestions.length * registrants.length}`;
+		const getImportantStatsJSON = (questions, registrants, mcqQuestions) => ({
+			TotalQuestions: questions.length,
+			TotalRegistrants: registrants.length,
+			TotalMCQs: mcqQuestions.length,
+			IdealDocumentCount: mcqQuestions.length * registrants.length,
+			ActualUpdatedCount: actualUpdated,
+		});
 
 		/** START QUIZ CHECKING */
 		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${userID}, role="${getRole()}"\nquizID: ${quizID}`);
 
-		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
-				// Get a list of all the questions in the quiz
-				const questions = (await Promise.all(
-					quiz.sections.map(async (sectionID) => {
-						const section = await getSectionByID(sectionID);
-						// console.log('section: ', { sectionID, section });
-						const questions2 = await Promise.all(
-							section.questions.map(async (questionID) => {
-								// console.log({ sectionID, questionID });
-								const question = await getQuestionByID(questionID);
-								return { ...question, sectionID };
-							}),
-						);
-						// console.log({ sectionID, questions2 });
-						// return questions2.filter((question) => question.type === 'mcq');
-						return questions2;
-					}),
-				)).flat();
-				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
-				// console.log({ questions });
-
-				// Get a list of all registrants
-				const registrants = await getRegisteredUsersForQuiz(quizID);
-				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all registrants in the quiz...`);
-
-				// Calculate result
-				const rankList = await Promise.all(registrants.map(async (registrant) => {
-					const scores = await Promise.all(
-						questions.map(async (question) => {
-							const response = await getResponse(registrant, question.quizioID);
-							console.log({ question, registrant, response });
-							const answerChoice = response?.answerChoices[0];
-							if (answerChoice) {
-								const score = question.choices.find(
-									(choice) => choice.quizioID === answerChoice,
-								).marks;
-								return score;
-							}
-							return 0;
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			// Get a list of all the questions in the quiz
+			const questions = (await Promise.all(
+				quiz.sections.map(async (sectionID) => {
+					const section = await getSectionByID(sectionID);
+					// console.log('section: ', { sectionID, section });
+					const questions2 = await Promise.all(
+						section.questions.map(async (questionID) => {
+							// console.log({ sectionID, questionID });
+							const question = await getQuestionByID(questionID);
+							return { ...question, sectionID };
 						}),
 					);
-					console.log('Scores', { scores });
+					// console.log({ sectionID, questions2 });
+					// return questions2.filter((question) => question.type === 'mcq');
+					return questions2;
+				}),
+			)).flat();
+			logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
 
-					const marks = scores.reduce((prev, curr) => prev + curr, 0);
+			const mcqQuestions = questions.filter((question) => question.type === 'mcq');
+			// const subjectiveQuestions = questions.filter((question) => question.type === 'subjective');
+			// console.log({ mcqQuestions, subjectiveQuestions });
 
-					return { registrant, marks };
+			// Get a list of all registrants
+			const registrants = await getRegisteredUsersForQuiz(quizID);
+			logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all registrants in the quiz...`);
+
+			logger.info(`**Quiz Checking, checkingID=${checkingID}**\n${getImportantStats(questions, registrants, mcqQuestions)}`);
+
+			// Calculate and save scores
+			await Promise.all(registrants.map(async (registrantID) => {
+				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nCalculating scores`);
+				const questionScores = await Promise.all(
+					mcqQuestions.map(async (question) => {
+						const response = await getResponse(registrantID, question.quizioID);
+						const answerChoices = response?.answerChoices;
+						if (answerChoices) {
+							const choiceScores = answerChoices.map((answerChoice) => question.choices.find(
+								(choice) => choice.quizioID === answerChoice,
+							).marks);
+							// console.log({ registrant, response, choiceScores });
+							const questionScore = choiceScores.reduce((prev, curr) => prev + curr, 0);
+							return {
+								questionID: question.quizioID,
+								registrantID,
+								checkBy: quizio.quizioID,
+								autochecked: true,
+								marks: questionScore,
+							};
+						}
+						return {
+							questionID: question.quizioID,
+							registrantID,
+							checkBy: quizio.quizioID,
+							autochecked: true,
+							marks: 0,
+						};
+					}),
+				);
+				// console.log({ questionScores });
+				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nCalculated scores, saving to db`);
+				const saved = await Promise.all(questionScores.map(async (questionScore) => {
+					const created = await updateScore(questionScore);
+					return !!created;
 				}));
+				actualUpdated = saved.length;
+				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nSaved ${saved.length} score documents to db`);
+				// console.log({ saved });
+			}));
 
-				return successResponseWithData(res, {
-					quizID,
-					checkedBy: userID,
-					role: getRole(),
-					rankList: rankList.sort((a, b) => b.marks - a.marks),
-				});
-			}
-			return unauthorizedResponse(res);
+			return successResponseWithData(res, {
+				quizID,
+				checkedBy: userID,
+				role: getRole(),
+				importantStats: getImportantStatsJSON(questions, registrants, mcqQuestions),
+				// rankList: rankList.sort((a, b) => b.marks - a.marks),
+			});
 		}
-		return notFoundResponse(res, 'Quiz not found');
+		return unauthorizedResponse(res);
 	},
 
 	publishQuiz: async (req, res) => {

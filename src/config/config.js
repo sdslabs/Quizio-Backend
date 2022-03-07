@@ -21,3 +21,7 @@ export const logConfig = {
 
 export const { IMGBB_API_KEY } = process.env;
 export const IMGBB_UPLOAD_URL = 'https://api.imgbb.com/1/upload';
+
+export const quizio = {
+	quizioID: 'quizioID.000000000000000000000',
+};
