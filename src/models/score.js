@@ -35,11 +35,11 @@ export const updateScore = async (scoreData) => {
 
 /**
  * Get the score of a user in a question
- * @param {String} userID quizioID of the registrant
+ * @param {String} registrantID quizioID of the registrant
  * @param {String} questionID  quizioID of the question
  * @returns score object
  */
-export const getScore = async (userID, questionID) => {
-	const scoreData = await score.findOne({ userID, questionID });
+export const getScore = async (registrantID, questionID) => {
+	const scoreData = await score.findOne({ registrantID, questionID });
 	return scoreData ? extractScoreData(scoreData) : null;
 };

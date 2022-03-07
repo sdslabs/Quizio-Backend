@@ -56,4 +56,5 @@ router.put('/sections/questions/:questionID/check', isAuth, questionController.c
 router.get('/:quizID/publish', isAuth, controller.getPublishedQuiz);
 router.post('/:quizID/publish', isAuth, controller.publishQuiz);
 
+router.post('/:quizID/ranklist', isAuth, controller.generateRanklist);
 export default router;

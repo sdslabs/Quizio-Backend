@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { quizio } from '../config/config';
+import generateRanklist from '../helpers/generateRanklist';
 import logger from '../helpers/logger';
 import {
 	successResponseWithData,
@@ -8,7 +9,7 @@ import {
 	unauthorizedResponse,
 	failureResponseWithMessage,
 } from '../helpers/responses';
-import { generateQuizioID } from '../helpers/utils';
+import { generateQuizioID, getRole } from '../helpers/utils';
 import { getQuestionByID } from '../models/question';
 import {
 	getAllQuizzes,
@@ -20,6 +21,7 @@ import {
 	publishQuiz,
 	getPublishedQuiz,
 } from '../models/quiz';
+import { updateRanklist } from '../models/ranklist';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
 import { updateScore } from '../models/score';
@@ -115,7 +117,6 @@ const controller = {
 	},
 
 	checkQuiz: async (req, res) => {
-		// TODO: Save checked data to db
 		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const checkingID = generateQuizioID();
@@ -124,13 +125,6 @@ const controller = {
 		const quiz = await getQuizById(quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found');
 
-		const getRole = () => (role === 'superadmin'
-			? 'superadmin'
-			: quiz.creator === userID
-				? 'quiz creator'
-				: quiz.owners.includes(userID)
-					? 'quiz owner'
-					: 'unauthorized');
 		const getImportantStats = (questions, registrants, mcqQuestions) => `Important stats:\n\tTotal Questions: ${questions.length}\n\tTotal Registrants: ${registrants.length}\n\tTotal MCQs: ${mcqQuestions.length}\n\tIdeal Document count to be updated(mcq * registrants: ${mcqQuestions.length * registrants.length}`;
 		const getImportantStatsJSON = (questions, registrants, mcqQuestions) => ({
 			TotalQuestions: questions.length,
@@ -141,7 +135,7 @@ const controller = {
 		});
 
 		/** START QUIZ CHECKING */
-		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${userID}, role="${getRole()}"\nquizID: ${quizID}`);
+		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${userID}, role="${getRole(role, quiz, userID)}"\nquizID: ${quizID}`);
 
 		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 			// Get a list of all the questions in the quiz
@@ -217,7 +211,7 @@ const controller = {
 			return successResponseWithData(res, {
 				quizID,
 				checkedBy: userID,
-				role: getRole(),
+				role: getRole(role, quiz, userID),
 				importantStats: getImportantStatsJSON(questions, registrants, mcqQuestions),
 				// rankList: rankList.sort((a, b) => b.marks - a.marks),
 			});
@@ -245,18 +239,47 @@ const controller = {
 	getPublishedQuiz: async (req, res) => {
 		const { userID, role } = req.user;
 		const { quizID } = req.params;
+
 		const quiz = await getQuizById(quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
-		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
-				const published = await getPublishedQuiz(quizID);
-				return published
-					? successResponseWithData(res, { ...published })
-					: failureResponseWithMessage(res, 'Quiz not yet published!');
-			}
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			const published = await getPublishedQuiz(quizID);
+			return published
+				? successResponseWithData(res, { ...published })
+				: failureResponseWithMessage(res, 'Quiz not yet published!');
 		}
+		return unauthorizedResponse(res);
+	},
 
-		return notFoundResponse(res, 'Quiz not found!');
+	generateRanklist: async (req, res) => {
+		const { userID, role } = req.user;
+		const { quizID } = req.params;
+
+		const quiz = await getQuizById(quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			const published = await getPublishedQuiz(quizID);
+			if (!published) return failureResponseWithMessage(res, 'Quiz not yet published!');
+
+			const rankList = await generateRanklist(quiz);
+			if (!rankList) {
+				return failureResponseWithMessage(res, 'failed to generate ranklist!');
+			}
+			const updated = await updateRanklist({ ...rankList, quizID, generatedBy: userID });
+			if (!updated) {
+				return failureResponseWithMessage(res, 'failed to save ranklist!');
+			}
+
+			return successResponseWithData(res, {
+				quizID: quiz.quizioID,
+				generatedBy: userID,
+				role: getRole(role, quiz, userID),
+				rankList,
+			});
+		}
+		return unauthorizedResponse(res);
 	},
 
 };

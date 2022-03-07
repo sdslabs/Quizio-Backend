@@ -166,7 +166,7 @@
 											"variable": [
 												{
 													"key": "questionID",
-													"value": "quizioID.Ze2vQjTx7GjtpiVvqIFSP"
+													"value": "quizioID.TtlbjdpTzZTHXQGzlT0wL"
 												}
 											]
 										}
@@ -227,7 +227,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"question\" : \"what is 1+1?\",\n    \"checkerNotes\": \"You are an AI, you dont need notes\"\n}",
+											"raw": "{\n    \"question\" : \"what is 1+2?\",\n    \"checkerNotes\": \"You are an AI, you dont need notes\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -250,7 +250,7 @@
 											"variable": [
 												{
 													"key": "questionID",
-													"value": "quizioID.kmJqAzlGKB791SfMja-TE"
+													"value": "quizioID.TtlbjdpTzZTHXQGzlT0wL"
 												}
 											]
 										}
@@ -293,7 +293,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"choice\": \"5\",\n    \"marks\": 0\n}",
+											"raw": "{\n    \"choice\": \"3\",\n    \"marks\": 6\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -317,7 +317,7 @@
 											"variable": [
 												{
 													"key": "questionID",
-													"value": "quizioID.kmJqAzlGKB791SfMja-TE"
+													"value": "quizioID.TtlbjdpTzZTHXQGzlT0wL"
 												}
 											]
 										}
@@ -704,6 +704,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get ranklist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID/ranklist",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"quizzes",
+								":quizID",
+								"ranklist"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID._6HXs--0gVJcrH9NOLyOO"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -854,7 +881,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/auth/",
+							"raw": "{{baseURL}}/api/v2/auth/check",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -862,7 +889,7 @@
 								"api",
 								"v2",
 								"auth",
-								""
+								"check"
 							]
 						}
 					},
@@ -1302,7 +1329,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"questionID\" : \"quizioID.kmJqAzlGKB791SfMja-TE\",\n    \"answerChoices\": [\"quizioID.sTERgmUeRQzJ4VqzI45Sk\", \"quizioID.A3qg3dW6inuRlmBJ5BHqa\", ']\n}",
+							"raw": "{\n    \"questionID\" : \"quizioID.TtlbjdpTzZTHXQGzlT0wL\",\n    \"answerChoices\": [\"quizioID.3agJ4VZdXgOAGpbNc7nq5\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1412,16 +1439,6 @@
 				{
 					"name": "Check Quiz",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -1439,7 +1456,7 @@
 							"variable": [
 								{
 									"key": "quizID",
-									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+									"value": "quizioID._6HXs--0gVJcrH9NOLyOO"
 								}
 							]
 						}
@@ -1449,21 +1466,11 @@
 				{
 					"name": "Check Question",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"registrantID\": \"quizioID.AXrOR22xQHhCHFliTWkyu\",\n    \"marks\": 69\n}",
+							"raw": "{\n    \"registrantID\": \"quizioID.0MDZe6Hody7QyMHecl_dX\",\n    \"marks\": 69\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1487,7 +1494,7 @@
 							"variable": [
 								{
 									"key": "questionID",
-									"value": "quizioID.72XtOuK01SyFYl59ym2Ad"
+									"value": "quizioID.Ze2vQjTx7GjtpiVvqIFSP"
 								}
 							]
 						}

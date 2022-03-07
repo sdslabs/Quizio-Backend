@@ -35,6 +35,11 @@ const registerSchema = new Schema({
 		key: String,
 		value: String,
 	},
+	/** Time when the question was last updated */
+	time: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 export default mongoose.model('Register', registerSchema);

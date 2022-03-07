@@ -1,8 +1,17 @@
+/* eslint-disable no-nested-ternary */
 import { nanoid } from 'nanoid';
 
 export const verifyQuizioID = (id) => (id.length === 30 && id.includes('.') && id.split('.')[0] === 'quizioID');
 export const generateQuizioID = () => `quizioID.${nanoid()}`;
 export const generateUserName = (firstName, lastName) => `${firstName?.toLowerCase()}_${lastName?.toLowerCase()}_${nanoid(3)}`;
+
+export const getRole = (role, quiz, userID) => (role === 'superadmin'
+	? 'superadmin'
+	: quiz.creator === userID
+		? 'quiz creator'
+		: quiz.owners.includes(userID)
+			? 'quiz owner'
+			: 'unauthorized');
 
 export const extractQuizData = (data) => ({
 	quizioID: data.quizioID || null,
@@ -159,6 +168,14 @@ export const extractScoreData = (data) => ({
 	checkBy: data.checkBy || null,
 	marks: data.marks || 0,
 	autochecked: data.autochecked || false,
+});
+
+export const extractRanklistData = (data) => ({
+	quizioID: data.quizioID || null,
+	quizID: data.quizID || null,
+	generatedBy: data.generatedBy || null,
+	rankList: data.rankList || null,
+	time: data.time || 0,
 });
 
 export const extractUser = (user) => ({
