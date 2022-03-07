@@ -186,6 +186,9 @@ const controller = {
 
 		const question = await getQuestionByID(questionID);
 		if (question) {
+			if (question.type === 'subjective') {
+				return failureResponseWithMessage(res, 'Cannot add choice to subjective questions!  use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
+			}
 			const section = await getSectionByID(question.sectionID);
 			if (section) {
 				const quiz = await getQuizById(section.quizID);

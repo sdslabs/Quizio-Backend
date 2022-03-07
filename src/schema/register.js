@@ -8,9 +8,8 @@ const registerSchema = new Schema({
 	quizioID: String,
 	/** quizioID of the quiz */
 	quizID: String,
-	/** username of the user */
-	username: String,
-
+	/** quizioID of the user */
+	userID: String,
 	/* First Name of the registrant */
 	firstName: String,
 	/* Last Name of the registrant */
@@ -21,7 +20,6 @@ const registerSchema = new Schema({
 	contactNo: String,
 	/* Organisation Name of the registrant */
 	orgName: String,
-
 	/* Additional details for the quiz */
 	detail1: {
 		key: String,

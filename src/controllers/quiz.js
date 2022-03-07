@@ -168,7 +168,7 @@ const controller = {
 					}),
 				)).flat();
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
-				console.log({ questions });
+				// console.log({ questions });
 
 				// Get a list of all registrants
 				const registrants = await getRegisteredUsersForQuiz(quizID);
@@ -179,6 +179,7 @@ const controller = {
 					const scores = await Promise.all(
 						questions.map(async (question) => {
 							const response = await getResponse(registrant, question.quizioID);
+							console.log({ question, registrant, response });
 							const answerChoice = response?.answerChoice[0];
 							if (answerChoice) {
 								const score = question.choices.find(
@@ -189,6 +190,7 @@ const controller = {
 							return 0;
 						}),
 					);
+					console.log('Scores', { scores });
 
 					const marks = scores.reduce((prev, curr) => prev + curr, 0);
 

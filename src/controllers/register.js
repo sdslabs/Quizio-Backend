@@ -14,14 +14,14 @@ import {
 
 const controller = {
 	registerUserForQuiz: async (req, res) => {
-		const { username } = req.user;
+		const { quizioID } = req.user;
 		const data = req.body;
 		const { quizID } = data;
 
 		const quizExists = await getQuizById(quizID);
 		if (!quizExists) return notFoundResponse(res, 'quiz not found!');
 
-		const register = await registerUserForQuiz(username, data);
+		const register = await registerUserForQuiz(quizioID, data);
 
 		if (register === 'exists') {
 			return failureResponseWithMessage(res, 'Already Registered for quiz!');
@@ -34,8 +34,8 @@ const controller = {
 	},
 
 	getRegisteredQuizzesForUser: async (req, res) => {
-		const { username } = req.user;
-		const quizzes = await getRegisteredQuizzesForUser(username);
+		const { quizioID } = req.user;
+		const quizzes = await getRegisteredQuizzesForUser(quizioID);
 		if (quizzes) {
 			return successResponseWithData(res, { quizzes });
 		}
