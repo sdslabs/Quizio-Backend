@@ -1,3 +1,4 @@
+import logger from '../helpers/logger';
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -22,92 +23,85 @@ import { getUserWithUserID } from '../models/user';
 
 const controller = {
 	addNewQuestionToSection: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { sectionID } = req.params;
 
 		const section = await getSectionByID(sectionID);
-		if (section) {
-			const quiz = await getQuizById(section.quizID);
-			if (quiz) {
-				if (role === 'superadmin'
-					|| quiz.creator === username
-					|| quiz.owners.includes(username)) {
-					const question = await addNewQuestionToSection(sectionID, username);
-					if (question) {
-						return successResponseWithData(res, {
-							msg: 'question added to section',
-							question,
-						});
-					}
-					return errorResponse(res, 'Unable to add question to section');
-				}
-				return unauthorizedResponse(res);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const question = await addNewQuestionToSection(sectionID, userID);
+			if (question) {
+				return successResponseWithData(res, {
+					msg: 'question added to section',
+					question,
+				});
 			}
-			return notFoundResponse(res, 'Quiz not found!');
+			return failureResponseWithMessage(res, 'Unable to add question to section');
 		}
-		return notFoundResponse(res, 'Section not found!');
+		return unauthorizedResponse(res);
 	},
 
 	getQuestionByID: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { questionID } = req.params;
 
 		const question = await getQuestionByID(questionID);
-		if (question) {
-			const section = await getSectionByID(question.sectionID);
+		if (!question) return notFoundResponse(res, 'Question not found!');
 
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						return successResponseWithData(res, { question });
-					} if (quiz.registrants.includes(username)) {
-						return successResponseWithData(res,
-							{
-								question: filterQuestionForRegistrant(question),
-							});
-					}
-					return unauthorizedResponse(res);
-				}
-				return notFoundResponse(res, 'Quiz not found!');
-			}
-			return notFoundResponse(res, 'Section not found!');
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			return successResponseWithData(res, { question });
 		}
-		return notFoundResponse(res, 'Question not found!');
+
+		if (quiz.registrants.includes(userID)) {
+			return successResponseWithData(res,
+				{
+					question: filterQuestionForRegistrant(question),
+				});
+		}
+		return unauthorizedResponse(res);
 	},
 
 	deleteQuestionByID: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { questionID } = req.params;
-		const question = await getQuestionByID(questionID);
 
-		if (question) {
-			const section = await getSectionByID(question.sectionID);
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						const question2 = await deleteQuestion(questionID);
-						if (question2) {
-							return successResponseWithMessage(res, 'Question deleted successfully!');
-						}
-						return errorResponse(res, 'Unable to delete Question');
-					}
-					return unauthorizedResponse(res);
-				}
-				return notFoundResponse(res, 'Quiz not found!');
+		const question = await getQuestionByID(questionID);
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const deletedQuestion = await deleteQuestion(questionID);
+			if (deletedQuestion) {
+				return successResponseWithMessage(res, 'Question deleted successfully!');
 			}
-			return notFoundResponse(res, 'Section not found!');
+			return failureResponseWithMessage(res, 'Unable to delete Question');
 		}
-		return notFoundResponse(res, 'Question not found!');
+		return unauthorizedResponse(res);
 	},
 
 	updateQuestionByID: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { questionID } = req.params;
 		const questionData = req.body;
 
@@ -116,165 +110,168 @@ const controller = {
 		}
 
 		const question = await getQuestionByID(questionID);
+		if (!question) return notFoundResponse(res, 'Question not found!');
 
-		if (question) {
-			if (question.type === 'mcq' && questionData.answer) {
-				return failureResponseWithMessage(res, 'This is an mcq type question, cannot add a subjective answer to it! use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
-			}
-			const section = await getSectionByID(question.sectionID);
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						const question2 = await updateQuestionByID(questionID, questionData);
-						if (question2) {
-							return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });
-						}
-						return errorResponse(res, 'Unable to update Question');
-					}
-					return unauthorizedResponse(res);
-				}
-				return notFoundResponse(res, 'Quiz not found!');
-			}
-			return notFoundResponse(res, 'Section not found!');
+		if (question.type === 'mcq' && questionData.answer) {
+			return failureResponseWithMessage(res, 'This is an mcq type question, cannot add a subjective answer to it! use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
 		}
-		return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const updatedQuestion = await updateQuestionByID(questionID, questionData);
+			if (updatedQuestion) {
+				return successResponseWithData(res, { msg: 'Question updated successfully!', updatedQuestion });
+			}
+			return errorResponse(res, 'Unable to update Question');
+		}
+		return unauthorizedResponse(res);
 	},
 
 	toggleQuestionByID: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { questionID } = req.params;
 		const question = await getQuestionByID(questionID);
-		if (question) {
-			const section = await getSectionByID(question.sectionID);
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						const questionData = { ...question };
-						if (question.type === 'mcq') {
-							questionData.type = 'subjective';
-							questionData.choices = [];
-						} else if (question.type === 'subjective') {
-							questionData.type = 'mcq';
-							questionData.answer = null;
-						}
-						const question2 = await updateQuestionByID(questionID, questionData);
-						if (question2) {
-							return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });
-						}
-						return errorResponse(res, 'Unable to update Question');
-					}
-					return unauthorizedResponse(res);
-				}
-				return notFoundResponse(res, 'Quiz not found!');
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const questionData = { ...question };
+
+			switch (question.type) {
+			case 'mcq':
+				questionData.type = 'subjective';
+				questionData.choices = [];
+				break;
+			case 'subjective':
+				questionData.type = 'mcq';
+				questionData.answer = null;
+				break;
+			default:
+				logger.error(`QUESTION WITH AN INVALID TYPE FOUND! type=${question.type}`);
 			}
-			return notFoundResponse(res, 'Section not found!');
+
+			const question2 = await updateQuestionByID(questionID, questionData);
+			if (question2) {
+				return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });
+			}
+			return failureResponseWithMessage(res, 'Unable to update Question');
 		}
-		return notFoundResponse(res, 'Question not found!');
+		return unauthorizedResponse(res);
 	},
 
 	addChoiceToQuestionByID: async (req, res) => {
 		const quizioID = generateQuizioID();
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { questionID } = req.params;
 		const choiceData = { ...req.body, quizioID };
 
 		const question = await getQuestionByID(questionID);
-		if (question) {
-			if (question.type === 'subjective') {
-				return failureResponseWithMessage(res, 'Cannot add choice to subjective questions!  use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
-			}
-			const section = await getSectionByID(question.sectionID);
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						const question2 = await addChoiceToQuestionByID(questionID, choiceData);
-						if (question2) {
-							return successResponseWithData(res, { msg: 'Question updated successfully!', choices: extractChoicesData(question2.choices) });
-						}
-						return errorResponse(res, 'Unable to update Question');
-					}
-					return unauthorizedResponse(res);
-				}
-				return notFoundResponse(res, 'Quiz not found!');
-			}
-			return notFoundResponse(res, 'Section not found!');
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
+		if (question.type === 'subjective') {
+			return failureResponseWithMessage(res, 'Cannot add choice to subjective questions!  use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
 		}
-		return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const updatedQuestion = await addChoiceToQuestionByID(questionID, choiceData);
+			if (updatedQuestion) {
+				return successResponseWithData(res,
+					{
+						msg: 'Choice added successfully!',
+						choices: extractChoicesData(updatedQuestion.choices),
+					});
+			}
+			return failureResponseWithMessage(res, 'Unable to add choice');
+		}
+		return unauthorizedResponse(res);
 	},
 
 	deleteChoiceInQuestionByID: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { questionID, choiceID } = req.params;
 
 		const question = await getQuestionByID(questionID);
-		if (question) {
-			const section = await getSectionByID(question.sectionID);
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						const question2 = await deleteChoiceInQuestionByID(questionID, choiceID);
-						if (question2) {
-							return successResponseWithData(res, { msg: 'Question updated successfully!', question2 });
-						}
-						return errorResponse(res, 'Unable to update Question');
-					}
-					return unauthorizedResponse(res);
-				}
-				return notFoundResponse(res, 'Quiz not found!');
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const updatedQuestion = await deleteChoiceInQuestionByID(questionID, choiceID);
+			if (updatedQuestion) {
+				return successResponseWithData(res,
+					{
+						msg: 'Choice deleted successfully!',
+						choices: extractChoicesData(updatedQuestion.choices),
+					});
 			}
-			return notFoundResponse(res, 'Section not found!');
+			return failureResponseWithMessage(res, 'Unable to delete Choice');
 		}
-		return notFoundResponse(res, 'Question not found!');
+		return unauthorizedResponse(res);
 	},
 
 	checkQuestion: async (req, res) => {
-		const { quizioID, role, username } = req.user;
+		const { role, userID } = req.user;
 		const { questionID } = req.params;
 		const { marks, registrantID } = req.body;
 
 		const scoreData = {
 			questionID,
 			registrantID,
-			checkBy: quizioID,
+			checkBy: userID,
 			marks,
 			autochecked: false,
 		};
 
 		const question = await getQuestionByID(questionID);
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
 		const registrant = await getUserWithUserID(registrantID);
 		if (!registrant) return notFoundResponse(res, 'Registrant not found');
-		if (question) {
-			const section = await getSectionByID(question.sectionID);
-			if (section) {
-				const quiz = await getQuizById(section.quizID);
-				if (quiz) {
-					if (role === 'superadmin'
-						|| quiz.creator === username
-						|| quiz.owners.includes(username)) {
-						const created = await updateScore(scoreData);
-						if (created) {
-							return successResponseWithData(res, scoreData);
-						}
-						return failureResponseWithMessage(res, 'failed to save score!');
-					}
-				}
-				return notFoundResponse(res, 'Quiz not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+						|| quiz.creator === userID
+						|| quiz.owners.includes(userID)) {
+			const created = await updateScore(scoreData);
+			if (created) {
+				return successResponseWithData(res, scoreData);
 			}
-			return notFoundResponse(res, 'Section not found!');
+			return failureResponseWithMessage(res, 'failed to save score!');
 		}
-		return notFoundResponse(res, 'Question not found!');
+		return unauthorizedResponse(res);
 	},
 };
 

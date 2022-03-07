@@ -14,11 +14,13 @@ const controller = {
 	 * @returns List of all users iff requesting user is a superadmin
 	 */
 	getAllUsers: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, email, role } = req.user;
 		if (role === 'superadmin') {
-			logger.info(`Get all users initated by ${username}, role=${role}`);
+			logger.info(`Get all users initated by ${email}, role=${role}`);
 			const users = await getAllUsers();
-			return successResponseWithData(res, { username, role, users });
+			return successResponseWithData(res, {
+				you: { userID, email, role }, users,
+			});
 		}
 		return unauthorizedResponse(res);
 	},
@@ -50,8 +52,8 @@ const controller = {
 	 * @returns A list of all quizzes owned(or created) by user
 	 */
 	getAllQuizzesOwnedByUser: async (req, res) => {
-		const { username } = req.user;
-		const quizzes = await getQuizzesOwnedByUser(username);
+		const { userID } = req.user;
+		const quizzes = await getQuizzesOwnedByUser(userID);
 		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
 	},
 
@@ -59,8 +61,8 @@ const controller = {
 	 * @returns A list of all quizzes created by user
 	 */
 	getAllQuizzesCreatedByUser: async (req, res) => {
-		const { username } = req.user;
-		const quizzes = await getQuizzesCreatedByUser(username);
+		const { userID } = req.user;
+		const quizzes = await getQuizzesCreatedByUser(userID);
 		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res, 'No quizzes found');
 	},
 

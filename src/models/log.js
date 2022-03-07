@@ -6,18 +6,18 @@ export const getAllLogs = async () => {
 	return logs;
 };
 
-export const getLogsForUser = async (username) => {
-	const logs = await log.find({ username });
+export const getLogsForUser = async (userID) => {
+	const logs = await log.find({ userID });
 	return logs;
 };
 
-export const getQuizLogsForUser = async (username, quizId) => {
-	const logs = await log.find({ username, quizId });
+export const getQuizLogsForUser = async (userID, quizID) => {
+	const logs = await log.find({ userID, quizID });
 	return logs;
 };
 
-export const updateLog = async ({ username, quizId, logType }) => {
-	const filter = { quizId, username, logType };
+export const updateLog = async ({ userID, quizID, logType }) => {
+	const filter = { quizID, userID, logType };
 
 	const update = {
 		...filter,

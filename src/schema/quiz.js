@@ -22,7 +22,7 @@ const quizSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	/** Usernames of the people managing the quiz (quiz creators and checkers) */
+	/** UserIDs of the people managing the quiz (quiz creators and checkers) */
 	owners: [String],
 	/** Timestamp of the first moment when the quiz can be started */
 	startTime: Date,

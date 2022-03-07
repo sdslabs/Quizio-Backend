@@ -8,7 +8,7 @@ import controller from '../controllers/log';
 const router = express.Router();
 
 router.get('/', isAuth, isSuperAdmin, controller.getAllLogs);
-router.get('/:username', isAuth, isSuperAdmin, controller.getLogsForUser);
-router.get('/:username/:quizId', isAuth, isSuperAdmin, controller.getQuizLogsForUser);
-router.put('/:username', isAuth, controller.updateLog);
+router.get('/:userID', isAuth, isSuperAdmin, controller.getLogsForUser);
+router.get('/:userID/:quizID', isAuth, isSuperAdmin, controller.getQuizLogsForUser);
+router.put('/:userID', isAuth, controller.updateLog);
 export default router;

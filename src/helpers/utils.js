@@ -84,7 +84,7 @@ export const extractRegistrantData = (data) => ({
 	detail3: data.detail3 || null,
 });
 export const extractRegistrantQuizList = (data) => data.map((entry) => (entry.quizID));
-export const extractRegistrantUserNameList = (data) => data.map((entry) => (entry.userID));
+export const extractRegistrantUserIDList = (data) => data.map((entry) => (entry.userID));
 
 // response helpers
 export const extractResponseData = (data) => ({
@@ -108,7 +108,7 @@ export const extractSubmitsData = (data) => data.map((entry) => extractSubmitDat
 
 // user helpers
 export const extractUserDataPrivate = (data) => ({
-	quizioID: data.quizioID || null,
+	userID: data.quizioID || null,
 	username: data.username || null,
 	email: data.email || null,
 	role: data.role || null,
@@ -127,7 +127,7 @@ export const extractUserDataPrivate = (data) => ({
 });
 
 export const extractUserDataPublic = (data) => ({
-	quizioID: data.quizioID || null,
+	userID: data.quizioID || null,
 	username: data.username || null,
 	email: data.email || null,
 	role: data.role || null,

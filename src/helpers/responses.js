@@ -33,7 +33,7 @@ export const successResponseWithMessage = (res, msg) => res.status(200).json({
  */
 export const failureResponseWithMessage = (res, msg) => res.status(400).json({
 	success: 0,
-	message: msg,
+	message: `${msg} :(`,
 });
 
 /**

@@ -39,14 +39,7 @@ const questionSchema = new Schema({
 	answer: String,
 	/** Notes for checkers */
 	checkerNotes: String,
-	/** Time when the question was created */
-	createdOn: {
-		type: Date,
-		default: Date.now,
-	},
-	/** Username of the creator of the question.
-	 * 1. Must exist in the `users` document
-	 */
+	/** quizioID of the creator of the question */
 	creator: String,
 	/** Minimum marks for Subjective questions */
 	minMarks: Number,
@@ -54,10 +47,10 @@ const questionSchema = new Schema({
 	maxMarks: Number,
 	/** Default marks for Subjective questions */
 	defaultMarks: Number,
-	/** Can the question be autochecked? */
-	autocheck: {
-		type: Boolean,
-		default: true,
+	/** Time when the question was created */
+	createdOn: {
+		type: Date,
+		default: Date.now,
 	},
 });
 

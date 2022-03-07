@@ -24,22 +24,22 @@ export const getQuizById = async (quizID) => {
 };
 
 /**
- * Get all the quizzes owned OR created by the given username
+ * Get all the quizzes owned OR created by the given userID
  * @param {String} userID TODO
  * @returns array of quizzes
  */
-export const getQuizzesOwnedByUser = async (username) => {
-	const filter = { $or: [{ owners: username }, { creator: username }] };
+export const getQuizzesOwnedByUser = async (userID) => {
+	const filter = { $or: [{ owners: userID }, { creator: userID }] };
 	const result = await quiz.find(filter);
 	return result ? extractQuizzesData(result) : null;
 };
 
 /**
- * Get all the quizzes created by the given username
+ * Get all the quizzes created by the given userID
  * @returns List of quizzes
  */
-export const getQuizzesCreatedByUser = async (username) => {
-	const filter = { creator: username };
+export const getQuizzesCreatedByUser = async (userID) => {
+	const filter = { creator: userID };
 	const result = await quiz.find(filter);
 	return result ? extractQuizzesData(result) : null;
 };

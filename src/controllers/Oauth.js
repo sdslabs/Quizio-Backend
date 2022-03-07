@@ -44,13 +44,13 @@ export const googleOauth = {
 		if (!users || (users && users.length === 0)) {
 			// User not found, so it's a new user
 			const newUser = await addNewUser({ ...userData, quizioID });
-			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
+			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&userID=${newUser.userID}&&jwtToken=${jwtToken}&new=true`);
 		}
 
 		// User found, so it's an old user
 		const oldUser = await updateUserByEmail(userData);
 		const oldJwtToken = generateToken({ quizioID: oldUser.quizioID });
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${oldUser.username}&&jwtToken=${oldJwtToken}&new=false`);
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${oldUser.username}&&userID=${oldUser.userID}&&jwtToken=${oldJwtToken}&new=false`);
 	},
 };
 
@@ -82,13 +82,13 @@ export const githubOauth = {
 			// User not found, so it's a new user
 			const newUser = await addNewUser({ ...userData, quizioID });
 			logger.info('added new user: ', { newUser });
-			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&jwtToken=${jwtToken}&new=true`);
+			return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${newUser.username}&&userID=${newUser.userID}&&jwtToken=${jwtToken}&new=true`);
 		}
 
 		// User found, so it's an old user
 		const oldUser = await updateUserByEmail(userData);
 		const oldJwtToken = generateToken({ quizioID: oldUser.quizioID });
-		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${oldUser.username}&&jwtToken=${oldJwtToken}&new=false`);
+		return redirectToURL(res, `${process.env.CLIENT_HOME_PAGE_URL}/?username=${oldUser.username}&&userID=${oldUser.userID}&&jwtToken=${oldJwtToken}&new=false`);
 	},
 };
 

@@ -29,7 +29,7 @@ const controller = {
 		const d = new Date();
 		const now = d.toString();
 
-		const { username, role, userID } = req.user;
+		const { role, userID } = req.user;
 		const { quizID } = req.params;
 
 		const quiz = await getQuizById(quizID);
@@ -46,7 +46,7 @@ const controller = {
 				now,
 				endTime,
 			});
-			const isRegistered = await checkIfUserIsRegisteredForQuiz(username, quizID);
+			const isRegistered = await checkIfUserIsRegisteredForQuiz(userID, quizID);
 			if (isRegistered || role === 'superadmin') {
 				const submit = await submitQuiz(quizID, userID);
 

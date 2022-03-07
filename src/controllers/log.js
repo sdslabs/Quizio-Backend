@@ -1,4 +1,4 @@
-import { successResponseWithData } from '../helpers/responses';
+import { failureResponseWithMessage, successResponseWithData } from '../helpers/responses';
 import {
 	updateLog,
 	getLogsForUser,
@@ -10,41 +10,28 @@ const controller = {
 
 	getAllLogs: async (req, res) => {
 		const logs = await getAllLogs();
-		return successResponseWithData(res, {
-			logs,
-		}, 200);
+		return logs ? successResponseWithData(res, { logs }) : failureResponseWithMessage(res, 'logs not found!');
 	},
 
 	getLogsForUser: async (req, res) => {
-		const { username } = req.params;
-
-		const log = await getLogsForUser(username);
-
-		return successResponseWithData(res, {
-			log,
-		}, 200);
+		const { userID } = req.params;
+		const log = await getLogsForUser(userID);
+		return log ? successResponseWithData(res, { log }) : failureResponseWithMessage(res, 'log not found!');
 	},
 
 	getQuizLogsForUser: async (req, res) => {
-		const { username, quizId } = req.params;
-
-		const log = await getQuizLogsForUser(username, quizId);
-
-		return successResponseWithData(res, {
-			log,
-		}, 200);
+		const { userID, quizID } = req.params;
+		const log = await getQuizLogsForUser(userID, quizID);
+		return log ? successResponseWithData(res, { log }) : failureResponseWithMessage(res, 'log not found!');
 	},
 
 	updateLog: async (req, res) => {
-		const { quizId, logType } = req.body;
-		const { username } = req.user;
+		const { quizID, logType } = req.body;
+		const { userID } = req.user;
 
-		const log = await updateLog({ username, quizId, logType });
+		const log = await updateLog({ userID, quizID, logType });
 
-		return successResponseWithData(res, {
-			message: 'Updated Log in db!',
-			log,
-		}, 200);
+		return log ? successResponseWithData(res, { message: 'Updated Log!', log }) : failureResponseWithMessage(res, 'failed to update log!');
 	},
 
 };

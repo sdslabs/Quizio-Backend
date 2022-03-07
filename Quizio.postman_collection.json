@@ -254,7 +254,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"question\" : \"Which 1+1?\",\n    \n    \"autocheck\": true,\n    \"minMarks\": 0,\n    \"maxMarks\": 100,\n    \"defaultMarks\": 69\n}",
+											"raw": "{\n    \"question\" : \"Which 1+1?\",\n    \"autocheck\": true,\n    \"checkerNotes\": \"give full marks!\",\n    \"minMarks\": 0,\n    \"maxMarks\": 100,\n    \"defaultMarks\": 69\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -684,7 +684,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Smith's Quiz 2\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"2022-03-06 00:00:00\",\n    \"endTime\": \"2022-03-08 00:00:00\"\n}",
+							"raw": "{\n    \"name\": \"Smith's Quiz 2\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"2022-03-06 00:00:00\",\n    \"endTime\": \"2022-03-08 00:00:00\",\n    \"owners\": [\"capricious_rebel__lHK\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -705,7 +705,7 @@
 							"variable": [
 								{
 									"key": "quizID",
-									"value": null
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
 								}
 							]
 						}
@@ -1240,7 +1240,7 @@
 			"name": "Logs [PENDING]",
 			"item": [
 				{
-					"name": "/api/v2/logs",
+					"name": "get all logs",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1269,7 +1269,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/v2/logs/:username",
+					"name": "get logs for user",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1311,7 +1311,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/v2/logs/:username/:quizId",
+					"name": "Get quiz logs for user",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1342,7 +1342,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/v2/logs",
+					"name": "update logs for user",
 					"request": {
 						"auth": {
 							"type": "bearer",

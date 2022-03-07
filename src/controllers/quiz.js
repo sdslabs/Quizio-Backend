@@ -5,7 +5,6 @@ import {
 	successResponseWithMessage,
 	notFoundResponse,
 	unauthorizedResponse,
-	errorResponse,
 	failureResponseWithMessage,
 } from '../helpers/responses';
 import { generateQuizioID } from '../helpers/utils';
@@ -25,131 +24,114 @@ import { getResponse } from '../models/response';
 import { getSectionByID } from '../models/section';
 
 const controller = {
-	/**
-	 * Returns the list of all quizzes only for superadmins
-	 */
 	getAllQuizzes: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const quizzes = await getAllQuizzes();
 		if (role === 'superadmin') {
 			return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
 		}
 
 		const registerr = quizzes.map((quiz) => checkIfUserIsRegisteredForQuiz(
-			username,
+			userID,
 			quiz.quizioID,
 		));
 		const registered = await Promise.all(registerr);
 		const results = quizzes.map((quiz, i) => ({ ...quiz, registered: registered[i] }));
 		return quizzes ? successResponseWithData(res, { quizzes: results }) : notFoundResponse(res);
 	},
-	/**
- * Returns the requested quiz data only for superadmins,
- * quiz creator, quiz owners and quiz registrants
- */
+
 	getQuizByID: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
-		if (quiz) {
-			if (role === 'superadmin') {
-				return successResponseWithData(res, { role: 'superadmin', quiz });
-			}
-			if (quiz.creator === username) {
-				return successResponseWithData(res, { role: 'creator', quiz });
-			}
-			if (quiz.owners.includes(username)) {
-				return successResponseWithData(res, { role: 'owner', quiz });
-			}
-			if (quiz.registrants && quiz.registrants.includes(username)) {
-				return successResponseWithData(res, { role: 'registrant', quiz });
-			}
-			return successResponseWithData(res, { role: 'public', quiz });
+
+		if (!quiz) {
+			return notFoundResponse(res, 'Quiz not found!');
 		}
-		return notFoundResponse(res, 'Quiz not found!');
+		if (role === 'superadmin') {
+			return successResponseWithData(res, { role: 'superadmin', quiz });
+		}
+		if (quiz.creator === userID) {
+			return successResponseWithData(res, { role: 'creator', quiz });
+		}
+		if (quiz.owners.includes(userID)) {
+			return successResponseWithData(res, { role: 'owner', quiz });
+		}
+		if (checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID)) {
+			return successResponseWithData(res, { role: 'registrant', quiz });
+		}
+		return successResponseWithData(res, { role: 'public', quiz });
 	},
 
-	/**
-	 * A new quiz is added to the db with the requesting user as the creator
-	 */
 	addNewQuiz: async (req, res) => {
-		const { username } = req.user;
-		const quiz = await addNewQuiz(username);
+		const { userID } = req.user;
+		const quiz = await addNewQuiz(userID);
 		if (quiz) {
 			return successResponseWithData(res, {
 				message: 'Added new Quiz to db!',
 				quiz,
 			});
 		}
-		return errorResponse(res, 'Failed to add new quiz!');
+		return failureResponseWithMessage(res, 'Failed to add new quiz!');
 	},
-	/**
-			 * Updates the quiz to the data sent in the body only when superadmin
-			 * or quiz owner or quiz creator makes the call
-			 */
+
 	updateQuiz: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
-		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
-				const quiz2 = await updateQuiz(quizID, req.body);
-				if (quiz2) {
-					return successResponseWithData(res, {
-						message: 'Quiz updated successfully!',
-						quiz2,
-					});
-				}
-				return errorResponse(res, 'Unable to update Quiz');
+
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			const updatedQuiz = await updateQuiz(quizID, req.body);
+			if (updatedQuiz) {
+				return successResponseWithData(res, {
+					message: 'Quiz updated successfully!',
+					updatedQuiz,
+				});
 			}
-			return unauthorizedResponse(res);
+			return failureResponseWithMessage(res, 'Unable to update Quiz');
 		}
-		return notFoundResponse(res, 'Quiz not found!');
+		return unauthorizedResponse(res);
 	},
-	/**
-					 * Deletes the quiz only when superadmin
-					 * or quiz owner or quiz creator makes the call
-					 */
+
 	deleteQuiz: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
 
-		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
-				const deleted = await deleteQuiz(quizID);
-				if (deleted) {
-					return successResponseWithMessage(res, 'Quiz deleted successfully!');
-				}
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			const deleted = await deleteQuiz(quizID);
+			if (deleted) {
+				return successResponseWithMessage(res, 'Quiz deleted successfully!');
 			}
-			return unauthorizedResponse(res);
+			return failureResponseWithMessage(res, 'Failed to delete quiz!');
 		}
-		return notFoundResponse(res, 'Quiz not found!');
+		return unauthorizedResponse(res);
 	},
 
-	/**
-	 * Check a quiz by ID (only autocheck questions supported)
-	 */
 	checkQuiz: async (req, res) => {
 		// TODO: Save checked data to db
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const checkingID = generateQuizioID();
 		const quiz = await getQuizById(quizID);
 
 		const getRole = () => (role === 'superadmin'
 			? 'superadmin'
-			: quiz.creator === username
+			: quiz.creator === userID
 				? 'quiz creator'
-				: quiz.owners.includes(username)
+				: quiz.owners.includes(userID)
 					? 'quiz owner'
 					: 'unauthorized');
 
 		/** START QUIZ CHECKING */
-		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${username}, role="${getRole()}"\nquizID: ${quizID}`);
+		logger.info(`**Quiz Checking, checkingID=${checkingID}**\nQuiz checking initiated by ${userID}, role="${getRole()}"\nquizID: ${quizID}`);
 
 		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+			if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 				// Get a list of all the questions in the quiz
 				const questions = (await Promise.all(
 					quiz.sections.map(async (sectionID) => {
@@ -199,7 +181,7 @@ const controller = {
 
 				return successResponseWithData(res, {
 					quizID,
-					checkedBy: username,
+					checkedBy: userID,
 					role: getRole(),
 					rankList: rankList.sort((a, b) => b.marks - a.marks),
 				});
@@ -210,12 +192,12 @@ const controller = {
 	},
 
 	publishQuiz: async (req, res) => {
-		const { username, role, userID } = req.user;
+		const { role, userID } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
 
 		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+			if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 				const published = await publishQuiz(quizID, userID);
 				return published
 					? successResponseWithData(res, { ...published })
@@ -227,12 +209,12 @@ const controller = {
 	},
 
 	getPublishedQuiz: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
 
 		if (quiz) {
-			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
+			if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 				const published = await getPublishedQuiz(quizID);
 				return published
 					? successResponseWithData(res, { ...published })

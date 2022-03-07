@@ -43,15 +43,15 @@ const controller = {
 	},
 
 	getRegisteredUsersForQuiz: async (req, res) => {
-		const { username, role } = req.user;
+		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
 		if (quiz) {
 			const users = await getRegisteredUsersForQuiz(quizID);
 			if (users) {
 				if (role === 'superadmin'
-					|| quiz.creator === username
-					|| quiz.owners.includes(username)) {
+					|| quiz.creator === userID
+					|| quiz.owners.includes(userID)) {
 					return successResponseWithData(res, { users });
 				}
 				return unauthorizedResponse(res);
