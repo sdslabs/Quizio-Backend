@@ -12,8 +12,8 @@ import { getSubmittedQuizzes, submitQuiz } from '../models/submit';
 const controller = {
 
 	getSubmittedQuizzes: async (req, res) => {
-		const { quizioID } = req.user;
-		const submittedQuizzes = await getSubmittedQuizzes(quizioID);
+		const { userID } = req.user;
+		const submittedQuizzes = await getSubmittedQuizzes(userID);
 		return submittedQuizzes
 			? successResponseWithData(res, submittedQuizzes)
 			: notFoundResponse(res, 'no quizzes submitted');
@@ -29,7 +29,7 @@ const controller = {
 		const d = new Date();
 		const now = d.toString();
 
-		const { username, role, quizioID } = req.user;
+		const { username, role, userID } = req.user;
 		const { quizID } = req.params;
 
 		const quiz = await getQuizById(quizID);
@@ -48,7 +48,7 @@ const controller = {
 			});
 			const isRegistered = await checkIfUserIsRegisteredForQuiz(username, quizID);
 			if (isRegistered || role === 'superadmin') {
-				const submit = await submitQuiz(quizID, quizioID);
+				const submit = await submitQuiz(quizID, userID);
 
 				if (submit === 'exists') {
 					return failureResponseWithMessage(res, 'Quiz already Submitted!');

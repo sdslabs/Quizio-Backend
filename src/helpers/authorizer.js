@@ -2,6 +2,7 @@ import { getUserWithUserID } from '../models/user';
 import logger from './logger';
 import { notFoundResponse, unauthenticatedResponse, unauthorizedResponse } from './responses';
 import { verifyToken } from './token';
+import { extractUser } from './utils';
 
 /**
  * Check if the user is Authenticated
@@ -26,7 +27,7 @@ export const isAuth = async (req, res, next) => {
 			if (user.role === 'banned') {
 				return unauthenticatedResponse(res);
 			}
-			req.user = user;
+			req.user = extractUser(user);
 			return next();
 		}
 		return notFoundResponse(res, ['Your account does NOT exist!', { quizioID }]);

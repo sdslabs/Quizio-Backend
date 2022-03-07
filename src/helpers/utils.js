@@ -161,3 +161,9 @@ export const extractScoreData = (data) => ({
 	marks: data.marks || 0,
 	autochecked: data.autochecked || false,
 });
+
+export const extractUser = (user) => ({
+	username: user.username,
+	userID: user.quizioID,
+	role: user.role,
+});

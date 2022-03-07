@@ -210,13 +210,13 @@ const controller = {
 	},
 
 	publishQuiz: async (req, res) => {
-		const { username, role, quizioID } = req.user;
+		const { username, role, userID } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
 
 		if (quiz) {
 			if (role === 'superadmin' || quiz.creator === username || quiz.owners.includes(username)) {
-				const published = await publishQuiz(quizID, quizioID);
+				const published = await publishQuiz(quizID, userID);
 				return published
 					? successResponseWithData(res, { ...published })
 					: failureResponseWithMessage(res, 'failed to publish quiz');

@@ -11,12 +11,12 @@ import { getResponse, saveResponse } from '../models/response';
 
 const controller = {
 	saveResponse: async (req, res) => {
-		const { quizioID } = req.user;
-		const responseData = { ...req.body, userID: quizioID };
+		const { userID } = req.user;
+		const responseData = { ...req.body, userID };
 		const questionExists = await getQuestionByID(responseData.questionID);
 		if (questionExists) {
 			const sectionData = await getSectionByID(questionExists.sectionID);
-			const submitExits = await checkSubmit(sectionData.quizID, quizioID);
+			const submitExits = await checkSubmit(sectionData.quizID, userID);
 			if (submitExits) {
 				return errorResponse(res, 'Quiz already submitted!');
 			}
