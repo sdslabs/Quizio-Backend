@@ -6,8 +6,6 @@ const { Schema } = mongoose;
 const submitSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
-	/** Username of the user attempting the question */
-	username: String,
 	/** UserID of the user attempting the question */
 	userID: String,
 	/** quizioID of the attempted question */

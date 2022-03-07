@@ -7,10 +7,7 @@ const sectionSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** quizioID of the parent question */
-	quizID: {
-		type: String,
-		ref: 'Quiz',
-	},
+	quizID: String,
 	/** Time when the section was created */
 	createdOn: {
 		type: Date,
@@ -20,17 +17,10 @@ const sectionSchema = new Schema({
 	title: String,
 	/** Description of the section */
 	description: String,
-	/** Username of the creator of the section. */
-	creator: {
-		type: String,
-		ref: 'User',
-		required: true,
-	},
-	/** All the questions in the section */
-	questions: [{
-		type: String,
-		ref: 'Question',
-	}],
+	/** UserID of the creator of the section. */
+	creator: String,
+	/** quizioIDs of the questions in the section */
+	questions: [String],
 });
 
 export default mongoose.model('Section', sectionSchema);

@@ -17,7 +17,7 @@ const quizSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	/** Username of the creator of the quiz. */
+	/** UserID of the creator of the quiz. */
 	creator: {
 		type: String,
 		required: true,

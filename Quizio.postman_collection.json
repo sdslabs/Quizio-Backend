@@ -49,7 +49,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/utils/verifyQuizioID/quizioID.PHDkpZHVrQ-dDeY8RNH-y",
+							"raw": "{{baseURL}}/api/v2/utils/verifyQuizioID/:quizioID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -58,7 +58,13 @@
 								"v2",
 								"utils",
 								"verifyQuizioID",
-								"quizioID.PHDkpZHVrQ-dDeY8RNH-y"
+								":quizioID"
+							],
+							"variable": [
+								{
+									"key": "quizioID",
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+								}
 							]
 						}
 					},
@@ -72,7 +78,8 @@
 							{
 								"key": "u-access-token",
 								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpZDI0a3N0dWRpb0BnbWFpbC5jb20iLCJpYXQiOjE2NDAwODg0ODgsImV4cCI6MTY0MjY4MDQ4OH0.ZSRnUkritCsmN0SoaAOx7oZbU-jM4Z4t7IBjG7ixtno",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -81,7 +88,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/Users/smithpereira/Desktop/smith.jpg"
+									"src": "/Users/smithpereira/Desktop/Screenshot 2022-03-07 at 12.14.12 PM.png"
 								},
 								{
 									"key": "filex",
@@ -123,7 +130,7 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.Q26ZPNXtkNeitUO2iaJdN/questions",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/:sectionID/questions",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -132,8 +139,14 @@
 												"v2",
 												"quizzes",
 												"sections",
-												"quizioID.Q26ZPNXtkNeitUO2iaJdN",
+												":sectionID",
 												"questions"
+											],
+											"variable": [
+												{
+													"key": "sectionID",
+													"value": "quizioID.JQvFU0-3oGPJd2wtgx0eh"
+												}
 											]
 										}
 									},
@@ -142,10 +155,20 @@
 								{
 									"name": "Get question by id",
 									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+													"type": "string"
+												}
+											]
+										},
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -155,7 +178,13 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.xxp9pDqBFCmGQpLPK1rgN"
+												":questionID"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": "quizioID.72XtOuK01SyFYl59ym2Ad"
+												}
 											]
 										}
 									},
@@ -186,7 +215,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.OfQKdHJP2yyR9q9ddcOms",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -196,7 +225,13 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.OfQKdHJP2yyR9q9ddcOms"
+												":questionID"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": null
+												}
 											]
 										}
 									},
@@ -219,7 +254,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"question\" : \"Which is the best programming language?\",\n    \"answer\": \"javascript2\",\n    \"autocheck\": true,\n    \"minMarks\": 0,\n    \"maxMarks\": 10\n}",
+											"raw": "{\n    \"question\" : \"Which 1+1?\",\n    \n    \"autocheck\": true,\n    \"minMarks\": 0,\n    \"maxMarks\": 100,\n    \"defaultMarks\": 69\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -227,7 +262,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ZcPLqiTGL7Xsq3PoDOslf",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -237,7 +272,13 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.ZcPLqiTGL7Xsq3PoDOslf"
+												":questionID"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": "quizioID.PLMjw9sjT37kARsZQbEPK"
+												}
 											]
 										}
 									},
@@ -259,7 +300,7 @@
 										"method": "PUT",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ZcPLqiTGL7Xsq3PoDOslf/toggle",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID/toggle",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -269,8 +310,14 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.ZcPLqiTGL7Xsq3PoDOslf",
+												":questionID",
 												"toggle"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": "quizioID.72XtOuK01SyFYl59ym2Ad"
+												}
 											]
 										}
 									},
@@ -278,62 +325,6 @@
 								},
 								{
 									"name": "add choice to question by ID",
-									"request": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"choice\": \"1\",\n    \"marks\": 0\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN/choices",
-											"host": [
-												"{{baseURL}}"
-											],
-											"path": [
-												"api",
-												"v2",
-												"quizzes",
-												"sections",
-												"questions",
-												"quizioID.xxp9pDqBFCmGQpLPK1rgN",
-												"choices"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "delete choice in question by ID",
-									"request": {
-										"method": "DELETE",
-										"header": [],
-										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.xxp9pDqBFCmGQpLPK1rgN/choices/quizioID.CnPYo4k2WFMLwmZjFIRbB",
-											"host": [
-												"{{baseURL}}"
-											],
-											"path": [
-												"api",
-												"v2",
-												"quizzes",
-												"sections",
-												"questions",
-												"quizioID.xxp9pDqBFCmGQpLPK1rgN",
-												"choices",
-												"quizioID.CnPYo4k2WFMLwmZjFIRbB"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Check Question",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -349,7 +340,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"registrantID\": \"quizioID.AXrOR22xQHhCHFliTWkyu\",\n    \"marks\": 69\n\n}",
+											"raw": "{\n    \"choice\": \"2\",\n    \"marks\": 4\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -357,7 +348,7 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/quizioID.ZcPLqiTGL7Xsq3PoDOslf/check",
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID/choices",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -367,8 +358,48 @@
 												"quizzes",
 												"sections",
 												"questions",
-												"quizioID.ZcPLqiTGL7Xsq3PoDOslf",
-												"check"
+												":questionID",
+												"choices"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": "quizioID.PLMjw9sjT37kARsZQbEPK"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete choice in question by ID",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID/choices/:choiceID",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"quizzes",
+												"sections",
+												"questions",
+												":questionID",
+												"choices",
+												":choiceID"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": null
+												},
+												{
+													"key": "choiceID",
+													"value": null
+												}
 											]
 										}
 									},
@@ -382,7 +413,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/sections",
+									"raw": "{{baseURL}}/api/v2/quizzes/:quizID/sections",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -390,8 +421,14 @@
 										"api",
 										"v2",
 										"quizzes",
-										"quizioID.kZUg8vdioGoWRgr2EpVSB",
+										":quizID",
 										"sections"
+									],
+									"variable": [
+										{
+											"key": "quizID",
+											"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+										}
 									]
 								}
 							},
@@ -413,7 +450,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.pa8HjGrdPirzhPhDlwsO_",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/:sectionID",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -422,7 +459,13 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.pa8HjGrdPirzhPhDlwsO_"
+										":sectionID"
+									],
+									"variable": [
+										{
+											"key": "sectionID",
+											"value": "quizioID.JQvFU0-3oGPJd2wtgx0eh"
+										}
 									]
 								}
 							},
@@ -443,7 +486,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.Q26ZPNXtkNeitUO2iaJdN",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/:sectionID",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -452,7 +495,13 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.Q26ZPNXtkNeitUO2iaJdN"
+										":sectionID"
+									],
+									"variable": [
+										{
+											"key": "sectionID",
+											"value": "quizioID.JQvFU0-3oGPJd2wtgx0eh"
+										}
 									]
 								}
 							},
@@ -464,7 +513,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/quizzes/sections/quizioID.EKWRzSrV5xn7ilrMmQWvO",
+									"raw": "{{baseURL}}/api/v2/quizzes/sections/:sectionID",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -473,7 +522,13 @@
 										"v2",
 										"quizzes",
 										"sections",
-										"quizioID.EKWRzSrV5xn7ilrMmQWvO"
+										":sectionID"
+									],
+									"variable": [
+										{
+											"key": "sectionID",
+											"value": null
+										}
 									]
 								}
 							},
@@ -531,6 +586,16 @@
 				{
 					"name": "Create Quiz",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -550,6 +615,16 @@
 				{
 					"name": "Get all quizzes",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -572,7 +647,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.DA2vvLi_en83TY0z3HVAi",
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -580,7 +655,13 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.DA2vvLi_en83TY0z3HVAi"
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+								}
 							]
 						}
 					},
@@ -603,7 +684,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Smith's Quiz 2\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"Tue, 01 Mar 2022 18:30:00 IST\",\n    \"endTime\": \"Sat, 5 Mar 2022 22:00:00 IST\"\n}",
+							"raw": "{\n    \"name\": \"Smith's Quiz 2\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"2022-03-06 00:00:00\",\n    \"endTime\": \"2022-03-08 00:00:00\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -611,7 +692,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.DA2vvLi_en83TY0z3HVAi",
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -619,7 +700,13 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.DA2vvLi_en83TY0z3HVAi"
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": null
+								}
 							]
 						}
 					},
@@ -631,7 +718,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.VRK35Hzbks7AISztSCqWi",
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -639,7 +726,13 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.VRK35Hzbks7AISztSCqWi"
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": null
+								}
 							]
 						}
 					},
@@ -651,7 +744,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.kZUg8vdioGoWRgr2EpVSB/publish",
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID/publish",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -659,29 +752,14 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.kZUg8vdioGoWRgr2EpVSB",
+								":quizID",
 								"publish"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Check Quiz",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.s2GjkwOU_Vov6tpsMG5dK/check",
-							"host": [
-								"{{baseURL}}"
 							],
-							"path": [
-								"api",
-								"v2",
-								"quizzes",
-								"quizioID.s2GjkwOU_Vov6tpsMG5dK",
-								"check"
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+								}
 							]
 						}
 					},
@@ -693,7 +771,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/quizzes/quizioID.DA2vvLi_en83TY0z3HVAi/publish",
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID/publish",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -701,8 +779,14 @@
 								"api",
 								"v2",
 								"quizzes",
-								"quizioID.DA2vvLi_en83TY0z3HVAi",
+								":quizID",
 								"publish"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+								}
 							]
 						}
 					},
@@ -738,7 +822,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/users/quizioID.6KnegAdNCW3qqQQnQhyE2",
+							"raw": "{{baseURL}}/api/v2/users/:userID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -746,7 +830,13 @@
 								"api",
 								"v2",
 								"users",
-								"quizioID.6KnegAdNCW3qqQQnQhyE2"
+								":userID"
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": null
+								}
 							]
 						}
 					},
@@ -778,7 +868,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/users/check/email/code.capriciousrebel@gmail.com",
+							"raw": "{{baseURL}}/api/v2/users/check/email/:emailID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -788,16 +878,19 @@
 								"users",
 								"check",
 								"email",
-								"code.capriciousrebel@gmail.com"
+								":emailID"
+							],
+							"variable": [
+								{
+									"key": "emailID",
+									"value": "code.capriciousrebel@gmail.com"
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer"
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1052,7 +1145,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"quizID\": \"quizioID.ZKjXTF08bxIlefi7VdQz0\",\n    \"firstName\": \"Smith\",\n    \"lastName\": \"Pereira\",\n    \"email\" : \"code.capriciousrebel@gmail.com\",\n    \"contactNo\": \"7768011236\",\n    \"orgName\": \"SDSLabs\",\n    \"detail1\": {\n        \"key\": \"Codechef ID\",\n        \"value\": \"capriciousrebel\"\n    }\n\n}",
+							"raw": "{\n    \"quizID\": \"quizioID.IpV7TBR5FDwGzY6XvSlKP\",\n    \"firstName\": \"Smith\",\n    \"lastName\": \"Pereira\",\n    \"email\" : \"code.capriciousrebel@gmail.com\",\n    \"contactNo\": \"7768011236\",\n    \"orgName\": \"SDSLabs\",\n    \"detail1\": {\n        \"key\": \"Codechef ID\",\n        \"value\": \"capriciousrebel\"\n    }\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1081,16 +1174,6 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1123,16 +1206,6 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.Y29kZS5jYXByaWNpb3VzcmViZWxAZ21haWwuY29t.CqytMhhoMPEy6EBHDZ_2cI3Ci2QDVs6ufzwTfWGMvM8",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1145,7 +1218,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/register/users/quizzes/quizioID.IckGNt7SWRrjeuhblRolS",
+							"raw": "{{baseURL}}/api/v2/register/users/quizzes/quizioID.IpV7TBR5FDwGzY6XvSlKP",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1155,7 +1228,7 @@
 								"register",
 								"users",
 								"quizzes",
-								"quizioID.IckGNt7SWRrjeuhblRolS"
+								"quizioID.IpV7TBR5FDwGzY6XvSlKP"
 							]
 						}
 					},
@@ -1304,13 +1377,23 @@
 			"name": "Response",
 			"item": [
 				{
-					"name": "Submit quiz response",
+					"name": "Submit response",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"questionID\" : \"quizioID.xxp9pDqBFCmGQpLPK1rgN\",\n    \"answer\": \"javascript\"\n}",
+							"raw": "{\n    \"questionID\" : \"quizioID.72XtOuK01SyFYl59ym2Ad\",\n    \"answer\": \"javascript!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1351,7 +1434,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userID\": \"quizioID.AXrOR22xQHhCHFliTWkyu\",\n    \"questionID\" : \"quizioID.xxp9pDqBFCmGQpLPK1rgN\"\n}",
+							"raw": "{\n    \"userID\": \"quizioID.AXrOR22xQHhCHFliTWkyu\",\n    \"questionID\" : \"quizioID.PLMjw9sjT37kARsZQbEPK\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1383,7 +1466,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v2/submit/quizioID.kZUg8vdioGoWRgr2EpVSB",
+							"raw": "{{baseURL}}/api/v2/submit/:quizID",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -1391,14 +1474,20 @@
 								"api",
 								"v2",
 								"submit",
-								"quizioID.kZUg8vdioGoWRgr2EpVSB"
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Submitted Quizzes",
+					"name": "Get Quizzes submitted by user",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1417,6 +1506,96 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Check",
+			"item": [
+				{
+					"name": "Check Quiz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/quizzes/:quizID/check",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"quizzes",
+								":quizID",
+								"check"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID.IpV7TBR5FDwGzY6XvSlKP"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"registrantID\": \"quizioID.AXrOR22xQHhCHFliTWkyu\",\n    \"marks\": 69\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID/check",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"quizzes",
+								"sections",
+								"questions",
+								":questionID",
+								"check"
+							],
+							"variable": [
+								{
+									"key": "questionID",
+									"value": "quizioID.72XtOuK01SyFYl59ym2Ad"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -1424,7 +1603,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELmVacGhtUUo2VGtYR0JSdzh4cGtkYSIsImlhdCI6MTY0NjQwMTQ4NywiZXhwIjoyNTEwMzE1MDg3fQ.zADABlv_6noydKjRTmsfqiK89AgHmYe5K9lcCDQT0QQ",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELkFYck9SMjJ4UUhoQ0hGbGlUV2t5dSIsImlhdCI6MTY0NjQ5NTUxNCwiZXhwIjoyNTEwNDA5MTE0fQ.HxEpirLLvojMAeJiyxk4iVcZuHkuUEQSK-SYHMmRA08",
 				"type": "string"
 			}
 		]

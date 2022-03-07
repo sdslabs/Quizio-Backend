@@ -6,7 +6,7 @@ const scoreSchema = new Schema({
 	/** Unique id for every document in quizio database, generated using nanoid */
 	quizioID: String,
 	/** quizioID of the question */
-	questionId: String,
+	questionID: String,
 	/** quizioID of the registrant */
 	registrantID: String,
 	/** quizioID of the checker */

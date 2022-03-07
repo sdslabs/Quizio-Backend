@@ -22,31 +22,39 @@ type RegistersDetail1 {
 }
 
 model logs {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int    @map("__v")
-  frequency Int
-  logType   String
-  quizId    String @db.ObjectId
-  username  String
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model publishes {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  v           Int      @map("__v")
+  publishedBy String
+  quizID      String
+  quizioID    String
+  time        DateTime @db.Date
 }
 
 model questions {
-  id        String             @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int                @map("__v")
-  autocheck Boolean
-  choices   QuestionsChoices[]
-  createdOn DateTime           @db.Date
-  creator   String
-  isMCQ     Boolean
-  quizioID  String
-  sectionID String
-  type      String
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int                @map("__v")
+  answer       String?
+  autocheck    Boolean
+  checkerNotes String?
+  choices      QuestionsChoices[]
+  createdOn    DateTime           @db.Date
+  creator      String
+  defaultMarks Int
+  maxMarks     Int
+  minMarks     Int
+  question     String
+  quizioID     String
+  sectionID    String
+  type         String
 }
 
 model quizzes {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   v           Int       @map("__v")
-  accessCode  String?
   createdOn   DateTime  @db.Date
   creator     String
   description String?
@@ -59,28 +67,39 @@ model quizzes {
 }
 
 model registers {
-  id        String            @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int               @map("__v")
-  contactNo String?
-  detail1   RegistersDetail1?
-  email     String?
-  firstName String?
-  lastName  String?
-  orgName   String?
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int              @map("__v")
+  contactNo String
+  detail1   RegistersDetail1
+  email     String
+  firstName String
+  lastName  String
+  orgName   String
   quizID    String
   quizioID  String
-  username  String
+  userID    String
 }
 
 model responses {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   v            Int      @map("__v")
-  answer       String
+  answer       String?
   answerChoice String[]
   questionID   String
   quizioID     String
   time         DateTime @db.Date
-  username     String
+  userID       String
+}
+
+model scores {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int     @map("__v")
+  autochecked  Boolean
+  checkBy      String
+  marks        Int
+  questionID   String
+  quizioID     String
+  registrantID String
 }
 
 model sections {
@@ -88,29 +107,33 @@ model sections {
   v           Int      @map("__v")
   createdOn   DateTime @db.Date
   creator     String
-  description String?
+  description String
   questions   String[]
-  quizID      String?
+  quizID      String
   quizioID    String
-  title       String?
+  title       String
 }
 
 model submits {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int      @map("__v")
+  quizID   String
+  quizioID String
+  time     DateTime @db.Date
+  userID   String
 }
 
 model users {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  v              Int       @map("__v")
-  date           DateTime? @db.Date
-  dateAdded      DateTime? @db.Date
-  email          String    @unique(map: "email_1")
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  v              Int      @map("__v")
+  dateAdded      DateTime @db.Date
+  email          String   @unique(map: "email_1")
   firstName      String
   githubAvatar   String?
   githubUserName String?
-  googleAvatar   String
+  googleAvatar   String?
   lastName       String
-  quizzes        String[]  @db.ObjectId
+  quizioID       String
   role           String
-  username       String    @unique(map: "username_1")
+  username       String   @unique(map: "username_1")
 }

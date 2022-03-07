@@ -33,19 +33,19 @@ const controller = {
 		const { quizID } = req.params;
 
 		const quiz = await getQuizById(quizID);
-		const startTime = new Date(quiz.startTime).toString();
-		const endTime = new Date(quiz.endTime).toString();
-		console.log({
-			quiz,
-			startTime,
-			now,
-			endTime,
-		});
 
 		// TODO: submit time validation
 		// console.log((startTime <= now) && (now <= endTime));
 
 		if (quiz) {
+			const startTime = new Date(quiz.startTime).toString();
+			const endTime = new Date(quiz.endTime).toString();
+			console.log({
+				quiz,
+				startTime,
+				now,
+				endTime,
+			});
 			const isRegistered = await checkIfUserIsRegisteredForQuiz(username, quizID);
 			if (isRegistered || role === 'superadmin') {
 				const submit = await submitQuiz(quizID, quizioID);
