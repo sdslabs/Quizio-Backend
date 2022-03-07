@@ -29,7 +29,7 @@ router.get(
 );
 
 /* Protected route for testing */
-router.get('/protected', isAuth, (req, res) => res.status(200).json({ message: `Welcome to Quizio! @${req.user.username}` }));
+router.get('/protected', isAuth, (req, res) => res.status(200).json({ message: `Welcome to Quizio! @${req.user.username} | Your email is ${req.user.email} | Your quizioID is ${req.user.userID}` }));
 
 /* Login using jwtToken (query params) */
 router.get('/login', oauthController.login);

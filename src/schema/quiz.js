@@ -32,7 +32,6 @@ const quizSchema = new Schema({
 	startWindow: Number,
 	/** Code to be able to access the quiz (for quiz givers) */
 	accessCode: String,
-
 	/* Additional details for the quiz */
 	detail1: {
 		key: String,

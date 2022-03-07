@@ -41,7 +41,9 @@ const controller = {
 	 * @returns Public UserData of user with the given userID
 	 */
 	getSelfWithUserID: async (req, res) => {
-		const { user } = req;
+		const { userID } = req.user;
+		const user = await getUserWithUserID(userID);
+
 		if (user) {
 			return successResponseWithData(res, extractUserDataPrivate(user));
 		}

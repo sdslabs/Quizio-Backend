@@ -17,7 +17,6 @@ export const extractQuizData = (data) => ({
 	startWindow: data.startWindow || null,
 	accessCode: data.accessCode || null,
 	sections: data.sections || null,
-	registrants: data.registrants || null,
 	detail3: data.detail3 || null,
 	detail1: data.detail1 || null,
 	detail2: data.detail2 || null,
@@ -92,7 +91,7 @@ export const extractResponseData = (data) => ({
 	userID: data.userID || null,
 	questionID: data.questionID || null,
 	time: data.time || null,
-	answerChoice: data.answerChoice || null,
+	answerChoices: data.answerChoices || null,
 	answer: data.answer || null,
 });
 
@@ -166,4 +165,5 @@ export const extractUser = (user) => ({
 	username: user.username,
 	userID: user.quizioID,
 	role: user.role,
+	email: user.email,
 });

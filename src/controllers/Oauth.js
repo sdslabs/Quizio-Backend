@@ -4,8 +4,9 @@ import passport from 'passport';
 import dotenv from 'dotenv';
 import logger from '../helpers/logger';
 import {
+	notImplementedResponse,
 	redirectToURL,
-	successResponseWithCookieClear,
+	// successResponseWithCookieClear,
 	successResponseWithData,
 	tokenErrorResponse,
 	unauthenticatedResponse,
@@ -136,12 +137,13 @@ const oauthController = {
 	 * Clears the jwtToken Cookie
 	 * @returns A success message string
 	 */
-	logout: (req, res) => successResponseWithCookieClear(res, {
-		// message: 'Successfully logged out!',
-		message: 'Must clear cookies in the frontend to logout!',
-	}, {
-		name: 'jwtToken',
-	}),
+	logout: (req, res) => notImplementedResponse(res),
+	// logout: (req, res) => successResponseWithCookieClear(res, {
+	// 	// message: 'Successfully logged out!',
+	// 	message: 'Must clear cookies in the frontend to logout!',
+	// }, {
+	// 	name: 'jwtToken',
+	// }),
 };
 
 export default oauthController;

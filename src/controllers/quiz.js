@@ -162,7 +162,7 @@ const controller = {
 						questions.map(async (question) => {
 							const response = await getResponse(registrant, question.quizioID);
 							console.log({ question, registrant, response });
-							const answerChoice = response?.answerChoice[0];
+							const answerChoice = response?.answerChoices[0];
 							if (answerChoice) {
 								const score = question.choices.find(
 									(choice) => choice.quizioID === answerChoice,

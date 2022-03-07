@@ -144,7 +144,7 @@ const controller = {
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const quiz = await getQuizById(section.quizID);
-		if (quiz) return notFoundResponse(res, 'Quiz not found!');
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID

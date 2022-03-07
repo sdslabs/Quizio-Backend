@@ -116,5 +116,5 @@ export const redirectToURL = (res, url) => res.redirect(url);
  */
 export const notImplementedResponse = (res) => res.status(501).json({
 	success: 0,
-	msg: 'Endpoint not implemented!',
+	msg: 'Endpoint not implemented! Maybe request people at SDSLabs? https://chat.sdslabs.co/',
 });

@@ -70,11 +70,6 @@ export const addChoiceToQuestionByID = async (questionID, choiceData) => {
 
 /**
  * Update the section using the quizId and sectionId
- * @returns quizID and section data of the section updated in the quiz
- */
-
-/**
- * Update the section using the quizId and sectionId
  * @param {String} questionID quizioID of the question
  * @param {Object} choiceData object with values of the choice to be added
  * @returns updated question object
@@ -100,4 +95,15 @@ export const deleteQuestion = async (questionID) => {
 	const deletedInSection = await deleteQuestionInSection(originalQuestion.sectionID, questionID);
 
 	return deletedQuestion && deletedInSection;
+};
+
+/**
+ * Check if a choice exists in the question
+ * @param {String} choiceID quizioID of the choice
+ * @param {String} questionID quizioID of the question
+ * @returns true if choice exists in question else false
+ */
+export const isChoiceInQuestion = async (choiceID, questionID) => {
+	const questionData = await getQuestionByID(questionID);
+	return !!questionData.choices.find((choice) => choice.quizioID === choiceID);
 };

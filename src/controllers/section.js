@@ -29,7 +29,7 @@ const controller = {
 
 			if (section) {
 				return successResponseWithData(res, {
-					message: 'Section updated successfully!',
+					message: 'Section Added successfully!',
 					section,
 				});
 			}
@@ -39,6 +39,7 @@ const controller = {
 	},
 
 	getSectionByID: async (req, res) => {
+		console.log('Get section');
 		const { userID, role } = req.user;
 		const { sectionID } = req.params;
 
@@ -66,12 +67,11 @@ const controller = {
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const quiz = await getQuizById(section.quizID);
-
-		if (quiz) return notFoundResponse(res, 'Quiz not found!');
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
 		if (role === 'superadmin'
-				|| quiz.creator === userID
-				|| quiz.owners.includes(userID)) {
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
 			const section2 = await updateSectionByID(sectionID, sectionData);
 			if (section2) {
 				return successResponseWithData(res, {
@@ -89,24 +89,21 @@ const controller = {
 		const { sectionID } = req.params;
 
 		const section = await getSectionByID(sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
 
-		if (section) {
-			const quiz = await getQuizById(section.quizID);
-			if (quiz) {
-				if (role === 'superadmin'
-					|| quiz.creator === userID
-					|| quiz.owners.includes(userID)) {
-					const section2 = await deleteSection(sectionID);
-					if (section2) {
-						return successResponseWithMessage(res, 'Section deleted successfully!');
-					}
-					return errorResponse(res, 'Unable to update Section');
-				}
-				return unauthorizedResponse(res);
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const section2 = await deleteSection(sectionID);
+			if (section2) {
+				return successResponseWithMessage(res, 'Section deleted successfully!');
 			}
-			return notFoundResponse(res, 'Quiz not found!');
+			return errorResponse(res, 'Unable to update Section');
 		}
-		return notFoundResponse(res, 'Section not found!');
+		return unauthorizedResponse(res);
 	},
 };
 
