@@ -1,5 +1,5 @@
 import { getUserWithUserID } from '../models/user';
-import logger from './logger';
+// import logger from './logger';
 import { notFoundResponse, unauthenticatedResponse, unauthorizedResponse } from './responses';
 import { verifyToken } from './token';
 import { extractUser } from './utils';
@@ -20,7 +20,7 @@ export const isAuth = async (req, res, next) => {
 	}
 
 	const quizioID = verifyToken(res, token);
-	logger.info(`check is Auth, extracted quizioID: ${quizioID}`);
+	// logger.info(`check is Auth, extracted quizioID: ${quizioID}`);
 	if (quizioID) {
 		const user = await getUserWithUserID(quizioID);
 		if (user) {

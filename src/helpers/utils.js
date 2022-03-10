@@ -178,9 +178,21 @@ export const extractRanklistData = (data) => ({
 	time: data.time || 0,
 });
 
-export const extractUser = (user) => ({
-	username: user.username,
-	userID: user.quizioID,
-	role: user.role,
-	email: user.email,
+export const extractUser = (data) => ({
+	username: data.username,
+	userID: data.quizioID,
+	role: data.role,
+	email: data.email,
+	githubAvatar: data.githubAvatar || null,
+	googleAvatar: data.googleAvatar || null,
+	githubUsername: data.githubUsername || null,
+	firstName: data.firstName || null,
+	lastName: data.lastName || null,
+	instiName: data.instiName || null,
+	country: data.country || null,
+	city: data.city || null,
+	phoneNumber: data.phoneNumber || null,
+	handle1: data.handle1 || null,
+	handle2: data.handle2 || null,
+	handle3: data.handle3 || null,
 });
