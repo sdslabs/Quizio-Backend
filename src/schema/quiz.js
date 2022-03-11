@@ -38,16 +38,19 @@ const quizSchema = new Schema({
 	detail1: {
 		key: String,
 		value: String,
+		isRequired: Boolean,
 	},
 	/* Additional details for the quiz */
 	detail2: {
 		key: String,
 		value: String,
+		isRequired: Boolean,
 	},
 	/* Additional details for the quiz */
 	detail3: {
 		key: String,
 		value: String,
+		isRequired: Boolean,
 	},
 	/** Sections in the quiz */
 	sections: [String],
