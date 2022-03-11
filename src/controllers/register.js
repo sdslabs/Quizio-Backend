@@ -21,8 +21,8 @@ const controller = {
 
 		const quizExists = await getQuizById(quizID);
 		if (!quizExists) return notFoundResponse(res, 'quiz not found!');
-	
-		if( accessCode === quizExists.accessCode ) {
+
+		if (accessCode === quizExists.accessCode) {
 			const register = await registerUserForQuiz(userID, data);
 
 			if (register === 'exists') {
@@ -33,9 +33,7 @@ const controller = {
 				register,
 			}) : errorResponse(res, 'Failed to register for quiz!');
 		}
-		else {
-			return failureResponseWithMessage(res, 'Invalid access code');
-		}
+		return failureResponseWithMessage(res, 'Invalid access code');
 	},
 
 	getRegisteredQuizzesForUser: async (req, res) => {
