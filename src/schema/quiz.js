@@ -12,6 +12,8 @@ const quizSchema = new Schema({
 	description: String,
 	/** Instructions of the quiz */
 	instructions: String,
+	/** URL of the quiz Banner */
+	bannerURL: String,
 	/** The date and time on which the quiz was created */
 	createdOn: {
 		type: Date,

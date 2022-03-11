@@ -18,6 +18,7 @@ export const extractQuizData = (data) => ({
 	name: data.name || null,
 	description: data.description || null,
 	instructions: data.instructions || null,
+	bannerURL: data.bannerURL || null,
 	createdOn: data.createdOn || null,
 	creator: data.creator || null,
 	owners: data.owners || null,
