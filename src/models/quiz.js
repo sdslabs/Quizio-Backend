@@ -48,9 +48,9 @@ export const getQuizzesCreatedByUser = async (userID) => {
  * Add a new quiz to the db
  * @returns quiz data of the new quiz added to the db
  */
-export const addNewQuiz = async (creator) => {
+export const addNewQuiz = async (creator, creatorEmail) => {
 	const quizioID = generateQuizioID();
-	const newQuiz = new quiz({ quizioID, creator });
+	const newQuiz = new quiz({ quizioID, creator, owners: [creatorEmail] });
 	const result = await newQuiz.save();
 	return result ? extractQuizData(result) : null;
 };

@@ -68,8 +68,8 @@ const controller = {
 	},
 
 	addNewQuiz: async (req, res) => {
-		const { userID } = req.user;
-		const quiz = await addNewQuiz(userID);
+		const { userID, email } = req.user;
+		const quiz = await addNewQuiz(userID, email);
 		if (quiz) {
 			return successResponseWithData(res, {
 				message: 'Added new Quiz to db!',
