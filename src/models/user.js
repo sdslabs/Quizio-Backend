@@ -60,5 +60,5 @@ export const updateUserByEmail = async (userData) => {
  */
 export const checkIfEmailExists = async (email) => {
 	const exists = await user.findOne({ email });
-	return !!exists;
+	return exists ? exists.quizioID : null;
 };

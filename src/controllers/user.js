@@ -2,7 +2,6 @@ import logger from '../helpers/logger';
 import {
 	notFoundResponse,
 	successResponseWithData,
-	successResponseWithMessage,
 	unauthorizedResponse,
 } from '../helpers/responses';
 import { extractUserDataPrivate, extractUserDataPublic } from '../helpers/utils';
@@ -74,7 +73,7 @@ const controller = {
 	checkIfEmailExists: async (req, res) => {
 		const { emailID } = req.params;
 		const exists = await checkIfEmailExists(emailID);
-		return exists ? successResponseWithMessage(res, 'Email exists!') : notFoundResponse(res, 'Email not found :(');
+		return exists ? successResponseWithData(res, { msg: 'Email exists!', quizioID: exists }) : notFoundResponse(res, 'Email not found :(');
 	},
 
 };
