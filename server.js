@@ -13,12 +13,13 @@ const server = http.Server(app);
 const io = new Server(server, {
 	cors: {
 		// origin: 'http://localhost:3006',
-		origin: CLIENT_HOME_PAGE_URL,
+		// origin: CLIENT_HOME_PAGE_URL,
+		origin: "*",
 	},
 });
 
 // Initate timer server
-// timerService(io);
+timerService(io);
 
 // Connect to db
 mongoose.connect(MONGOURI).then(() => logger
