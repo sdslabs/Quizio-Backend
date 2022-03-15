@@ -357,6 +357,40 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "delete all choices in question by ID",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/api/v2/quizzes/sections/questions/:questionID/choices/:choiceID",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"quizzes",
+												"sections",
+												"questions",
+												":questionID",
+												"choices",
+												":choiceID"
+											],
+											"variable": [
+												{
+													"key": "questionID",
+													"value": "quizioID.kmJqAzlGKB791SfMja-TE"
+												},
+												{
+													"key": "choiceID",
+													"value": "quizioID.DkCEj2pA0Fvph2w7qUZQz"
+												}
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
@@ -597,7 +631,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Smith's Quiz with userIDs\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"startTime\": \"2022-03-06 00:00:00\",\n    \"endTime\": \"2022-03-08 00:00:00\",\n    \"owners\": [\"capricious_rebel__lHK\"]\n}",
+							"raw": "{\n    \"name\": \"Smith's Quiz\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"owners\": [\n        \"code.capriciousrebel@gmail.com\"\n    ],\n    \"hgugyj\": \"jhlukgyj\",\n    \"accessCode\": \"abcdef\",\n    \"bannerURL\": \"https://i.ibb.co/NKVth1G/quizio-ID-MXg-NHn-Jgiuijt-Ts9-JSoc.png\",\n    \"detail1\"{\n        \"key\": \"codechef\",\n        \"value\":\"Codechef ID\",\n        \"isRequired\": true\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -618,7 +652,7 @@
 							"variable": [
 								{
 									"key": "quizID",
-									"value": "quizioID._6HXs--0gVJcrH9NOLyOO"
+									"value": "quizioID.mLWJApsca5SN6PJWXy5Rm"
 								}
 							]
 						}
