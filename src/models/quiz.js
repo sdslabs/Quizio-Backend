@@ -3,6 +3,7 @@ import publish from '../schema/publish';
 import {
 	extractPublishData, extractQuizData, extractQuizzesData, generateQuizioID,
 } from '../helpers/utils';
+import dayjs from 'dayjs';
 
 /**
  * Get all the quizzes in the db
@@ -99,7 +100,7 @@ export const deleteSectionInQuiz = async (quizioID, sectionID) => {
 export const publishQuiz = async (quizID, publishedBy) => {
 	const quizioID = generateQuizioID();
 	const exists = await publish.findOne({ quizID, publishedBy });
-	const time = +new Date();
+	const time = dayjs().toString();
 	if (exists) {
 		const updatedPublish = await publish.findOneAndUpdate(
 			{ quizID },

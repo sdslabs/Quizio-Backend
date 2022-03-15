@@ -1,9 +1,6 @@
 import dayjs from 'dayjs';
-import 'dayjs/locale/en-in';
 import logger from '../helpers/logger';
 import { getAllQuizzes } from '../models/quiz';
-
-dayjs.locale('en-in');
 
 let ongoingQuizzes = [];
 let removeFromOngoingQuizzes = [];
@@ -16,7 +13,7 @@ export const removeOngoingQuizFromTimer = (quizioID) => {
 };
 
 const getUpcomingQuizzes = async () => {
-	console.log('dayjs()', dayjs().format().toLocaleString());
+	// console.log('dayjs()', dayjs().format().toLocaleString());
 	const quizzes = await getAllQuizzes();
 
 	return quizzes.filter((quiz) => {
@@ -79,8 +76,8 @@ const timerService = async (io) => {
 				ongoingQuizzes.splice(i, 1);
 			}
 		}
-		logger.info('TIMER SERVICE: UPDATE');
-		logger.info(ongoingQuizzes);
+		// logger.info('TIMER SERVICE: UPDATE');
+		// logger.info(ongoingQuizzes);
 	}, 1000);
 
 	io.on('connection', (socket) => {
