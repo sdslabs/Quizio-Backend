@@ -84,6 +84,20 @@ export const deleteChoiceInQuestionByID = async (questionID, choiceID) => {
 };
 
 /**
+ * Deletes all the choices in a question
+ * @param {String} questionID quizioID of the question
+ * @returns updated question object
+ */
+export const deleteAllChoicesInQuestionByID = async (questionID) => {
+	const updatedQuestion = await question.findOneAndUpdate(
+		{ quizioID: questionID },
+		{ choices: [] },
+		{ new: true },
+	);
+	return extractQuestionData(updatedQuestion);
+};
+
+/**
  * Delete a quesiton by it's quizioID
  * @param {String} questionID quizioID of the question
  * @returns true if deleted else false

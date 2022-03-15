@@ -43,6 +43,11 @@ router.delete(
 	questionController.deleteChoiceInQuestionByID,
 );
 router.delete(
+	'/sections/questions/:questionID/choices',
+	isAuth,
+	questionController.deleteAllChoicesInQuestionByID,
+);
+router.delete(
 	'/sections/questions/:questionID',
 	isAuth,
 	questionController.deleteQuestionByID,

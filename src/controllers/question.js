@@ -11,6 +11,7 @@ import { extractChoicesData, filterQuestionForRegistrant, generateQuizioID } fro
 import {
 	addChoiceToQuestionByID,
 	addNewQuestionToSection,
+	deleteAllChoicesInQuestionByID,
 	deleteChoiceInQuestionByID,
 	deleteQuestion,
 	getQuestionByID,
@@ -236,6 +237,34 @@ const controller = {
 		}
 		return unauthorizedResponse(res);
 	},
+	deleteAllChoicesInQuestionByID: async (req, res) => {
+		const { userID, role } = req.user;
+		const { questionID } = req.params;
+
+		const question = await getQuestionByID(questionID);
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			const updatedQuestion = await deleteAllChoicesInQuestionByID(questionID);
+			if (updatedQuestion) {
+				return successResponseWithData(res,
+					{
+						msg: 'Choices deleted successfully!',
+						choices: extractChoicesData(updatedQuestion.choices),
+					});
+			}
+			return failureResponseWithMessage(res, 'Unable to delete Choices');
+		}
+		return unauthorizedResponse(res);
+	},
 
 	checkQuestion: async (req, res) => {
 		const { role, userID } = req.user;
@@ -263,8 +292,8 @@ const controller = {
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
 		if (role === 'superadmin'
-						|| quiz.creator === userID
-						|| quiz.owners.includes(userID)) {
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
 			const created = await updateScore(scoreData);
 			if (created) {
 				return successResponseWithData(res, scoreData);
