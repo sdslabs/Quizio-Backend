@@ -44,10 +44,11 @@
 		const secondsEl = document.getElementById('seconds');
 		const messageEl = document.getElementById('message');
 
-		socket.on('quizTimer', (time) => {
+		socket.on('quizTimer', (timeArray) => {
+			let time = timeArray[0].time;
 			const hours = Math.floor(time / 3600);
-			const minutes = Math.floor(time / 60);
-			const seconds = time - minutes * 60;
+			const minutes = Math.floor((time % 3600) / 60);
+			const seconds = (time % 60);
 
 			secondsEl.innerHTML = seconds >= 10 ? seconds.toString() : '0' + seconds.toString();
 			minutesEl.innerHTML = minutes >= 10 ? minutes.toString() : '0' + minutes.toString();
