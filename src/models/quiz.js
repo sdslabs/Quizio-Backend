@@ -1,9 +1,9 @@
+import dayjs from 'dayjs';
 import quiz from '../schema/quiz';
 import publish from '../schema/publish';
 import {
 	extractPublishData, extractQuizData, extractQuizzesData, generateQuizioID,
 } from '../helpers/utils';
-import dayjs from 'dayjs';
 
 /**
  * Get all the quizzes in the db

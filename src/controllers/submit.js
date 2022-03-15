@@ -1,4 +1,5 @@
 // import logger from '../helpers/logger';
+import dayjs from 'dayjs';
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -8,7 +9,6 @@ import {
 import { getQuizById } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 import { getSubmittedQuizzes, submitQuiz } from '../models/submit';
-import dayjs from 'dayjs';
 
 const controller = {
 

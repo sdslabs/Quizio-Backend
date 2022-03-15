@@ -49,24 +49,27 @@ const timerService = async (io) => {
 	logger.info('TIMER SERVICE: INITIATE');
 	let upcomingQuizzes = [];
 
-	setInterval(async ()=>{
+	setInterval(async () => {
 		upcomingQuizzes = await getUpcomingQuizzes();
-	},1000);
+	}, 1000);
 
 	setInterval(() => {
 		io.sockets.emit('quizTimer', ongoingQuizzes);
 
 		if (removeFromOngoingQuizzes.length > 0) {
-			ongoingQuizzes = ongoingQuizzes.filter((quiz) => !removeFromOngoingQuizzes.includes(quiz.quizioID));
+			ongoingQuizzes = ongoingQuizzes
+				.filter((quiz) => !removeFromOngoingQuizzes.includes(quiz.quizioID));
 			removeFromOngoingQuizzes = [];
 		}
 
-		let newAddition = upcomingQuizzes.filter((quiz) => {
-			return !ongoingQuizzes.some((ongoingQuiz) => ongoingQuiz.quizioID === quiz.quizioID) && dayjs(quiz.startTime).isBefore(dayjs());
-		}).map((quiz)=> ({
-			quizioID: quiz.quizioID,
-			time: quiz.time,
-		}));
+		const newAddition = upcomingQuizzes
+			.filter((quiz) => !ongoingQuizzes
+				.some((ongoingQuiz) => ongoingQuiz.quizioID === quiz.quizioID)
+				&& dayjs(quiz.startTime).isBefore(dayjs()))
+			.map((quiz) => ({
+				quizioID: quiz.quizioID,
+				time: quiz.time,
+			}));
 
 		ongoingQuizzes = ongoingQuizzes.concat(newAddition);
 
