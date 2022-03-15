@@ -18,7 +18,7 @@ import {
 	updateQuestionByID,
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
-import { updateScore } from '../models/score';
+import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { getUserWithUserID } from '../models/user';
 
@@ -301,6 +301,16 @@ const controller = {
 			return failureResponseWithMessage(res, 'failed to save score!');
 		}
 		return unauthorizedResponse(res);
+	},
+
+	sendQuestionMarks: async (req, res) => {
+		const { questionID } = req.params;
+		const { registrantID } = req.body;
+
+		const scoreData = await getScore(registrantID, questionID);
+		if (!scoreData) return notFoundResponse(res, 'Marks not found!');
+
+		return successResponseWithData(res, scoreData.marks);
 	},
 };
 
