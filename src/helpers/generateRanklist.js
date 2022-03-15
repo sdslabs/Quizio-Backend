@@ -32,6 +32,10 @@ const generateRanklist = async (quiz) => {
 		const questionScores = await Promise.all(
 			questions.map(async (question) => {
 				const score = await getScore(registrantID, question.quizioID);
+				if (score == null) {
+					return 0;
+				}
+
 				return score.marks;
 			}),
 		);
