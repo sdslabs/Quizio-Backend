@@ -310,7 +310,13 @@ const controller = {
 		const scoreData = await getScore(registrantID, questionID);
 		if (!scoreData) return notFoundResponse(res, 'Marks not found!');
 
-		return successResponseWithData(res, scoreData.marks);
+		const result = {
+			marks: scoreData.marks,
+			checkBy: scoreData.checkBy,
+			autochecked: scoreData.autochecked,
+		};
+
+		return successResponseWithData(res, result);
 	},
 };
 
