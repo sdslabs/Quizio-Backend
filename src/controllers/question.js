@@ -305,8 +305,8 @@ const controller = {
 
 	sendQuestionMarks: async (req, res) => {
 		const { questionID } = req.params;
-		const { registrantID } = req.body;
-
+		const { registrantID } = req.params;
+		console.log(registrantID);
 		const scoreData = await getScore(registrantID, questionID);
 		if (!scoreData) return notFoundResponse(res, 'Marks not found!');
 
@@ -315,7 +315,7 @@ const controller = {
 			checkBy: scoreData.checkBy,
 			autochecked: scoreData.autochecked,
 		};
-
+		console.log({result});
 		return successResponseWithData(res, result);
 	},
 };
