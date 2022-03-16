@@ -108,6 +108,8 @@ const controller = {
 
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
+		removeOngoingQuizFromTimer(quizID);
+
 		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 			const deleted = await deleteQuiz(quizID);
 			if (deleted) {

@@ -73,8 +73,8 @@ const timerService = async (io) => {
 				ongoingQuizzes.splice(i, 1);
 			}
 		}
-		logger.info('TIMER SERVICE: UPDATE');
-		logger.info(ongoingQuizzes);
+		// logger.info('TIMER SERVICE: UPDATE');
+		// logger.info(ongoingQuizzes);
 	}, 1000);
 
 	// Manage socket connection and disconnect
