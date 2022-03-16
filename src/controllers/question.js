@@ -304,8 +304,7 @@ const controller = {
 	},
 
 	sendQuestionMarks: async (req, res) => {
-		const { questionID } = req.params;
-		const { registrantID } = req.body;
+		const { questionID, registrantID } = req.params;
 
 		const scoreData = await getScore(registrantID, questionID);
 		if (!scoreData) return notFoundResponse(res, 'Marks not found!');

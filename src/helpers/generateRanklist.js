@@ -48,10 +48,12 @@ const generateRanklist = async (quiz) => {
 		);
 
 		const user = await getUserWithUserID(registrantID);
-		const name = user.firstName + ' ' + user.lastName;
+		const name = `${user.firstName} ${user.lastName}`;
 		const quizScore = questionScores.reduce((prev, next) => prev + next, 0);
 		const checkingProgress = (checkedQuestions / totalQuestions) * 100;
-		return { quizScore, registrantID, checkingProgress, name };
+		return {
+			quizScore, registrantID, checkingProgress, name,
+		};
 	}));
 
 	return { rankList: rankList.sort((a, b) => b.quizScore - a.quizScore) };
