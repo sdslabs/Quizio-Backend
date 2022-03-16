@@ -18,7 +18,7 @@ const io = new Server(server, {
 });
 
 // Initate timer server
-// timerService(io);
+timerService(io);
 
 // Connect to db
 mongoose.connect(MONGOURI).then(() => logger

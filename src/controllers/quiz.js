@@ -13,7 +13,6 @@ import { generateQuizioID, getRole } from '../helpers/utils';
 import { getQuestionByID } from '../models/question';
 import {
 	getAllQuizzes,
-
 	addNewQuiz,
 	deleteQuiz,
 	updateQuiz,
@@ -26,6 +25,7 @@ import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../mo
 import { getResponse } from '../models/response';
 import { updateScore } from '../models/score';
 import { getSectionByID } from '../models/section';
+import { removeOngoingQuizFromTimer } from '../services/timerService';
 
 const controller = {
 	getAllQuizzes: async (req, res) => {
@@ -86,6 +86,8 @@ const controller = {
 
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
+		removeOngoingQuizFromTimer(quizID);
+
 		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 			const updatedQuiz = await updateQuiz(quizID, req.body);
 			if (updatedQuiz) {
@@ -105,6 +107,8 @@ const controller = {
 		const quiz = await getQuizById(quizID);
 
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		removeOngoingQuizFromTimer(quizID);
 
 		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
 			const deleted = await deleteQuiz(quizID);

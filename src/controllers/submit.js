@@ -1,4 +1,5 @@
 // import logger from '../helpers/logger';
+import dayjs from 'dayjs';
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -26,7 +27,7 @@ const controller = {
 			- Server time must be less than the quiz endTime
 		*/
 
-		const d = new Date();
+		const d = dayjs();
 		const now = d.toString();
 
 		const { role, userID } = req.user;
@@ -38,8 +39,8 @@ const controller = {
 		// console.log((startTime <= now) && (now <= endTime));
 
 		if (quiz) {
-			const startTime = new Date(quiz.startTime).toString();
-			const endTime = new Date(quiz.endTime).toString();
+			const startTime = dayjs(quiz.startTime).toString();
+			const endTime = dayjs(quiz.endTime).toString();
 			console.log({
 				quiz,
 				startTime,
