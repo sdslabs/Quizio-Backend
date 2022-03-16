@@ -16,16 +16,15 @@ const controller = {
 	registerUserForQuiz: async (req, res) => {
 		const { userID } = req.user;
 		const data = req.body;
-		const { quizID } = data;
+		const { quizID, accessCode } = data;
 
 		const quizExists = await getQuizById(quizID);
 		if (!quizExists) return notFoundResponse(res, 'quiz not found!');
 
-		const register = await registerUserForQuiz(userID, data);
+		if (quizExists.accessCode && accessCode !== quizExists.accessCode) return failureResponseWithMessage(res, 'Invalid access code');
 
-		if (register === 'exists') {
-			return failureResponseWithMessage(res, 'Already Registered for quiz!');
-		}
+		const register = await registerUserForQuiz(userID, data);
+		if (register === 'exists') return failureResponseWithMessage(res, 'Already Registered for quiz!');
 
 		return register ? successResponseWithData(res, {
 			message: 'Registered for quiz!',
