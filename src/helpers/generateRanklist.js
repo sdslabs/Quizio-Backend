@@ -4,10 +4,14 @@ import { getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import logger from './logger';
 import { generateQuizioID } from './utils';
+import { getUserWithUserID } from '../models/user';
 
 const generateRanklist = async (quiz) => {
 	const generationID = generateQuizioID();
 	logger.info(`**Ranklist Generation, generationID=${generationID}**`);
+
+	let totalQuestions = 0;
+	let checkedQuestions = 0;
 
 	const registrants = await getRegisteredUsersForQuiz(quiz.quizioID);
 	const questions = (await Promise.all(
@@ -26,21 +30,28 @@ const generateRanklist = async (quiz) => {
 			return questions2;
 		}),
 	)).flat();
+	console.log(registrants);
 
 	const rankList = await Promise.all(registrants.map(async (registrantID) => {
 		logger.info(`**Ranklist Generation, generationID=${generationID}**\nCalculating score for ${registrantID}`);
 		const questionScores = await Promise.all(
 			questions.map(async (question) => {
+				totalQuestions += 1;
 				const score = await getScore(registrantID, question.quizioID);
-				if (score == null) {
+				if (score === null) {
 					return 0;
 				}
 
+				checkedQuestions += 1;
 				return score.marks;
 			}),
 		);
+
+		const user = await getUserWithUserID(registrantID);
+		const name = user.firstName + ' ' + user.lastName;
 		const quizScore = questionScores.reduce((prev, next) => prev + next, 0);
-		return { quizScore, registrantID };
+		const checkingProgress = (checkedQuestions / totalQuestions) * 100;
+		return { quizScore, registrantID, checkingProgress, name };
 	}));
 
 	return { rankList: rankList.sort((a, b) => b.quizScore - a.quizScore) };
