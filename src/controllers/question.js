@@ -18,6 +18,7 @@ import {
 	updateQuestionByID,
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
+import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { getUserWithUserID } from '../models/user';
@@ -64,12 +65,14 @@ const controller = {
 		if (role === 'superadmin'
 			|| quiz.creator === userID
 			|| quiz.owners.includes(userID)) {
-			return successResponseWithData(res, { question });
+			return successResponseWithData(res, { role, question });
 		}
 
-		if (quiz.registrants.includes(userID)) {
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
 			return successResponseWithData(res,
 				{
+					role: 'registrant',
 					question: filterQuestionForRegistrant(question),
 				});
 		}
@@ -314,7 +317,7 @@ const controller = {
 			checkBy: scoreData.checkBy,
 			autochecked: scoreData.autochecked,
 		};
-		console.log({result});
+		console.log({ result });
 		return successResponseWithData(res, result);
 	},
 };

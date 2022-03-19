@@ -61,7 +61,8 @@ const controller = {
 		if (quiz.owners.includes(userID)) {
 			return successResponseWithData(res, { role: 'owner', quiz });
 		}
-		if (checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID)) {
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
 			return successResponseWithData(res, { role: 'registrant', quiz });
 		}
 		return successResponseWithData(res, { role: 'public', quiz });
