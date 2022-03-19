@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -26,7 +28,7 @@ const controller = {
 		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
-		if (Date.now().valueOf() < quiz.endTime.valueOf()) {
+		if (Date.now().valueOf() > quiz.endTime.valueOf()) {
 			return errorResponse('Quiz time is already over');
 		}
 
@@ -39,15 +41,24 @@ const controller = {
 		const subjectiveRes = 'answer' in responseData;
 
 		if (subjectiveRes && mcqRes) {
-			return failureResponseWithMessage(res, 'Cannot submit both answerChoice and answer!');
+			return failureResponseWithMessage(
+				res,
+				'Cannot submit both answerChoice and answer!',
+			);
 		}
 
 		if (question.type === 'mcq' && subjectiveRes) {
-			return failureResponseWithMessage(res, 'Question is an mcq, you tried to submit subjective answer');
+			return failureResponseWithMessage(
+				res,
+				'Question is an mcq, you tried to submit subjective answer',
+			);
 		}
 
 		if (question.type === 'subjective' && mcqRes) {
-			return failureResponseWithMessage(res, 'Question is subjective, you tried to submit mcq answer');
+			return failureResponseWithMessage(
+				res,
+				'Question is subjective, you tried to submit mcq answer',
+			);
 		}
 
 		if (mcqRes) {
@@ -79,7 +90,25 @@ const controller = {
 		console.log(questionID, 'questionID');
 		console.log(userID, 'userID');
 		const responseData = await getResponse(userID, questionID);
-		return responseData ? successResponseWithData(res, responseData) : notFoundResponse(res, 'response not found!');
+		return responseData
+			? successResponseWithData(res, responseData)
+			: notFoundResponse(res, 'response not found!');
+	},
+
+	getAllQuestionStatus: async (req, res) => {
+		const { quizioID, userID } = req.body;
+		const quiz = await getQuizById(quizioID);
+		const response = [];
+		for (const section of quiz.sections) {
+			const sec = await getSectionByID(section);
+			for (const question of sec.questions) {
+				const responseData = await getResponse(userID, question);
+				if (responseData != null) {
+					response.push({ questionID: question, status: responseData.status });
+				}
+			}
+		}
+		return successResponseWithData(res, response);
 	},
 };
 
