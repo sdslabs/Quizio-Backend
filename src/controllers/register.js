@@ -7,6 +7,7 @@ import {
 } from '../helpers/responses';
 import { getQuizById } from '../models/quiz';
 import {
+	checkIfUserIsRegisteredForQuiz,
 	getRegisteredQuizzesForUser,
 	getRegisteredUsersForQuiz,
 	registerUserForQuiz,
@@ -40,6 +41,20 @@ const controller = {
 			return successResponseWithData(res, { quizzes });
 		}
 		return notFoundResponse(res, 'No quizzes found');
+	},
+
+	getIfUserIsRegisteredForQuiz: async (req, res) => {
+		const { userID } = req.user;
+		const { quizID } = req.params;
+		const quizExists = await getQuizById(quizID);
+		if (!quizExists) return notFoundResponse(res, 'quiz not found!');
+
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quizID);
+
+		if (isRegistrant) {
+			return successResponseWithData(res, { registered: true, msg: 'User is registered for quiz' });
+		}
+		return successResponseWithData(res, { registered: false, msg: 'User is NOT registered for quiz' });
 	},
 
 	getRegisteredUsersForQuiz: async (req, res) => {

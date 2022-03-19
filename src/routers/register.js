@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/quizzes', isAuth, controller.registerUserForQuiz); // DONE
 router.get('/quizzes', isAuth, controller.getRegisteredQuizzesForUser); // DONE
+router.get('/quizzes/:quizID', isAuth, controller.getIfUserIsRegisteredForQuiz); // DONE
 router.get('/users/quizzes/:quizID', isAuth, controller.getRegisteredUsersForQuiz); // DONE
 
 export default router;
