@@ -9,6 +9,7 @@ import { getSectionByID } from '../models/section';
 import { checkSubmit } from '../models/submit';
 
 import { getResponse, saveResponse } from '../models/response';
+import { getQuizById } from '../models/quiz';
 
 const controller = {
 	saveResponse: async (req, res) => {
@@ -23,6 +24,16 @@ const controller = {
 
 		const submitExits = await checkSubmit(section.quizID, userID);
 		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (Date.now().valueOf() < quiz.endTime.valueOf()) {
+			return errorResponse('Quiz time is already over');
+		}
+
+		const { status } = responseData;
+		if (status == null) {
+			return notFoundResponse(res, 'Question status not sent');
+		}
 
 		const mcqRes = 'answerChoices' in responseData;
 		const subjectiveRes = 'answer' in responseData;
