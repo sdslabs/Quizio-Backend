@@ -18,7 +18,8 @@ import {
 	updateQuestionByID,
 } from '../models/question';
 import { getQuizById } from '../models/quiz';
-import { updateScore } from '../models/score';
+import { checkIfUserIsRegisteredForQuiz } from '../models/register';
+import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { getUserWithUserID } from '../models/user';
 
@@ -64,12 +65,14 @@ const controller = {
 		if (role === 'superadmin'
 			|| quiz.creator === userID
 			|| quiz.owners.includes(userID)) {
-			return successResponseWithData(res, { question });
+			return successResponseWithData(res, { role, question });
 		}
 
-		if (quiz.registrants.includes(userID)) {
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
 			return successResponseWithData(res,
 				{
+					role: 'registrant',
 					question: filterQuestionForRegistrant(question),
 				});
 		}
@@ -301,6 +304,21 @@ const controller = {
 			return failureResponseWithMessage(res, 'failed to save score!');
 		}
 		return unauthorizedResponse(res);
+	},
+
+	sendQuestionMarks: async (req, res) => {
+		const { questionID, registrantID } = req.params;
+
+		const scoreData = await getScore(registrantID, questionID);
+		if (!scoreData) return notFoundResponse(res, 'Marks not found!');
+
+		const result = {
+			marks: scoreData.marks,
+			checkBy: scoreData.checkBy,
+			autochecked: scoreData.autochecked,
+		};
+		console.log({ result });
+		return successResponseWithData(res, result);
 	},
 };
 

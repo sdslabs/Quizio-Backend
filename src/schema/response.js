@@ -19,6 +19,12 @@ const responseSchema = new Schema({
 	answerChoices: [String],
 	/** Answer given by the user (subjective) */
 	answer: String,
+	/** Can be not-answered, marked, answered, marked-answered */
+	status: {
+		type: String,
+		enum: ['unanswered', 'answered', 'marked-answered', 'marked'],
+		default: 'answered',
+	},
 });
 
 export default mongoose.model('Response', responseSchema);

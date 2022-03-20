@@ -55,7 +55,9 @@ router.delete(
 
 // Check a quiz
 router.post('/:quizID/check', isAuth, controller.checkQuiz);
+router.get('/sections/questions/:questionID/:registrantID/check', isAuth, questionController.sendQuestionMarks);
 router.put('/sections/questions/:questionID/check', isAuth, questionController.checkQuestion);
+router.get('/:quizID/check', isAuth, controller.getQuizCheckDetails);
 
 // Publish quiz routes
 router.get('/:quizID/publish', isAuth, controller.getPublishedQuiz);

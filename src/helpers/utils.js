@@ -103,6 +103,7 @@ export const extractResponseData = (data) => ({
 	time: data.time || null,
 	answerChoices: data.answerChoices || null,
 	answer: data.answer || null,
+	status: data.status || null,
 });
 
 // submit helpers

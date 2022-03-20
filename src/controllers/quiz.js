@@ -23,7 +23,7 @@ import {
 import { updateRanklist } from '../models/ranklist';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
-import { updateScore } from '../models/score';
+import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { removeOngoingQuizFromTimer } from '../services/timerService';
 
@@ -61,7 +61,8 @@ const controller = {
 		if (quiz.owners.includes(userID)) {
 			return successResponseWithData(res, { role: 'owner', quiz });
 		}
-		if (checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID)) {
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
 			return successResponseWithData(res, { role: 'registrant', quiz });
 		}
 		return successResponseWithData(res, { role: 'public', quiz });
@@ -119,7 +120,42 @@ const controller = {
 		}
 		return unauthorizedResponse(res);
 	},
-
+	getQuizCheckDetails: async (req, res) => {
+		const { quizID } = req.params;
+		const { registrantID } = req.body;
+		let { total, autochecked, manualCheck } = 0;
+		const quiz = await getQuizById(quizID);
+		await Promise.all(
+			quiz.sections.forEach(async (sectionID) => {
+				const section = await getSectionByID(sectionID);
+				// console.log('section: ', { sectionID, section });
+				console.log(section);
+				await Promise.all(
+					section.questions.forEach(async (questionID) => {
+						// console.log({ sectionID, questionID });
+						await getQuestionByID(questionID);
+						total += 1;
+						const score = await getScore(registrantID, questionID);
+						if (!score) {
+							return;
+						}
+						if (score.autochecked === true) {
+							autochecked += 1;
+						} else if (!score.marks === null) {
+							manualCheck += 1;
+						}
+					}),
+				);
+			}),
+		);
+		return successResponseWithData(res, {
+			quizID,
+			total,
+			manualCheck,
+			autochecked,
+			// rankList: rankList.sort((a, b) => b.marks - a.marks),
+		});
+	},
 	checkQuiz: async (req, res) => {
 		const { userID, role } = req.user;
 		const { quizID } = req.params;

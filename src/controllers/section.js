@@ -6,6 +6,7 @@ import {
 	unauthorizedResponse,
 } from '../helpers/responses';
 import { getQuizById } from '../models/quiz';
+import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 import {
 	addNewSectionToQuiz,
 	deleteSection,
@@ -50,9 +51,12 @@ const controller = {
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID
-			|| quiz.owners?.includes(userID)
-			|| quiz.registrants?.includes(userID)) {
-			return successResponseWithData(res, { section });
+			|| quiz.owners?.includes(userID)) {
+			return successResponseWithData(res, { role, section });
+		}
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
+			return successResponseWithData(res, { role: 'registrant', section });
 		}
 		return unauthorizedResponse(res);
 	},
