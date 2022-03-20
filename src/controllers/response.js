@@ -87,8 +87,6 @@ const controller = {
 
 	getResponse: async (req, res) => {
 		const { questionID, userID } = req.params;
-		console.log(questionID, 'questionID');
-		console.log(userID, 'userID');
 		const responseData = await getResponse(userID, questionID);
 		return responseData
 			? successResponseWithData(res, responseData)
