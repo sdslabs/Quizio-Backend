@@ -96,8 +96,8 @@ const controller = {
 	},
 
 	getAllQuestionStatus: async (req, res) => {
-		const { quizioID, userID } = req.body;
-		const quiz = await getQuizById(quizioID);
+		const { quizID, userID } = req.params;
+		const quiz = await getQuizById(quizID);
 		const response = [];
 		for (const section of quiz.sections) {
 			const sec = await getSectionByID(section);
