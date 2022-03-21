@@ -107,6 +107,7 @@ const controller = {
 	updateQuestionByID: async (req, res) => {
 		const { userID, role } = req.user;
 		const { questionID } = req.params;
+
 		const questionData = req.body;
 
 		if (questionData.choices) {
