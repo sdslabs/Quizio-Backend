@@ -29,7 +29,7 @@ const controller = {
 
 		const quiz = await getQuizById(section.quizID);
 		if (Date.now().valueOf() > quiz.endTime.valueOf()) {
-			return errorResponse('Quiz time is already over');
+			return errorResponse(res, 'Quiz time is already over');
 		}
 
 		const { status } = responseData;
