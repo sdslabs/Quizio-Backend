@@ -22,7 +22,8 @@ const controller = {
 	uploadImage: async (req, res) => {
 		try {
 			const name = generateQuizioID();
-			const { path } = req.file;
+			const { path } = req?.file;
+			if (!path) return errorsResponse(res, ['Couldnt upload image (quizio error)']);
 
 			const form = new FormData();
 			const image = fs.createReadStream(path);
@@ -35,23 +36,31 @@ const controller = {
 			form.append('image', image);
 			form.append('key', IMGBB_API_KEY);
 
-			fs.unlink(path, (err) => {
-				if (err) {
-					logger.error('Uploaded File was NOT Deleted');
-					logger.info('Path', path);
-					fs.readdir('uploads/', (error, files) => {
-						if (error) {
-							logger.error('Failed to get total number of junk files on server :(');
-						}
-						logger.info(`Total number of junk files on server: ${files.length}`);
-					});
-				}
-			});
+			try {
+				fs.unlink(path, (err) => {
+					if (err) {
+						logger.error('Uploaded File was NOT Deleted');
+						logger.info('Path', path);
+						fs.readdir('uploads/', (error, files) => {
+							if (error) {
+								logger.error('Failed to get total number of junk files on server :(');
+							}
+							logger.info(`Total number of junk files on server: ${files.length}`);
+						});
+					}
+				});
+			} catch (e) {
+				logger.error('Error while deleting uploaded file', e);
+			}
 
-			const uploadRes = await uploadToImgBB(form, headers);
-			return uploadRes.data.success
-				? successResponseWithData(res, { url: uploadRes.data.data.url })
-				: failureResponseWithMessage(res, 'Couldnt upload image (service error)');
+			try {
+				const uploadRes = await uploadToImgBB(form, headers);
+				return uploadRes.data.success
+					? successResponseWithData(res, { url: uploadRes.data.data.url })
+					: failureResponseWithMessage(res, 'Couldnt upload image (service error)');
+			} catch (e) {
+				return errorsResponse(res, ['Couldnt upload image to imgbb (imgbb error)', e]);
+			}
 		} catch (e) {
 			return errorsResponse(res, ['Couldnt upload image (quizio error)', e]);
 		}
