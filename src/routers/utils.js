@@ -9,5 +9,6 @@ const router = express.Router();
 
 router.get('/verifyQuizioID/:id', isAuth, controller.verifyQuizioID); // DONE
 router.post('/images', [isAuth, upload.single('image')], controller.uploadImage);
+router.get('/time/now', isAuth, controller.getCurrentTime);
 
 export default router;

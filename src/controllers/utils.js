@@ -1,5 +1,6 @@
 import fs from 'fs';
 import FormData from 'form-data';
+import dayjs from 'dayjs';
 import {
 	failureResponseWithMessage, successResponseWithMessage, successResponseWithData, errorsResponse,
 } from '../helpers/responses';
@@ -55,6 +56,8 @@ const controller = {
 			return errorsResponse(res, ['Couldnt upload image (quizio error)', e]);
 		}
 	},
+
+	getCurrentTime: (req, res) => successResponseWithData(res, { serverTime: dayjs().toISOString() }),
 
 };
 

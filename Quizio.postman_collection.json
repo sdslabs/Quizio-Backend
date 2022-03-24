@@ -105,6 +105,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get current server time (ISO string)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/utils/time/now",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"utils",
+								"time",
+								"now"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -631,7 +652,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Smith's Quiz\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"owners\": [\n        \"code.capriciousrebel@gmail.com\"\n    ],\n    \"hgugyj\": \"jhlukgyj\",\n    \"accessCode\": \"abcdef\",\n    \"bannerURL\": \"https://i.ibb.co/NKVth1G/quizio-ID-MXg-NHn-Jgiuijt-Ts9-JSoc.png\",\n    \"detail1\"{\n        \"key\": \"codechef\",\n        \"value\":\"Codechef ID\",\n        \"isRequired\": true\n    }\n}",
+							"raw": "{\n    \"name\": \"Smith's Quiz\",\n    \"description\": \"This quiz is for the recruitments of SDSLabs, PAG, DSG and InfoSec.\",\n    \"instructions\": \"hsoudbaoib;df\",\n    \"owners\": [\n        \"code.capriciousrebel@gmail.com\"\n    ],\n    \"hgugyj\": \"jhlukgyj\",\n    \"accessCode\": \"abcdef\",\n    \"bannerURL\": \"https://i.ibb.co/NKVth1G/quizio-ID-MXg-NHn-Jgiuijt-Ts9-JSoc.png\",\n    \"detail1\": {\n        \"key\": \"codechef\",\n        \"value\":\"Codechef ID\",\n        \"isRequired\": true\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -652,7 +673,7 @@
 							"variable": [
 								{
 									"key": "quizID",
-									"value": "quizioID.mLWJApsca5SN6PJWXy5Rm"
+									"value": "quizioID.Qp-ee8NYg2RqlTdvcZMEq"
 								}
 							]
 						}
@@ -705,7 +726,7 @@
 							"variable": [
 								{
 									"key": "quizID",
-									"value": "quizioID._6HXs--0gVJcrH9NOLyOO"
+									"value": "quizioID.OJVPAjkA8X1JD55lTxKXT"
 								}
 							]
 						}
@@ -1213,6 +1234,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "check if user is registered for quiz",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v2/register/quizzes/:quizID",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"register",
+								"quizzes",
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": "quizioID.0SEzxtl3ftOnG8WSLp6mv"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1464,6 +1524,32 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Check if quiz is submitted",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/submit/:quizID",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"submit",
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "quizID",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1543,7 +1629,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELjBNRFplNkhvZHk3UXlNSGVjbF9kWCIsImlhdCI6MTY0NjY0NjU3OSwiZXhwIjoyNTEwNTYwMTc5fQ.HePw4D0---13E7e8028i2fH4m7V_7L_Hkr5J60PvKO8",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWl6aW9JRCI6InF1aXppb0lELlZoTGxWeGtWQ2N4TXBfejFSUlJjaiIsImlhdCI6MTY0NzUyMzk2MCwiZXhwIjoyNTExNDM3NTYwfQ.pR2hQ7NbI1zb6XtIJBQDhAjx60eDNdS2EFD7PiLWBV4",
 				"type": "string"
 			}
 		]
