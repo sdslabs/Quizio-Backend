@@ -25,8 +25,8 @@ const controller = {
 		const { quizID } = req.params;
 		const submittedQuizzes = await checkIfQuizIsSubmitted(userID, quizID);
 		return submittedQuizzes
-			? successResponseWithData(res, submittedQuizzes)
-			: notFoundResponse(res, 'Quiz not submitted');
+			? successResponseWithData(res, { submitted: true, submittedQuizzes })
+			: successResponseWithData(res, { submitted: false });
 	},
 
 	submitQuiz: async (req, res) => {
