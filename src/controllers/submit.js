@@ -8,7 +8,7 @@ import {
 } from '../helpers/responses';
 import { getQuizById } from '../models/quiz';
 import { checkIfUserIsRegisteredForQuiz } from '../models/register';
-import { getSubmittedQuizzes, submitQuiz } from '../models/submit';
+import { checkIfQuizIsSubmitted, getSubmittedQuizzes, submitQuiz } from '../models/submit';
 
 const controller = {
 
@@ -18,6 +18,15 @@ const controller = {
 		return submittedQuizzes
 			? successResponseWithData(res, submittedQuizzes)
 			: notFoundResponse(res, 'no quizzes submitted');
+	},
+
+	checkIfQuizIsSubmitted: async (req, res) => {
+		const { userID } = req.user;
+		const { quizID } = req.params;
+		const submittedQuizzes = await checkIfQuizIsSubmitted(userID, quizID);
+		return submittedQuizzes
+			? successResponseWithData(res, submittedQuizzes)
+			: notFoundResponse(res, 'Quiz not submitted');
 	},
 
 	submitQuiz: async (req, res) => {

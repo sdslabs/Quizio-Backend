@@ -14,6 +14,14 @@ export const getSubmittedQuizzes = async (userID) => {
 };
 
 /**
+ * Returns submitdata if quiz is submitted else null
+ */
+export const checkIfQuizIsSubmitted = async (userID, quizID) => {
+	const submits = await submit.findOne({ userID, quizID });
+	return submits ? extractSubmitData(submits) : null;
+};
+
+/**
  * submit the quiz for a user
  */
 export const submitQuiz = async (quizID, userID) => {
