@@ -15,8 +15,8 @@ export const authConfig = {
 };
 
 export const logConfig = {
-	maxCappedSize: 1024,
-	maxCappedValue: 5,
+	maxCappedSize: 99999,
+	maxCappedValue: 999999,
 };
 
 export const { IMGBB_API_KEY } = process.env;

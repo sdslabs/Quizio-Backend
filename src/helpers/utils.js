@@ -180,6 +180,18 @@ export const extractRanklistData = (data) => ({
 	time: data.time || 0,
 });
 
+export const extractLogData = (data) => ({
+	quizioID: data.quizioID || null,
+	quizID: data.quizID || null,
+	userID: data.userID || null,
+	logType: data.logType || null,
+	logData: data.logData || null,
+	time: data.time || 0,
+	frequency: data.frequency || 0,
+});
+
+export const extractLogsData = (data) => data.map((log) => extractLogData(log));
+
 export const extractUser = (data) => ({
 	username: data.username,
 	userID: data.quizioID,

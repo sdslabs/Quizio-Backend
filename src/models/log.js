@@ -1,38 +1,42 @@
+import { extractLogsData } from '../helpers/utils';
 import log from '../schema/log';
-import logger from '../helpers/logger';
 
 export const getAllLogs = async () => {
 	const logs = await log.find();
-	return logs;
+	return extractLogsData(logs);
 };
 
 export const getLogsForUser = async (userID) => {
 	const logs = await log.find({ userID });
-	return logs;
+	return extractLogsData(logs);
 };
 
 export const getQuizLogsForUser = async (userID, quizID) => {
 	const logs = await log.find({ userID, quizID });
-	return logs;
+	return extractLogsData(logs);
 };
 
-export const updateLog = async ({ userID, quizID, logType }) => {
+export const updateLog = async ({
+	userID, quizID, logType, logData,
+}) => {
 	const filter = { quizID, userID, logType };
-
 	const update = {
-		...filter,
+		quizID,
+		userID,
+		logData,
+		logType,
 		$inc: {
 			frequency: 1,
 		},
 	};
 
-	const updatedLog = await log.updateOne(filter, update, {
-		new: true,
-		upsert: true,
-	});
-
-	logger.info('log updated!');
-	logger.info(updatedLog);
-
-	return updatedLog;
+	try {
+		const updatedLog = await log.updateOne(filter, update, {
+			new: true,
+			upsert: true,
+		});
+		return !!updatedLog;
+	} catch (e) {
+		return false;
+	}
 };
