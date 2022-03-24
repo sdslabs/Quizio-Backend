@@ -1,10 +1,11 @@
-import { failureResponseWithMessage, successResponseWithData } from '../helpers/responses';
+import { failureResponseWithMessage, notFoundResponse, successResponseWithData } from '../helpers/responses';
 import {
 	updateLog,
 	getLogsForUser,
 	getAllLogs,
 	getQuizLogsForUser,
 } from '../models/log';
+import { getQuizById } from '../models/quiz';
 
 const controller = {
 
@@ -26,10 +27,15 @@ const controller = {
 	},
 
 	updateLog: async (req, res) => {
-		const { quizID, logType } = req.body;
 		const { userID } = req.user;
+		const { quizID, logType, logData } = req.body;
 
-		const log = await updateLog({ userID, quizID, logType });
+		const quiz = await getQuizById(quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		const log = await updateLog({
+			userID, quizID, logType, logData,
+		});
 
 		return log ? successResponseWithData(res, { message: 'Updated Log!', log }) : failureResponseWithMessage(res, 'failed to update log!');
 	},

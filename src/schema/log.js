@@ -9,9 +9,14 @@ const logSchema = new Schema({
 	quizID: String,
 	userID: String,
 	logType: String,
+	logData: String,
 	frequency: {
 		type: Number,
 		default: 1,
+	},
+	time: {
+		type: Date,
+		default: Date.now,
 	},
 },
 {
