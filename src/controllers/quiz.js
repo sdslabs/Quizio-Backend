@@ -25,23 +25,30 @@ import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../mo
 import { getResponse } from '../models/response';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 import { removeOngoingQuizFromTimer } from '../services/timerService';
 
 const controller = {
 	getAllQuizzes: async (req, res) => {
-		const { userID, role } = req.user;
-		const quizzes = await getAllQuizzes();
-		if (role === 'superadmin') {
-			return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
-		}
+		const { userID } = req.user;
+		const quizzes0 = await getAllQuizzes();
 
-		const registerr = quizzes.map((quiz) => checkIfUserIsRegisteredForQuiz(
-			userID,
-			quiz.quizioID,
-		));
-		const registered = await Promise.all(registerr);
-		const results = quizzes.map((quiz, i) => ({ ...quiz, registered: registered[i] }));
-		return quizzes ? successResponseWithData(res, { quizzes: results }) : notFoundResponse(res);
+		const quizzes = await Promise.all(
+			quizzes0.map(async (eachQuiz) => {
+				const registered = await checkIfUserIsRegisteredForQuiz(
+					userID,
+					eachQuiz.quizioID,
+				);
+
+				const submitted = await checkIfQuizIsSubmitted(
+					userID,
+					eachQuiz.quizioID,
+				);
+				return { ...eachQuiz, registered: !!registered, submitted: !!submitted };
+			}),
+		);
+
+		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
 	},
 
 	getQuizByID: async (req, res) => {
