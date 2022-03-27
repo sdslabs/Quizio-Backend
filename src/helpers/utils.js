@@ -68,6 +68,17 @@ export const extractQuestionData = (data) => ({
 	autocheck: data.autocheck || null,
 });
 
+export const filterQuestionForQuizAdmins = (question) => {
+	const question2 = { ...question };
+
+	if (question.type === 'mcq') {
+		question2.marks = question?.choices.find((c) => c.marks !== 0).marks;
+	} else {
+		question2.marks = question.maxMarks;
+	}
+	return question2;
+};
+
 export const filterQuestionForRegistrant = (question) => {
 	const question2 = { ...question };
 	question2.choices = question.choices?.map((data) => ({
@@ -75,6 +86,12 @@ export const filterQuestionForRegistrant = (question) => {
 		choice: data.choice,
 	}));
 	question2.answer = null;
+
+	if (question.type === 'mcq') {
+		question2.marks = question?.choices.find((c) => c.marks !== 0).marks;
+	} else {
+		question2.marks = question.maxMarks;
+	}
 	return question2;
 };
 

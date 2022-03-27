@@ -7,7 +7,12 @@ import {
 	successResponseWithMessage,
 	unauthorizedResponse,
 } from '../helpers/responses';
-import { extractChoicesData, filterQuestionForRegistrant, generateQuizioID } from '../helpers/utils';
+import {
+	extractChoicesData,
+	filterQuestionForQuizAdmins,
+	filterQuestionForRegistrant,
+	generateQuizioID,
+} from '../helpers/utils';
 import {
 	addChoiceToQuestionByID,
 	addNewQuestionToSection,
@@ -65,7 +70,10 @@ const controller = {
 		if (role === 'superadmin'
 			|| quiz.creator === userID
 			|| quiz.owners.includes(userID)) {
-			return successResponseWithData(res, { role, question });
+			return successResponseWithData(res, {
+				role,
+				question: filterQuestionForQuizAdmins(question),
+			});
 		}
 
 		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
