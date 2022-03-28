@@ -1,9 +1,7 @@
 FROM node:16
 
-# RUN mkdir -p /usr/src/app
-
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied

@@ -17,7 +17,7 @@ env:
 
   JWTKEY: ${{ secrets.JWTKEY }}
   MONGOURI: ${{ secrets.MONGOURI }}
-  PORT: ${{ secrets.PORT}}
+  API_PORT: ${{ secrets.API_PORT}}
 
 on:
   push:

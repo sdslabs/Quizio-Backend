@@ -1,9 +1,46 @@
 version: '3.8'
 services:
-  web:
-    build: .
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quizio-api:latest
+    container_name: quizio-api
     volumes:
-      - .:/usr/app/
-      - /usr/app/node_modules
+      - quizio_api_data:/usr/app/
     ports:
-      - 5050:5050
+      - ${API_PORT:-5050}:5050
+    env_file:
+      - .env
+
+  quizio-db:
+    image: mongo:latest
+    container_name: quizio-db
+    volumes:
+      - ./docker/mongo/init/:/docker-entrypoint-initdb.d
+      - ./docker/mongo/init:/home/mongodb
+      - quizio_db_data:/data/db
+    env_file:
+      - .env
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8084:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@quizio-db:27017/quizio
+    depends_on:
+      - quizio-db
+
+networks:
+  default:
+    name: quizio
+
+volumes:
+  quizio_db_data:
+    name: quizio_db_data
+  quizio_api_data:
+    name: quizio_api_data
