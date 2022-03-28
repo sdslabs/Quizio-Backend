@@ -81,6 +81,7 @@ export const filterQuestionForQuizAdmins = (question) => {
 
 export const filterQuestionForRegistrant = (question) => {
 	const question2 = { ...question };
+	console.log({ question, question2 });
 	question2.choices = question.choices?.map((data) => ({
 		quizioID: data.quizioID,
 		choice: data.choice,
