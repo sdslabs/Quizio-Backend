@@ -72,7 +72,16 @@ export const filterQuestionForQuizAdmins = (question) => {
 	const question2 = { ...question };
 
 	if (question.type === 'mcq') {
-		question2.marks = question?.choices.find((c) => c.marks !== 0).marks;
+		if (question?.choices?.length === 0) {
+			question2.marks = 0;
+		} else {
+			const correctChoice = question?.choices.find((c) => c.marks !== 0);
+			if (correctChoice) {
+				question2.marks = correctChoice.marks;
+			} else {
+				question2.marks = 0;
+			}
+		}
 	} else {
 		question2.marks = question.maxMarks;
 	}
@@ -81,7 +90,6 @@ export const filterQuestionForQuizAdmins = (question) => {
 
 export const filterQuestionForRegistrant = (question) => {
 	const question2 = { ...question };
-	console.log({ question, question2 });
 	question2.choices = question.choices?.map((data) => ({
 		quizioID: data.quizioID,
 		choice: data.choice,
@@ -89,7 +97,16 @@ export const filterQuestionForRegistrant = (question) => {
 	question2.answer = null;
 
 	if (question.type === 'mcq') {
-		question2.marks = question?.choices.find((c) => c.marks !== 0).marks;
+		if (question?.choices?.length === 0) {
+			question2.marks = 0;
+		} else {
+			const correctChoice = question?.choices.find((c) => c.marks !== 0);
+			if (correctChoice) {
+				question2.marks = correctChoice.marks;
+			} else {
+				question2.marks = 0;
+			}
+		}
 	} else {
 		question2.marks = question.maxMarks;
 	}
