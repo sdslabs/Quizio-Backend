@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 // create application user and collection
 const dbUser = _getEnv('MONGO_USERNAME');
