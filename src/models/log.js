@@ -19,7 +19,9 @@ export const getQuizLogsForUser = async (userID, quizID) => {
 export const updateLog = async ({
 	userID, quizID, logType, logData,
 }) => {
-	const filter = { quizID, userID, logType };
+	const filter = {
+		quizID, userID, logType, logData,
+	};
 	const update = {
 		quizID,
 		userID,
