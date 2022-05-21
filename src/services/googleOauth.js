@@ -5,8 +5,7 @@ dotenv.config();
 const GoogleStrategy = GoogleDefaultExport.OAuth2Strategy;
 const clientID = process.env.GOOGLECLIENTID;
 const clientSecret = process.env.GOOGLECLIENTSECRET;
-const baseURL = process.env.BASE_URL;
-const callbackURL = `${baseURL}/api/v2/auth/google/callback`;
+const callbackURL = '/api/v2/auth/google/callback';
 
 const googleOauth = (passport) => {
 	passport.serializeUser((user, done) => {

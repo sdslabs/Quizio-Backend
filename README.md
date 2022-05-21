@@ -3,6 +3,7 @@
 Backend for Quizio!
 
 ## Setting Up Quizio Backend
+- Make sure you have MongoDB installed and running as a service before starting the setup.
 - Run `cp .env.example .env` and add all the relevant environment key-value pairs.
 - Run  `cp src/config/config.sample.js src/config/config.js` and update all config variables using the following steps:
 	1. Generate a clientId and clientSecret from developer console from arceus and change the `clientId` and `clientSecret` field accordingly.

@@ -326,7 +326,7 @@ const controller = {
 			checkBy: scoreData.checkBy,
 			autochecked: scoreData.autochecked,
 		};
-		console.log({ result });
+		// console.log({ result });
 		return successResponseWithData(res, result);
 	},
 };
