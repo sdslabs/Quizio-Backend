@@ -30,7 +30,7 @@ const generateRanklist = async (quiz) => {
 			return questions2;
 		}),
 	)).flat();
-	console.log(registrants);
+	// console.log(registrants);
 
 	const rankList = await Promise.all(registrants.map(async (registrantID) => {
 		logger.info(`**Ranklist Generation, generationID=${generationID}**\nCalculating score for ${registrantID}`);
