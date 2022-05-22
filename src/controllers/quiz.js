@@ -136,7 +136,7 @@ const controller = {
 			quiz.sections.forEach(async (sectionID) => {
 				const section = await getSectionByID(sectionID);
 				// console.log('section: ', { sectionID, section });
-				console.log(section);
+				// console.log(section);
 				await Promise.all(
 					section.questions.forEach(async (questionID) => {
 						// console.log({ sectionID, questionID });

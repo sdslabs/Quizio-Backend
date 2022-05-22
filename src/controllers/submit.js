@@ -1,5 +1,6 @@
 // import logger from '../helpers/logger';
 import dayjs from 'dayjs';
+import logger from '../helpers/logger';
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -50,7 +51,7 @@ const controller = {
 		if (quiz) {
 			const startTime = dayjs(quiz.startTime).toString();
 			const endTime = dayjs(quiz.endTime).toString();
-			console.log({
+			logger.info({
 				quiz,
 				startTime,
 				now,
