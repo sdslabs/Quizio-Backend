@@ -5,9 +5,16 @@ import app from './src/app';
 import logger from './src/helpers/logger';
 import timerService from './src/services/timerService';
 
-const { MONGOURI } = process.env;
+const {
+	MONGO_CONNECTION_TYPE,
+	MONGO_REMOTE_URI,
+	MONGO_USERNAME,
+	MONGO_PASSWORD,
+	MONGO_HOSTNAME,
+	MONGO_INITDB_DATABASE,
+} = process.env;
 const { CLIENT_HOME_PAGE_URL } = process.env;
-const port = process.env.PORT || 5050;
+const port = process.env.API_PORT || 5050;
 
 const server = http.Server(app);
 const io = new Server(server, {
@@ -19,6 +26,18 @@ const io = new Server(server, {
 
 // Initate timer server
 timerService(io);
+
+const getMongoURI = () => {
+	switch (MONGO_CONNECTION_TYPE) {
+	case 'remote':
+		return MONGO_REMOTE_URI;
+	case 'local':
+		return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
+	default:
+		return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
+	}
+};
+const MONGOURI = getMongoURI();
 
 // Connect to db
 mongoose.connect(MONGOURI).then(() => logger
