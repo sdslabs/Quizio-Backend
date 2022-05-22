@@ -15,6 +15,7 @@ const {
 } = process.env;
 const { CLIENT_HOME_PAGE_URL } = process.env;
 const port = process.env.API_PORT || 5050;
+const MONGO_LOCAL_URI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
 
 const server = http.Server(app);
 const io = new Server(server, {
@@ -32,9 +33,9 @@ const getMongoURI = () => {
 	case 'remote':
 		return MONGO_REMOTE_URI;
 	case 'local':
-		return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
+		return MONGO_LOCAL_URI;
 	default:
-		return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
+		return MONGO_LOCAL_URI;
 	}
 };
 const MONGOURI = getMongoURI();
