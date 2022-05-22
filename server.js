@@ -33,9 +33,9 @@ const getMongoURI = () => {
 	case 'remote':
 		return MONGO_REMOTE_URI;
 	case 'local':
-		return MONGO_LOCAL_URI;
+		return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
 	default:
-		return MONGO_LOCAL_URI;
+		return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:27017/${MONGO_INITDB_DATABASE}`;
 	}
 };
 const MONGOURI = getMongoURI();
