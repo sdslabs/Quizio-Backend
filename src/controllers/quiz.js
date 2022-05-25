@@ -136,13 +136,13 @@ const controller = {
 			quiz.sections.forEach(async (sectionID) => {
 				const section = await getSectionByID(sectionID);
 				// console.log('section: ', { sectionID, section });
-				logger.info(`section : ${ sectionID, section }`);
+				logger.info(`section : ${sectionID}`, `${section}`);
 				// console.log(section);
-				logger.info(`section : ${ section }`);
+				logger.info(`section : ${section}`);
 				await Promise.all(
 					section.questions.forEach(async (questionID) => {
 						// console.log({ sectionID, questionID });
-						logger.info(`sectionID, questionID : ${ sectionID, questionID }`);
+						logger.info(`sectionID, questionID : ${sectionID}`, `${questionID}`);
 						await getQuestionByID(questionID);
 						total += 1;
 						const score = await getScore(registrantID, questionID);
@@ -193,17 +193,17 @@ const controller = {
 				quiz.sections.map(async (sectionID) => {
 					const section = await getSectionByID(sectionID);
 					// console.log('section: ', { sectionID, section });
-					logger.info(`section : ${ sectionID, section }`);
+					logger.info(`section : ${sectionID}`, `${section}`);
 					const questions2 = await Promise.all(
 						section.questions.map(async (questionID) => {
 							// console.log({ sectionID, questionID });
-							logger.info(`sectionID, questionID : ${ sectionID, questionID }`);
+							logger.info(`sectionID, questionID : ${sectionID}`, `${questionID}`);
 							const question = await getQuestionByID(questionID);
 							return { ...question, sectionID };
 						}),
 					);
 					// console.log({ sectionID, questions2 });
-					logger.info(`section : ${ sectionID, questions2 }`);
+					logger.info(`section : ${sectionID}`, `${questions2}`);
 					// return questions2.filter((question) => question.type === 'mcq');
 					return questions2;
 				}),
@@ -211,9 +211,9 @@ const controller = {
 			logger.info(`**Quiz Checking, checkingID=${checkingID}**\nGot list of all questions in the quiz...`);
 
 			const mcqQuestions = questions.filter((question) => question.type === 'mcq');
-			// const subjectiveQuestions = questions.filter((question) => question.type === 'subjective');
+			const subjectiveQuestions = questions.filter((question) => question.type === 'subjective');
 			// console.log({ mcqQuestions, subjectiveQuestions });
-			logger.info(`questions : ${ mcqQuestions, subjectiveQuestions }`);
+			logger.info(`questions : ${mcqQuestions}`, `${subjectiveQuestions}`);
 
 			// Get a list of all registrants
 			const registrants = await getRegisteredUsersForQuiz(quizID);
@@ -233,7 +233,7 @@ const controller = {
 								(choice) => choice.quizioID === answerChoice,
 							).marks);
 							// console.log({ registrant, response, choiceScores });
-							logger.info(`registrant and responses : ${ registrant, response, choiceScores }`);
+							logger.info(`registrant and responses : ${registrantID}`, `${response}`, `${choiceScores}`);
 							const questionScore = choiceScores.reduce((prev, curr) => prev + curr, 0);
 							return {
 								registrantID,
@@ -252,7 +252,7 @@ const controller = {
 					}),
 				);
 				// console.log({ questionScores });
-				logger.info(`scores : ${ questionScores }`);
+				logger.info(`scores : ${questionScores}`);
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nCalculated scores, saving to db`);
 				const saved = await Promise.all(questionScores.map(async (questionScore) => {
 					const created = await updateScore(questionScore);
@@ -261,7 +261,7 @@ const controller = {
 				actualUpdated = saved.length;
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nSaved ${saved.length} score documents to db`);
 				// console.log({ saved });
-				logger.info(`saved scores : ${ saved }`);
+				logger.info(`saved scores : ${saved}`);
 			}));
 
 			return successResponseWithData(res, {

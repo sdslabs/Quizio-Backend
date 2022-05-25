@@ -14,7 +14,7 @@ import { getQuestionByID } from './question';
 export const updateScore = async (scoreData) => {
 	const { registrantID, questionID } = scoreData;
 	// console.log('update score:', { scoreData });
-	logger.info(`update score : ${ scoreData }`);
+	logger.info(`update score : ${scoreData}`);
 
 	const quizioID = generateQuizioID();
 	const exists = await score.findOne({ registrantID, questionID }).exec();
