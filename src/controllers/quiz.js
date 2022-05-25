@@ -138,11 +138,11 @@ const controller = {
 				// console.log('section: ', { sectionID, section });
 				logger.info(`section : ${ sectionID, section }`);
 				// console.log(section);
-				logger.info(`${ section }`);
+				logger.info(`section : ${ section }`);
 				await Promise.all(
 					section.questions.forEach(async (questionID) => {
 						// console.log({ sectionID, questionID });
-						logger.info(`section : ${ sectionID, questionID }`);
+						logger.info(`sectionID, questionID : ${ sectionID, questionID }`);
 						await getQuestionByID(questionID);
 						total += 1;
 						const score = await getScore(registrantID, questionID);
@@ -197,7 +197,7 @@ const controller = {
 					const questions2 = await Promise.all(
 						section.questions.map(async (questionID) => {
 							// console.log({ sectionID, questionID });
-							logger.info(`section : ${ sectionID, questionID }`);
+							logger.info(`sectionID, questionID : ${ sectionID, questionID }`);
 							const question = await getQuestionByID(questionID);
 							return { ...question, sectionID };
 						}),
@@ -213,7 +213,7 @@ const controller = {
 			const mcqQuestions = questions.filter((question) => question.type === 'mcq');
 			// const subjectiveQuestions = questions.filter((question) => question.type === 'subjective');
 			// console.log({ mcqQuestions, subjectiveQuestions });
-			logger.info(`section : ${ mcqQuestions, subjectiveQuestions }`);
+			logger.info(`questions : ${ mcqQuestions, subjectiveQuestions }`);
 
 			// Get a list of all registrants
 			const registrants = await getRegisteredUsersForQuiz(quizID);
@@ -233,7 +233,7 @@ const controller = {
 								(choice) => choice.quizioID === answerChoice,
 							).marks);
 							// console.log({ registrant, response, choiceScores });
-							logger.info(`section : ${ registrant, response, choiceScores }`);
+							logger.info(`registrant and responses : ${ registrant, response, choiceScores }`);
 							const questionScore = choiceScores.reduce((prev, curr) => prev + curr, 0);
 							return {
 								registrantID,
@@ -252,7 +252,7 @@ const controller = {
 					}),
 				);
 				// console.log({ questionScores });
-				logger.info(`section : ${ questionScores }`);
+				logger.info(`scores : ${ questionScores }`);
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nCalculated scores, saving to db`);
 				const saved = await Promise.all(questionScores.map(async (questionScore) => {
 					const created = await updateScore(questionScore);
@@ -261,7 +261,7 @@ const controller = {
 				actualUpdated = saved.length;
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nSaved ${saved.length} score documents to db`);
 				// console.log({ saved });
-				logger.info(`section : ${ saved }`);
+				logger.info(`saved scores : ${ saved }`);
 			}));
 
 			return successResponseWithData(res, {

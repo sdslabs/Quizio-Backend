@@ -22,7 +22,7 @@ const generateRanklist = async (quiz) => {
 			const questions2 = await Promise.all(
 				section.questions.map(async (questionID) => {
 					// console.log({ sectionID, questionID });
-					logger.info(`section : ${ sectionID, questionID }`);
+					logger.info(`sectionID, questionID : ${ sectionID, questionID }`);
 					const question = await getQuestionByID(questionID);
 					return { ...question, sectionID };
 				}),
