@@ -18,19 +18,23 @@ const generateRanklist = async (quiz) => {
 		quiz.sections.map(async (sectionID) => {
 			const section = await getSectionByID(sectionID);
 			// console.log('section: ', { sectionID, section });
+			logger.info(`section : ${ sectionID, section }`);
 			const questions2 = await Promise.all(
 				section.questions.map(async (questionID) => {
 					// console.log({ sectionID, questionID });
+					logger.info(`section : ${ sectionID, questionID }`);
 					const question = await getQuestionByID(questionID);
 					return { ...question, sectionID };
 				}),
 			);
 			// console.log({ sectionID, questions2 });
+			logger.info(`section : ${ sectionID, questions2 }`);
 			// return questions2.filter((question) => question.type === 'mcq');
 			return questions2;
 		}),
 	)).flat();
 	// console.log(registrants);
+	logger.info(`Registrants : ${ registrants }`);
 
 	const rankList = await Promise.all(registrants.map(async (registrantID) => {
 		logger.info(`**Ranklist Generation, generationID=${generationID}**\nCalculating score for ${registrantID}`);
