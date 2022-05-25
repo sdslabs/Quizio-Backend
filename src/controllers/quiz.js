@@ -236,6 +236,7 @@ const controller = {
 							logger.info(`registrant and responses : ${registrantID}`, `${response}`, `${choiceScores}`);
 							const questionScore = choiceScores.reduce((prev, curr) => prev + curr, 0);
 							return {
+								questionID: question.quizioID,
 								registrantID,
 								checkBy: quizio.quizioID,
 								autochecked: true,
