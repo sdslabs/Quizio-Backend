@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "75a3a296-f006-4a0c-8531-ab8ab4dd7a5f",
+		"_postman_id": "2f85b032-0452-4bdb-9199-73d495fd7ae9",
 		"name": "Quizio",
 		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests a user can send?",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -1446,30 +1446,62 @@
 				},
 				{
 					"name": "Get response",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"userID\": \"quizioID.0MDZe6Hody7QyMHecl_dX\",\n    \"questionID\" : \"quizioID.Ze2vQjTx7GjtpiVvqIFSP\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{baseURL}}/api/v2/responses",
+							"raw": "{{baseURL}}/api/v2/responses/:userID/:questionID",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"v2",
-								"responses"
+								"responses",
+								":userID",
+								":questionID"
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": "quizioID.DqikbjznoFpmhPOGxUBK1"
+								},
+								{
+									"key": "questionID",
+									"value": "quizioID.IQHgP9Tmi37vWhu_Dx3g9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Response Status of All Questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v2/responses/status/:userID/:quizID",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"responses",
+								"status",
+								":userID",
+								":quizID"
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": "quizioID.DqikbjznoFpmhPOGxUBK1"
+								},
+								{
+									"key": "quizID",
+									"value": "quizioID.fnX4BeKbCQlsfqxg-e1dV"
+								}
 							]
 						}
 					},
