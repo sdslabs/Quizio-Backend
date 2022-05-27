@@ -8,6 +8,7 @@ import {
 	notFoundResponse,
 	unauthorizedResponse,
 	failureResponseWithMessage,
+	errorResponse,
 } from '../helpers/responses';
 import { generateQuizioID, getRole } from '../helpers/utils';
 import { getQuestionByID } from '../models/question';
@@ -25,7 +26,7 @@ import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../mo
 import { getResponse } from '../models/response';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
-import { checkIfQuizIsSubmitted } from '../models/submit';
+import { checkIfQuizIsSubmitted, checkSubmit } from '../models/submit';
 import { removeOngoingQuizFromTimer } from '../services/timerService';
 
 const controller = {
@@ -59,6 +60,10 @@ const controller = {
 		if (!quiz) {
 			return notFoundResponse(res, 'Quiz not found!');
 		}
+
+		const submitExits = await checkSubmit(quizID, userID);
+		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
+
 		if (role === 'superadmin') {
 			return successResponseWithData(res, { role: 'superadmin', quiz });
 		}
