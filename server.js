@@ -43,7 +43,7 @@ const MONGOURI = getMongoURI();
 // Connect to db
 mongoose.connect(MONGOURI).then(() => logger
 	.info('MongoDB successfully connected'))
-	.catch((err) => logger.error(err));
+	.catch((err) => logger.error("MongoDB connection failed: "+err));
 
 // Start the server
 server.listen(port, () => {
