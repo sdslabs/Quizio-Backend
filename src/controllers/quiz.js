@@ -138,7 +138,6 @@ const controller = {
 				// console.log('section: ', { sectionID, section });
 				logger.info(`section : ${sectionID}`, `${section}`);
 				// console.log(section);
-				logger.info(`section : ${section}`);
 				await Promise.all(
 					section.questions.forEach(async (questionID) => {
 						// console.log({ sectionID, questionID });
@@ -193,11 +192,9 @@ const controller = {
 				quiz.sections.map(async (sectionID) => {
 					const section = await getSectionByID(sectionID);
 					// console.log('section: ', { sectionID, section });
-					logger.info(`section : ${sectionID}`, `${section}`);
 					const questions2 = await Promise.all(
 						section.questions.map(async (questionID) => {
 							// console.log({ sectionID, questionID });
-							logger.info(`sectionID, questionID : ${sectionID}`, `${questionID}`);
 							const question = await getQuestionByID(questionID);
 							return { ...question, sectionID };
 						}),
@@ -253,7 +250,7 @@ const controller = {
 					}),
 				);
 				// console.log({ questionScores });
-				logger.info(`scores : ${questionScores}`);
+				logger.info(`questionScores : ${questionScores}`);
 				logger.info(`**Quiz Checking, checkingID=${checkingID}**\nCalculated scores, saving to db`);
 				const saved = await Promise.all(questionScores.map(async (questionScore) => {
 					const created = await updateScore(questionScore);
