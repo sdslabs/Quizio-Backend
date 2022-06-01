@@ -26,7 +26,7 @@ import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../mo
 import { getResponse } from '../models/response';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
-import { checkIfQuizIsSubmitted, checkSubmit } from '../models/submit';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 import { removeOngoingQuizFromTimer } from '../services/timerService';
 
 const controller = {
@@ -61,8 +61,8 @@ const controller = {
 			return notFoundResponse(res, 'Quiz not found!');
 		}
 
-		const submitExits = await checkSubmit(quizID, userID);
-		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
+		const submitted = await checkIfQuizIsSubmitted(userID, quizID);
+		if (submitted) return errorResponse(res, 'Quiz already submitted!');
 
 		if (role === 'superadmin') {
 			return successResponseWithData(res, { role: 'superadmin', quiz });

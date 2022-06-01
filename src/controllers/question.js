@@ -27,7 +27,7 @@ import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { getUserWithUserID } from '../models/user';
-import { checkSubmit } from '../models/submit';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 
 const controller = {
 	addNewQuestionToSection: async (req, res) => {
@@ -65,8 +65,8 @@ const controller = {
 		const section = await getSectionByID(question.sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
-		const submitExits = await checkSubmit(section.quizID, userID);
-		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
+		const submitted = await checkIfQuizIsSubmitted(userID, section.quizioID);
+		if (submitted) return errorResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');

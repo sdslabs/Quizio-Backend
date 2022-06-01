@@ -8,7 +8,7 @@ import {
 } from '../helpers/responses';
 import { getQuestionByID, isChoiceInQuestion } from '../models/question';
 import { getSectionByID } from '../models/section';
-import { checkSubmit } from '../models/submit';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 
 import { getResponse, saveResponse } from '../models/response';
 import { getQuizById } from '../models/quiz';
@@ -24,8 +24,8 @@ const controller = {
 		const section = await getSectionByID(question.sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
-		const submitExits = await checkSubmit(section.quizID, userID);
-		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
+		const submitted = await checkIfQuizIsSubmitted(userID, section.quizID);
+		if (submitted) return errorResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (Date.now().valueOf() > quiz.endTime.valueOf()) {
