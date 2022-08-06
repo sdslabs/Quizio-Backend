@@ -311,6 +311,7 @@ const controller = {
 			if (!published) return failureResponseWithMessage(res, 'Quiz not yet published!');
 
 			const rankList = await generateRanklist(quiz);
+
 			if (!rankList) {
 				return failureResponseWithMessage(res, 'failed to generate ranklist!');
 			}
@@ -329,10 +330,7 @@ const controller = {
 		return unauthorizedResponse(res);
 	},
 
-	// changes by pradnya
-
 	getRanklist: async (req, res) => {
-		console.log('hi');
 		const { userID, role } = req.user;
 		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
@@ -342,7 +340,7 @@ const controller = {
 			if (!fetch) {
 				return failureResponseWithMessage(res, 'failed to fetch ranklist!');
 			}
-			return successResponseWithMessage(res, 'YAY');
+			return successResponseWithData(res, { ...fetch });
 		}
 		return unauthorizedResponse(res);
 	},
