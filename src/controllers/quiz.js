@@ -20,7 +20,7 @@ import {
 	publishQuiz,
 	getPublishedQuiz,
 } from '../models/quiz';
-import { updateRanklist } from '../models/ranklist';
+import { updateRanklist, getRanklist } from '../models/ranklist';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
 import { updateScore, getScore } from '../models/score';
@@ -325,6 +325,24 @@ const controller = {
 				role: getRole(role, quiz, userID),
 				rankList,
 			});
+		}
+		return unauthorizedResponse(res);
+	},
+
+	// changes by pradnya
+
+	getRanklist: async (req, res) => {
+		console.log('hi');
+		const { userID, role } = req.user;
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			const fetch = await getRanklist({ quizID });
+			if (!fetch) {
+				return failureResponseWithMessage(res, 'failed to fetch ranklist!');
+			}
+			return successResponseWithMessage(res, 'YAY');
 		}
 		return unauthorizedResponse(res);
 	},
