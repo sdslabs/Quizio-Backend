@@ -20,7 +20,7 @@ import {
 	publishQuiz,
 	getPublishedQuiz,
 } from '../models/quiz';
-import { updateRanklist } from '../models/ranklist';
+import { updateRanklist, getRanklist } from '../models/ranklist';
 import { checkIfUserIsRegisteredForQuiz, getRegisteredUsersForQuiz } from '../models/register';
 import { getResponse } from '../models/response';
 import { updateScore, getScore } from '../models/score';
@@ -312,6 +312,7 @@ const controller = {
 			if (!published) return failureResponseWithMessage(res, 'Quiz not yet published!');
 
 			const rankList = await generateRanklist(quiz);
+
 			if (!rankList) {
 				return failureResponseWithMessage(res, 'failed to generate ranklist!');
 			}
@@ -361,6 +362,22 @@ const controller = {
 			return successResponseWithData(res, { role: 'registrant', quiz });
 		}
 		return successResponseWithData(res, { role: 'public', quiz });
+
+	},
+	
+	getRanklist: async (req, res) => {
+		const { userID, role } = req.user;
+		const { quizID } = req.params;
+		const quiz = await getQuizById(quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
+			const ranklist = await getRanklist({ quizID });
+			if (!ranklist) {
+				return failureResponseWithMessage(res, 'failed to get ranklist!');
+			}
+			return successResponseWithData(res, { ...ranklist });
+		}
+		return unauthorizedResponse(res);
 	},
 
 };

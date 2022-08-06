@@ -5,7 +5,6 @@ import sectionController from '../controllers/section';
 import questionController from '../controllers/question';
 
 const router = express.Router();
-
 // Quiz Level
 router.post('/', isAuth, controller.addNewQuiz);
 router.get('/', isAuth, controller.getAllQuizzes);
@@ -66,6 +65,6 @@ router.get('/:quizID/check', isAuth, controller.getQuizCheckDetails);
 // Publish quiz routes
 router.get('/:quizID/publish', isAuth, controller.getPublishedQuiz);
 router.post('/:quizID/publish', isAuth, controller.publishQuiz);
-
+router.get('/:quizID/getRanklist', isAuth, controller.getRanklist);
 router.post('/:quizID/ranklist', isAuth, controller.generateRanklist);
 export default router;
