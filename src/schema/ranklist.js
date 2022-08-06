@@ -11,6 +11,8 @@ const ranklistSchema = new Schema({
 	generatedBy: String,
 	/** Ranklist */
 	rankList: [{
+		checkingProgress: Number,
+		name: String,
 		quizScore: String,
 		registrantID: String,
 	}],

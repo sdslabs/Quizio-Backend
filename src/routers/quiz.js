@@ -61,6 +61,6 @@ router.get('/:quizID/check', isAuth, controller.getQuizCheckDetails);
 // Publish quiz routes
 router.get('/:quizID/publish', isAuth, controller.getPublishedQuiz);
 router.post('/:quizID/publish', isAuth, controller.publishQuiz);
-router.get('/:quizID/getRanklist', isAuth, controller.getRanklist); // pradnya
+router.get('/:quizID/getRanklist', isAuth, controller.getRanklist);
 router.post('/:quizID/ranklist', isAuth, controller.generateRanklist);
 export default router;
