@@ -336,11 +336,11 @@ const controller = {
 		const quiz = await getQuizById(quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 		if (role === 'superadmin' || quiz.creator === userID || quiz.owners.includes(userID)) {
-			const fetch = await getRanklist({ quizID });
-			if (!fetch) {
-				return failureResponseWithMessage(res, 'failed to fetch ranklist!');
+			const ranklist = await getRanklist({ quizID });
+			if (!ranklist) {
+				return failureResponseWithMessage(res, 'failed to get ranklist!');
 			}
-			return successResponseWithData(res, { ...fetch });
+			return successResponseWithData(res, { ...ranklist });
 		}
 		return unauthorizedResponse(res);
 	},
