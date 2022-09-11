@@ -17,7 +17,7 @@ const controller = {
 	registerUserForQuiz: async (req, res) => {
 		const { userID } = req.user;
 		const data = req.body;
-		const { quizID, accessCode } = data;
+		const { quizID } = data;
 
 		const quizExists = await getQuizById(quizID);
 		if (!quizExists) return notFoundResponse(res, 'quiz not found!');
@@ -76,22 +76,19 @@ const controller = {
 	checkAccessCodeForQuiz: async (req, res) => {
 		const { quizID, accessCode } = req.params;
 		const quiz = await getQuizById(quizID);
-		if(quiz) {
+		if (quiz) {
 			console.log(quiz);
-			if( quiz.accessCode) {
-				if(quiz.accessCode == accessCode){
+			if (quiz.accessCode) {
+				if (quiz.accessCode === accessCode) {
 					console.log('correct');
 					return successResponseWithData(res, { correct: true, msg: 'Correct Access Code' });
-				} else {
-					console.log('incorrect');
-					return successResponseWithData(res, {correct: false, msg: 'Incorrect Access Code'});
 				}
-			} else {
-				return notFoundResponse(res, 'Access Code not found!');
+				console.log('incorrect');
+				return successResponseWithData(res, { correct: false, msg: 'Incorrect Access Code' });
 			}
-		} else {
-			return notFoundResponse(res, 'Quiz not found!');
+			return notFoundResponse(res, 'Access Code not found!');
 		}
+		return notFoundResponse(res, 'Quiz not found!');
 	},
 };
 
