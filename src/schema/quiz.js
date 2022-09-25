@@ -33,7 +33,10 @@ const quizSchema = new Schema({
 	/** The window(in seconds) in which quiz can be started after the startTime */
 	startWindow: Number,
 	/** Code to be able to access the quiz (for quiz givers) */
-	accessCode: String,
+	accessCode: {
+		type: String,
+		default: 'quizio',
+	},
 	/* Additional details for the quiz */
 	detail1: {
 		key: String,

@@ -27,6 +27,7 @@ import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { checkIfQuizIsSubmitted } from '../models/submit';
 import { removeOngoingQuizFromTimer } from '../services/timerService';
+import registerController from './register';
 
 const controller = {
 	getAllQuizzes: async (req, res) => {
@@ -53,9 +54,14 @@ const controller = {
 
 	getQuizByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { quizID } = req.params;
+		const { quizID, accessCode } = req.params;
 		const quiz = await getQuizById(quizID);
+		const accessCodeData = await registerController.checkAccessCodeForQuiz(quizID, accessCode);
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
 
+		if (!isAccessCodeCorrect) {
+			return notFoundResponse(res, 'Invalid access code');
+		}
 		if (!quiz) {
 			return notFoundResponse(res, 'Quiz not found!');
 		}
