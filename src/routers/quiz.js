@@ -8,19 +8,20 @@ const router = express.Router();
 // Quiz Level
 router.post('/', isAuth, controller.addNewQuiz);
 router.get('/', isAuth, controller.getAllQuizzes);
-router.get('/:quizID', isAuth, controller.getQuizByID);
+router.get('/:quizID/:accessCode', isAuth, controller.getQuizByID);
 router.put('/:quizID', isAuth, controller.updateQuiz);
 router.delete('/:quizID', isAuth, controller.deleteQuiz);
 
 // Section Level
 router.post('/:quizID/sections', isAuth, sectionController.addNewSectionToQuiz);
-router.get('/sections/:sectionID', isAuth, sectionController.getSectionByID);
+router.get('/sections/:sectionID/:accessCode', isAuth, sectionController.getSectionByID);
 router.put('/sections/:sectionID', isAuth, sectionController.updateSectionByID);
 router.delete('/sections/:sectionID', isAuth, sectionController.deleteSectionByID);
 
 // Question Level
 router.post('/sections/:sectionID/questions', isAuth, questionController.addNewQuestionToSection);
-router.get('/sections/questions/:questionID', isAuth, questionController.getQuestionByID);
+router.get('/sections/questions/:questionID/:accessCode', isAuth, questionController.getQuestionByID);
+// make sure ki creator/owner is able to make quizzes with admin access despite this
 router.put(
 	'/sections/questions/:questionID',
 	isAuth,

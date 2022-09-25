@@ -27,6 +27,7 @@ import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { getUserWithUserID } from '../models/user';
+import registerController from './register';
 
 const controller = {
 	addNewQuestionToSection: async (req, res) => {
@@ -56,7 +57,7 @@ const controller = {
 
 	getQuestionByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { questionID } = req.params;
+		const { questionID, accessCode } = req.params;
 
 		const question = await getQuestionByID(questionID);
 		if (!question) return notFoundResponse(res, 'Question not found!');
@@ -66,6 +67,14 @@ const controller = {
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
+			accessCode);
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+
+		if (!isAccessCodeCorrect) {
+			return notFoundResponse(res, 'Invalid access code');
+		}
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID

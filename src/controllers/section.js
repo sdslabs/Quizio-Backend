@@ -13,6 +13,7 @@ import {
 	getSectionByID,
 	updateSectionByID,
 } from '../models/section';
+import registerController from './register';
 
 const controller = {
 	addNewSectionToQuiz: async (req, res) => {
@@ -41,13 +42,21 @@ const controller = {
 
 	getSectionByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { sectionID } = req.params;
+		const { sectionID, accessCode } = req.params;
 
 		const section = await getSectionByID(sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
+			accessCode);
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+
+		if (!isAccessCodeCorrect) {
+			return notFoundResponse(res, 'Invalid access code');
+		}
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID
