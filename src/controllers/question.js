@@ -117,8 +117,8 @@ const controller = {
 		const { questionID } = req.params;
 
 		const questionData = req.body;
-		
-		if (isNaN(questionData.maxMarks)){
+		// eslint-disable-next-line no-restricted-globals
+		if (isNaN(questionData.maxMarks)) {
 			return notFoundResponse(res, "Marks can't be string");
 		}
 
