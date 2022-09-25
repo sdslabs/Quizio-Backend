@@ -117,6 +117,10 @@ const controller = {
 		const { questionID } = req.params;
 
 		const questionData = req.body;
+		// eslint-disable-next-line no-restricted-globals
+		if (isNaN(questionData.maxMarks)) {
+			return notFoundResponse(res, "Marks can't be string");
+		}
 
 		if (questionData.choices) {
 			return failureResponseWithMessage(res, 'Cannot add choices from this api, use `/api/v2/quizzes/sections/questions/:questionID/choices`');
