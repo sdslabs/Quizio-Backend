@@ -57,7 +57,7 @@ const controller = {
 
 	getQuestionByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { questionID, accessCode } = req.params;
+		const { questionID } = req.params;
 
 		const question = await getQuestionByID(questionID);
 		if (!question) return notFoundResponse(res, 'Question not found!');
@@ -67,14 +67,6 @@ const controller = {
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
-
-		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
-			accessCode);
-		const isAccessCodeCorrect = accessCodeData.data.data.correct;
-
-		if (!isAccessCodeCorrect) {
-			return notFoundResponse(res, 'Invalid access code');
-		}
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID
@@ -337,6 +329,50 @@ const controller = {
 		};
 		// console.log({ result });
 		return successResponseWithData(res, result);
+	},
+
+	getQuestionByIDWithAccessCode: async (req, res) => {
+		const { userID, role } = req.user;
+		const { questionID, accessCode } = req.params;
+
+		const question = await getQuestionByID(questionID);
+		if (!question) return notFoundResponse(res, 'Question not found!');
+
+		const section = await getSectionByID(question.sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+
+		console.log('in getQUestionbyIDWITHACEESCODE', section.quizID, accessCode);
+
+		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
+			accessCode);
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+		console.log('after getQUIZbyIDWITHACEESCODE', section.quizID, accessCode);
+
+		if (!isAccessCodeCorrect) {
+			return unauthorizedResponse(res);
+		}
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners.includes(userID)) {
+			return successResponseWithData(res, {
+				role,
+				question: filterQuestionForQuizAdmins(question),
+			});
+		}
+
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
+			return successResponseWithData(res,
+				{
+					role: 'registrant',
+					question: filterQuestionForRegistrant(question),
+				});
+		}
+		return unauthorizedResponse(res);
 	},
 };
 

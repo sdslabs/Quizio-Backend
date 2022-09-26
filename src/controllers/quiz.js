@@ -54,14 +54,9 @@ const controller = {
 
 	getQuizByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { quizID, accessCode } = req.params;
+		const { quizID } = req.params;
 		const quiz = await getQuizById(quizID);
-		const accessCodeData = await registerController.checkAccessCodeForQuiz(quizID, accessCode);
-		const isAccessCodeCorrect = accessCodeData.data.data.correct;
 
-		if (!isAccessCodeCorrect) {
-			return notFoundResponse(res, 'Invalid access code');
-		}
 		if (!quiz) {
 			return notFoundResponse(res, 'Quiz not found!');
 		}
@@ -333,6 +328,38 @@ const controller = {
 			});
 		}
 		return unauthorizedResponse(res);
+	},
+
+	getQuizByIDWithAccessCode: async (req, res) => {
+		const { userID, role } = req.user;
+		const { quizID, accessCode } = req.params;
+		console.log(quizID, accessCode);
+		const quiz = await getQuizById(quizID);
+		console.log('in getQUIZbyIDWITHACEESCODE', quizID, accessCode);
+		const accessCodeData = await registerController.checkAccessCodeForQuiz({ quizID, accessCode });
+		console.log('after getquizbyidwithacccode');
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+
+		if (!isAccessCodeCorrect) {
+			return notFoundResponse(res, 'Invalid access code');
+		}
+		if (!quiz) {
+			return notFoundResponse(res, 'Quiz not found!');
+		}
+		if (role === 'superadmin') {
+			return successResponseWithData(res, { role: 'superadmin', quiz });
+		}
+		if (quiz.creator === userID) {
+			return successResponseWithData(res, { role: 'creator', quiz });
+		}
+		if (quiz.owners.includes(userID)) {
+			return successResponseWithData(res, { role: 'owner', quiz });
+		}
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
+			return successResponseWithData(res, { role: 'registrant', quiz });
+		}
+		return successResponseWithData(res, { role: 'public', quiz });
 	},
 
 };

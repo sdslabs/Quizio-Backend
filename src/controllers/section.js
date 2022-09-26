@@ -42,21 +42,13 @@ const controller = {
 
 	getSectionByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { sectionID, accessCode } = req.params;
+		const { sectionID } = req.params;
 
 		const section = await getSectionByID(sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
-
-		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
-			accessCode);
-		const isAccessCodeCorrect = accessCodeData.data.data.correct;
-
-		if (!isAccessCodeCorrect) {
-			return notFoundResponse(res, 'Invalid access code');
-		}
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID
@@ -114,6 +106,37 @@ const controller = {
 				return successResponseWithMessage(res, 'Section deleted successfully!');
 			}
 			return errorResponse(res, 'Unable to update Section');
+		}
+		return unauthorizedResponse(res);
+	},
+
+	getSectionByIDWithAccessCode: async (req, res) => {
+		const { userID, role } = req.user;
+		const { sectionID, accessCode } = req.params;
+
+		const section = await getSectionByID(sectionID);
+		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const quiz = await getQuizById(section.quizID);
+		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+		console.log('in getsectionbyIDWITHACEESCODE', section.quizID, accessCode);
+		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
+			accessCode);
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+		console.log('after getsectionbyIDWITHACEESCODE', section.quizID, accessCode);
+
+		if (!isAccessCodeCorrect) {
+			return notFoundResponse(res, 'Invalid access code');
+		}
+
+		if (role === 'superadmin'
+			|| quiz.creator === userID
+			|| quiz.owners?.includes(userID)) {
+			return successResponseWithData(res, { role, section });
+		}
+		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
+		if (isRegistrant) {
+			return successResponseWithData(res, { role: 'registrant', section });
 		}
 		return unauthorizedResponse(res);
 	},
