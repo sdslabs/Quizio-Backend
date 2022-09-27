@@ -345,9 +345,8 @@ const controller = {
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 
 		console.log('in getQUestionbyIDWITHACEESCODE', section.quizID, accessCode);
-
-		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
-			accessCode);
+		const { quizID } = section.quizID;
+		const accessCodeData = await registerController.checkAccessCodeForQuiz({ quizID, accessCode });
 		const isAccessCodeCorrect = accessCodeData.data.data.correct;
 		console.log('after getQUIZbyIDWITHACEESCODE', section.quizID, accessCode);
 

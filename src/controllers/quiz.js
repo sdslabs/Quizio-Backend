@@ -331,6 +331,7 @@ const controller = {
 	},
 
 	getQuizByIDWithAccessCode: async (req, res) => {
+		console.log(req);
 		const { userID, role } = req.user;
 		const { quizID, accessCode } = req.params;
 		console.log(quizID, accessCode);
@@ -339,7 +340,7 @@ const controller = {
 		const accessCodeData = await registerController.checkAccessCodeForQuiz({ quizID, accessCode });
 		console.log('after getquizbyidwithacccode');
 		const isAccessCodeCorrect = accessCodeData.data.data.correct;
-
+		console.log(isAccessCodeCorrect, 'is access code correct');
 		if (!isAccessCodeCorrect) {
 			return notFoundResponse(res, 'Invalid access code');
 		}

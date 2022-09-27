@@ -74,12 +74,7 @@ const controller = {
 	},
 
 	checkAccessCodeForQuiz: async (req, res) => {
-		// const { quizID, accessCode } = { quizID: '', accessCode:'' };
-		// if (req.params !== undefined) {
-		// 	quizID, accessCode = req.params;
-		// } else {
-		// 	quizID, accessCode = req;
-		// }
+		console.log('req.params:', req.params, 'req.accesscode:', req.accessCode, 'req.qid', req.quizID);
 		const { quizID, accessCode } = req.params !== undefined ? req.params : req;
 		console.log(quizID, accessCode, 'lol');
 		const quiz = await getQuizById(quizID);
@@ -88,10 +83,16 @@ const controller = {
 			if (quiz.accessCode) {
 				if (quiz.accessCode === accessCode) {
 					console.log('correct');
+					if (req.params === undefined) {
+						const body = { data: { data: { correct: true } } };
+						console.log(body);
+						return body;
+					}
 					return successResponseWithData(res, { correct: true, msg: 'Correct Access Code' });
-					// TODO: need to form proper response for sending data back
-				}
-				console.log('incorrect');
+				} if (req.params === undefined) {
+					const body = { data: { data: { correct: false } } };
+					return body;
+				} console.log('incorrect');
 				return successResponseWithData(res, { correct: false, msg: 'Incorrect Access Code' });
 			}
 			return notFoundResponse(res, 'Access Code not found!');

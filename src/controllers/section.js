@@ -111,6 +111,7 @@ const controller = {
 	},
 
 	getSectionByIDWithAccessCode: async (req, res) => {
+		console.log('in section controller');
 		const { userID, role } = req.user;
 		const { sectionID, accessCode } = req.params;
 
@@ -118,10 +119,10 @@ const controller = {
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const quiz = await getQuizById(section.quizID);
+		const { quizID } = section.quizID;
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
 		console.log('in getsectionbyIDWITHACEESCODE', section.quizID, accessCode);
-		const accessCodeData = await registerController.checkAccessCodeForQuiz(section.quizID,
-			accessCode);
+		const accessCodeData = await registerController.checkAccessCodeForQuiz({ quizID, accessCode });
 		const isAccessCodeCorrect = accessCodeData.data.data.correct;
 		console.log('after getsectionbyIDWITHACEESCODE', section.quizID, accessCode);
 
