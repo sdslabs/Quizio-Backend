@@ -209,17 +209,26 @@ const controller = {
 			|| quiz.owners.includes(userID)) {
 			const deleteChoices = await deleteAllChoicesInQuestionByID(questionID);
 			if (deleteChoices) {
-				choicesData.map(async (choice) => {
-					console.log('Each choices are dipicted as ====>>>>', choice);
-					const updatedQuestion = await addChoiceToQuestionByID(questionID, choice);
-					if(!updatedQuestion) {
-						return failureResponseWithMessage(res, 'Unable to add choice');
+				const updatedQuestions = await Promise.all(
+					choicesData.forEach((choice) => {
+						const quizioID = generateQuizioID();
+						const choiceData = { ...choice, quizioID };
+						return addChoiceToQuestionByID(questionID, choiceData);
+					}),
+				);
+				let isChoiceAddedSuccessfully = true;
+				updatedQuestions.forEach((updatedQuestion) => {
+					if (!updatedQuestion) {
+						isChoiceAddedSuccessfully = false;
 					}
 				});
+				if (isChoiceAddedSuccessfully === false) {
+					return failureResponseWithMessage(res, 'Unable to add choice');
+				}
 				return successResponseWithData(res,
-				{
-					msg: 'Choice added successfully!',
-				});
+					{
+						msg: 'Choice added successfully!',
+					});
 			}
 			return failureResponseWithMessage(res, 'Unable to delete Choice');
 		}
