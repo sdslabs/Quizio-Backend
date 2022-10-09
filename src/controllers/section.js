@@ -42,13 +42,19 @@ const controller = {
 
 	getSectionByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { sectionID } = req.params;
+		const { sectionID, accessCode } = req.params;
 
 		const section = await getSectionByID(sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
+		const { quizID } = section.quizID;
+		console.log('in getsection', sectionID, accessCode);
+		const accessCodeData = await registerController.checkAccessCodeForQuiz({ quizID, accessCode });
+		console.log('after checkacccode');
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+		console.log(isAccessCodeCorrect, 'is access code correct');
 
 		if (role === 'superadmin'
 			|| quiz.creator === userID
@@ -56,7 +62,7 @@ const controller = {
 			return successResponseWithData(res, { role, section });
 		}
 		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
-		if (isRegistrant) {
+		if (isRegistrant && isAccessCodeCorrect) {
 			return successResponseWithData(res, { role: 'registrant', section });
 		}
 		return unauthorizedResponse(res);

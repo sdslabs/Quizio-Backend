@@ -54,7 +54,7 @@ const controller = {
 
 	getQuizByID: async (req, res) => {
 		const { userID, role } = req.user;
-		const { quizID } = req.params;
+		const { quizID, accessCode } = req.params;
 		const quiz = await getQuizById(quizID);
 
 		if (!quiz) {
@@ -69,10 +69,18 @@ const controller = {
 		if (quiz.owners.includes(userID)) {
 			return successResponseWithData(res, { role: 'owner', quiz });
 		}
+		console.log('in getquiz', quizID, accessCode);
+		const accessCodeData = await registerController.checkAccessCodeForQuiz({ quizID, accessCode });
+		console.log('after checkacccode');
+		const isAccessCodeCorrect = accessCodeData.data.data.correct;
+		console.log(isAccessCodeCorrect, 'is access code correct');
+
 		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
-		if (isRegistrant) {
+
+		if (isRegistrant && isAccessCodeCorrect) {
 			return successResponseWithData(res, { role: 'registrant', quiz });
 		}
+		// ask wth is this public role
 		return successResponseWithData(res, { role: 'public', quiz });
 	},
 
@@ -362,9 +370,8 @@ const controller = {
 			return successResponseWithData(res, { role: 'registrant', quiz });
 		}
 		return successResponseWithData(res, { role: 'public', quiz });
-
 	},
-	
+
 	getRanklist: async (req, res) => {
 		const { userID, role } = req.user;
 		const { quizID } = req.params;
