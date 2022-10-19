@@ -8,7 +8,8 @@ const router = express.Router();
 // Quiz Level
 router.post('/', isAuth, controller.addNewQuiz);
 router.get('/', isAuth, controller.getAllQuizzes);
-router.get('/:quizID/"accessCode', isAuth, controller.getQuizByID);
+router.get('/:quizID/:accessCode', isAuth, controller.getQuizByID);
+router.get('/:quizID/accessCode', isAuth, controller.getAccessCodeForQuiz);
 // router.get('/:quizID/:accessCode', isAuth, controller.getQuizByIDWithAccessCode);
 router.put('/:quizID', isAuth, controller.updateQuiz);
 router.delete('/:quizID', isAuth, controller.deleteQuiz);

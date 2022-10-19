@@ -99,6 +99,7 @@ const controller = {
 		}
 		return notFoundResponse(res, 'Quiz not found!');
 	},
+
 };
 
 export default controller;

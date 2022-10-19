@@ -387,6 +387,22 @@ const controller = {
 		return unauthorizedResponse(res);
 	},
 
+	getAccessCodeForQuiz: async (req, res) => {
+		console.log('in get access code for quiz');
+		console.log('req.params:', req.params, 'req.qid', req.quizID);
+		const { quizID } = req.params;
+		console.log(quizID);
+		const quiz = await getQuizById(quizID);
+		if (quiz) {
+			console.log(quiz);
+			if (quiz.accessCode) {
+				return successResponseWithData(res, { isRequired: true, msg: 'Access Code required' });
+			}
+			return successResponseWithData(res, { isRequired: false, msg: 'Access Code not required' });
+		}
+		return notFoundResponse(res, 'Quiz not found!');
+	},
+
 };
 
 export default controller;
