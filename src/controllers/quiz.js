@@ -68,6 +68,14 @@ const controller = {
 		if (quiz.owners.includes(userID)) {
 			return successResponseWithData(res, { role: 'owner', quiz });
 		}
+
+		if (quiz.accessCode == null) {                //this makes accessCode hidden from the user giving the quiz
+			quiz.accessCode = false;                  //so they cant see it by inspect element
+		}											  //only returns a boolean to know if a accessCode is needed or not
+		else {
+			quiz.accessCode = true;
+		}
+
 		const isRegistrant = await checkIfUserIsRegisteredForQuiz(userID, quiz.quizioID);
 		if (isRegistrant) {
 			return successResponseWithData(res, { role: 'registrant', quiz });
