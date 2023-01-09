@@ -69,10 +69,11 @@ const controller = {
 			return successResponseWithData(res, { role: 'owner', quiz });
 		}
 
-		if (quiz.accessCode == null) {                //this makes accessCode hidden from the user giving the quiz
-			quiz.accessCode = false;                  //so they cant see it by inspect element
-		}											  //only returns a boolean to know if a accessCode is needed or not
-		else {
+		// this makes accessCode hidden from the user giving the quiz so they cant see it by
+		// inspect element only returns a boolean to know if a accessCode is needed or not
+		if (quiz.accessCode == null) {
+			quiz.accessCode = false;
+		} else {
 			quiz.accessCode = true;
 		}
 
