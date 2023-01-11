@@ -327,6 +327,7 @@ const controller = {
 			autochecked: scoreData.autochecked,
 		};
 		// console.log({ result });
+		logger.info(`Result logs : ${result}`);
 		return successResponseWithData(res, result);
 	},
 };
