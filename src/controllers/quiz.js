@@ -8,6 +8,7 @@ import {
 	notFoundResponse,
 	unauthorizedResponse,
 	failureResponseWithMessage,
+	errorResponse,
 } from '../helpers/responses';
 import { generateQuizioID, getRole } from '../helpers/utils';
 import { getQuestionByID } from '../models/question';
@@ -59,6 +60,10 @@ const controller = {
 		if (!quiz) {
 			return notFoundResponse(res, 'Quiz not found!');
 		}
+
+		const submitted = await checkIfQuizIsSubmitted(userID, quizID);
+		if (submitted) return errorResponse(res, 'Quiz already submitted!');
+
 		if (role === 'superadmin') {
 			return successResponseWithData(res, { role: 'superadmin', quiz });
 		}

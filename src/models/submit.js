@@ -36,9 +36,3 @@ export const submitQuiz = async (quizID, userID) => {
 	const result = await newSubmit.save();
 	return result ? extractSubmitData(result) : null;
 };
-
-// Return true if submission already exists else false
-export const checkSubmit = async (quizID, userID) => {
-	const exists = await submit.findOne({ quizID, userID });
-	return exists;
-};
