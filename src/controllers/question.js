@@ -191,10 +191,9 @@ const controller = {
 	},
 
 	addChoiceToQuestionByID: async (req, res) => {
-		const quizioID = generateQuizioID();
 		const { userID, role } = req.user;
 		const { questionID } = req.params;
-		const choiceData = { ...req.body, quizioID };
+		const choicesData = [...req.body];
 
 		const question = await getQuestionByID(questionID);
 		if (!question) return notFoundResponse(res, 'Question not found!');
@@ -212,17 +211,32 @@ const controller = {
 		if (role === 'superadmin'
 			|| quiz.creator === userID
 			|| quiz.owners.includes(userID)) {
-			const updatedQuestion = await addChoiceToQuestionByID(questionID, choiceData);
-			if (updatedQuestion) {
+			const deleteChoices = await deleteAllChoicesInQuestionByID(questionID);
+			if (deleteChoices) {
+				const updatedQuestions = await Promise.all(
+					choicesData.forEach((choice) => {
+						const quizioID = generateQuizioID();
+						const choiceData = { ...choice, quizioID };
+						return addChoiceToQuestionByID(questionID, choiceData);
+					}),
+				);
+				let isChoiceAddedSuccessfully = true;
+				updatedQuestions.forEach((updatedQuestion) => {
+					if (!updatedQuestion) {
+						isChoiceAddedSuccessfully = false;
+					}
+				});
+				if (isChoiceAddedSuccessfully === false) {
+					return failureResponseWithMessage(res, 'Unable to add choice');
+				}
 				return successResponseWithData(res,
 					{
 						msg: 'Choice added successfully!',
-						choices: extractChoicesData(updatedQuestion.choices),
 					});
 			}
-			return failureResponseWithMessage(res, 'Unable to add choice');
+			return failureResponseWithMessage(res, 'Unable to delete Choice');
 		}
-		return unauthorizedResponse(res);
+		return failureResponseWithMessage(res, 'Unable to add choice');
 	},
 
 	deleteChoiceInQuestionByID: async (req, res) => {
