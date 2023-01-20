@@ -27,6 +27,7 @@ import { checkIfUserIsRegisteredForQuiz } from '../models/register';
 import { updateScore, getScore } from '../models/score';
 import { getSectionByID } from '../models/section';
 import { getUserWithUserID } from '../models/user';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 
 const controller = {
 	addNewQuestionToSection: async (req, res) => {
@@ -63,6 +64,9 @@ const controller = {
 
 		const section = await getSectionByID(question.sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const submitted = await checkIfQuizIsSubmitted(userID, section.quizioID);
+		if (submitted) return unauthorizedResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
@@ -187,10 +191,9 @@ const controller = {
 	},
 
 	addChoiceToQuestionByID: async (req, res) => {
-		const quizioID = generateQuizioID();
 		const { userID, role } = req.user;
 		const { questionID } = req.params;
-		const choiceData = { ...req.body, quizioID };
+		const choicesData = [...req.body];
 
 		const question = await getQuestionByID(questionID);
 		if (!question) return notFoundResponse(res, 'Question not found!');
@@ -208,17 +211,32 @@ const controller = {
 		if (role === 'superadmin'
 			|| quiz.creator === userID
 			|| quiz.owners.includes(userID)) {
-			const updatedQuestion = await addChoiceToQuestionByID(questionID, choiceData);
-			if (updatedQuestion) {
+			const deleteChoices = await deleteAllChoicesInQuestionByID(questionID);
+			if (deleteChoices) {
+				const updatedQuestions = await Promise.all(
+					choicesData.forEach((choice) => {
+						const quizioID = generateQuizioID();
+						const choiceData = { ...choice, quizioID };
+						return addChoiceToQuestionByID(questionID, choiceData);
+					}),
+				);
+				let isChoiceAddedSuccessfully = true;
+				updatedQuestions.forEach((updatedQuestion) => {
+					if (!updatedQuestion) {
+						isChoiceAddedSuccessfully = false;
+					}
+				});
+				if (isChoiceAddedSuccessfully === false) {
+					return failureResponseWithMessage(res, 'Unable to add choice');
+				}
 				return successResponseWithData(res,
 					{
 						msg: 'Choice added successfully!',
-						choices: extractChoicesData(updatedQuestion.choices),
 					});
 			}
-			return failureResponseWithMessage(res, 'Unable to add choice');
+			return failureResponseWithMessage(res, 'Unable to delete Choice');
 		}
-		return unauthorizedResponse(res);
+		return failureResponseWithMessage(res, 'Unable to add choice');
 	},
 
 	deleteChoiceInQuestionByID: async (req, res) => {
@@ -327,6 +345,7 @@ const controller = {
 			autochecked: scoreData.autochecked,
 		};
 		// console.log({ result });
+		logger.info(`Result logs : ${result}`);
 		return successResponseWithData(res, result);
 	},
 };

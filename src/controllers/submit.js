@@ -47,6 +47,7 @@ const controller = {
 
 		// TODO: submit time validation
 		// console.log((startTime <= now) && (now <= endTime));
+		logger.info(`Quiz started : ${(quiz.startTime <= now) && (now <= quiz.endTime)}`);
 
 		if (quiz) {
 			const startTime = dayjs(quiz.startTime).toString();

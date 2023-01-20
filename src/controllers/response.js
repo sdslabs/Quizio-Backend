@@ -1,14 +1,14 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import {
-	errorResponse,
+	unauthorizedResponse,
 	failureResponseWithMessage,
 	notFoundResponse,
 	successResponseWithData,
 } from '../helpers/responses';
 import { getQuestionByID, isChoiceInQuestion } from '../models/question';
 import { getSectionByID } from '../models/section';
-import { checkSubmit } from '../models/submit';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 
 import { getResponse, saveResponse } from '../models/response';
 import { getQuizById } from '../models/quiz';
@@ -24,12 +24,12 @@ const controller = {
 		const section = await getSectionByID(question.sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
-		const submitExits = await checkSubmit(section.quizID, userID);
-		if (submitExits) return errorResponse(res, 'Quiz already submitted!');
+		const submitted = await checkIfQuizIsSubmitted(userID, section.quizID);
+		if (submitted) return unauthorizedResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (Date.now().valueOf() > quiz.endTime.valueOf()) {
-			return errorResponse(res, 'Quiz time is already over');
+			return unauthorizedResponse(res, 'Quiz time is already over');
 		}
 
 		const { status } = responseData;

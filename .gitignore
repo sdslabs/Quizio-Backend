@@ -119,6 +119,7 @@ dist
 
 # MISC
 .DS_Store
+.nvmrc
 
 # controversial
 *.creds.json

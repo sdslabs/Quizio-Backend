@@ -13,6 +13,7 @@ import {
 	getSectionByID,
 	updateSectionByID,
 } from '../models/section';
+import { checkIfQuizIsSubmitted } from '../models/submit';
 
 const controller = {
 	addNewSectionToQuiz: async (req, res) => {
@@ -45,6 +46,9 @@ const controller = {
 
 		const section = await getSectionByID(sectionID);
 		if (!section) return notFoundResponse(res, 'Section not found!');
+
+		const submitted = await checkIfQuizIsSubmitted(userID, section.quizID);
+		if (submitted) return unauthorizedResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');

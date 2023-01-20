@@ -32,6 +32,11 @@ export const updateRanklist = async (ranklistData) => {
  * Get the score of a user in a question
  * @param {String} registrantID quizioID of the registrant
  * @param {String} questionID  quizioID of the question
+ * @param {String} getRanklist  fetches the ranklist
  * @returns score object
  */
-export const a = 'a';
+export const getRanklist = async (ranklistData) => {
+	const { quizID } = ranklistData;
+	const result = await ranklist.findOne({ quizID }).exec();
+	return result ? extractRanklistData(result) : null;
+};
