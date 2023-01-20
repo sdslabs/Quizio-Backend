@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import {
-	errorResponse,
+	unauthorizedResponse,
 	failureResponseWithMessage,
 	notFoundResponse,
 	successResponseWithData,
@@ -25,11 +25,11 @@ const controller = {
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const submitted = await checkIfQuizIsSubmitted(userID, section.quizID);
-		if (submitted) return errorResponse(res, 'Quiz already submitted!');
+		if (submitted) return unauthorizedResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (Date.now().valueOf() > quiz.endTime.valueOf()) {
-			return errorResponse(res, 'Quiz time is already over');
+			return unauthorizedResponse(res, 'Quiz time is already over');
 		}
 
 		const { status } = responseData;

@@ -66,7 +66,7 @@ const controller = {
 		if (!section) return notFoundResponse(res, 'Section not found!');
 
 		const submitted = await checkIfQuizIsSubmitted(userID, section.quizioID);
-		if (submitted) return errorResponse(res, 'Quiz already submitted!');
+		if (submitted) return unauthorizedResponse(res, 'Quiz already submitted!');
 
 		const quiz = await getQuizById(section.quizID);
 		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
