@@ -157,46 +157,6 @@ const controller = {
 		return unauthorizedResponse(res);
 	},
 
-	// toggleQuestionByID: async (req, res) => {
-	// 	const { userID, role } = req.user;
-	// 	const { questionID } = req.params;
-	// 	const question = await getQuestionByID(questionID);
-	// 	if (!question) return notFoundResponse(res, 'Question not found!');
-
-	// 	const section = await getSectionByID(question.sectionID);
-	// 	if (!section) return notFoundResponse(res, 'Section not found!');
-
-	// 	const quiz = await getQuizById(section.quizID);
-	// 	if (!quiz) return notFoundResponse(res, 'Quiz not found!');
-
-	// 	if (role === 'superadmin'
-	// 		|| quiz.creator === userID
-	// 		|| quiz.owners.includes(userID)) {
-	// 		const questionData = { ...question };
-
-	// 		switch (question.type) {
-	// 		case 'mcq':
-	// 			questionData.type = 'subjective';
-	// 			questionData.choices = [];
-	// 			break;
-	// 		case 'subjective':
-	// 			questionData.type = 'mcq';
-	// 			questionData.answer = null;
-	// 			break;
-	// 		default:
-	// 			logger.error(`QUESTION WITH AN INVALID TYPE FOUND! type=${question.type}`);
-	// 		}
-
-	// 		const question2 = await updateQuestionByID(questionID, questionData);
-	// 		if (question2) {
-	// eslint-disable-next-line max-len
-	// 			return successResponseWithData(res, { msg: 'Question updated successfully!', question: question2 });
-	// 		}
-	// 		return failureResponseWithMessage(res, 'Unable to update Question');
-	// 	}
-	// 	return unauthorizedResponse(res);
-	// },
-
 	addChoiceToQuestionByID: async (req, res) => {
 		const { userID, role } = req.user;
 		const { questionID } = req.params;
@@ -271,34 +231,6 @@ const controller = {
 					});
 			}
 			return failureResponseWithMessage(res, 'Unable to delete Choice');
-		}
-		return unauthorizedResponse(res);
-	},
-	deleteAllChoicesInQuestionByID: async (req, res) => {
-		const { userID, role } = req.user;
-		const { questionID } = req.params;
-
-		const question = await getQuestionByID(questionID);
-		if (!question) return notFoundResponse(res, 'Question not found!');
-
-		const section = await getSectionByID(question.sectionID);
-		if (!section) return notFoundResponse(res, 'Section not found!');
-
-		const quiz = await getQuizById(section.quizID);
-		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
-
-		if (role === 'superadmin'
-			|| quiz.creator === userID
-			|| quiz.owners.includes(userID)) {
-			const updatedQuestion = await deleteAllChoicesInQuestionByID(questionID);
-			if (updatedQuestion) {
-				return successResponseWithData(res,
-					{
-						msg: 'Choices deleted successfully!',
-						choices: extractChoicesData(updatedQuestion.choices),
-					});
-			}
-			return failureResponseWithMessage(res, 'Unable to delete Choices');
 		}
 		return unauthorizedResponse(res);
 	},

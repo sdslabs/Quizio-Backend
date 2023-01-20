@@ -26,11 +26,6 @@ router.put(
 	isAuth,
 	questionController.updateQuestionByID,
 );
-// router.put(
-// 	'/sections/questions/:questionID/toggle',
-// 	isAuth,
-// 	questionController.toggleQuestionByID,
-// );
 router.put(
 	'/sections/questions/:questionID/choices',
 	isAuth,
@@ -40,11 +35,6 @@ router.delete(
 	'/sections/questions/:questionID/choices/:choiceID',
 	isAuth,
 	questionController.deleteChoiceInQuestionByID,
-);
-router.delete(
-	'/sections/questions/:questionID/choices',
-	isAuth,
-	questionController.deleteAllChoicesInQuestionByID,
 );
 router.delete(
 	'/sections/questions/:questionID',
