@@ -8,6 +8,7 @@ const router = express.Router();
 // Quiz Level
 router.post('/', isAuth, controller.addNewQuiz);
 router.get('/', isAuth, controller.getAllQuizzes);
+router.get('/published', isAuth, controller.getAllPublishedQuizzes);
 router.get('/:quizID', isAuth, controller.getQuizByID);
 router.put('/:quizID', isAuth, controller.updateQuiz);
 router.delete('/:quizID', isAuth, controller.deleteQuiz);

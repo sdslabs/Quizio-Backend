@@ -15,6 +15,22 @@ export const getAllQuizzes = async () => {
 };
 
 /**
+ * Get all published quizzes in the db
+ * @returns An array of all published quizzes in the db
+ */
+export const getAllPublishedQuizzes = async () => {
+	const quizzes = await quiz.find();
+	const publishedQuizzes = await publish.find();
+
+	let result = [];
+	if (quizzes && publishedQuizzes) {
+		result = quizzes.filter((quiz) => publishedQuizzes.find((publishedQuiz) => quiz.QuizioID === publishedQuiz.quizID));
+	}
+	// need to fix the above filter
+	return result ? extractQuizzesData(result) : null;
+};
+
+/**
  * Get the quiz with the given quizId
  * @param {String} quizID quizioID of the creator of the question
  * @returns quiz data of the quiz if found or null
