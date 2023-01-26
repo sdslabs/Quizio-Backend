@@ -13,6 +13,7 @@ import { generateQuizioID, getRole } from '../helpers/utils';
 import { getQuestionByID } from '../models/question';
 import {
 	getAllQuizzes,
+	getAllPublishedQuizzes,
 	addNewQuiz,
 	deleteQuiz,
 	updateQuiz,
@@ -49,6 +50,29 @@ const controller = {
 		);
 
 		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
+	},
+
+	getAllPublishedQuizzes: async (req, res) => {
+		const { userID } = req.user;
+		const puublishedQuizzes = await getAllPublishedQuizzes();
+
+		const quizzesPublishedByUser = await Promise.all(
+			puublishedQuizzes.map(async (eachQuiz) => {
+				const registered = await checkIfUserIsRegisteredForQuiz(
+					userID,
+					eachQuiz.quizioID,
+				);
+
+				const submitted = await checkIfQuizIsSubmitted(
+					userID,
+					eachQuiz.quizioID,
+				);
+				return { ...eachQuiz, registered: !!registered, submitted: !!submitted };
+			}),
+		);
+
+		return quizzesPublishedByUser ? successResponseWithData(res,
+			{ quizzesPublishedByUser }) : notFoundResponse(res);
 	},
 
 	getQuizByID: async (req, res) => {
