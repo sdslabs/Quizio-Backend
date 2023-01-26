@@ -54,10 +54,10 @@ const controller = {
 
 	getAllPublishedQuizzes: async (req, res) => {
 		const { userID } = req.user;
-		const quizzes0 = await getAllPublishedQuizzes();
+		const puublishedQuizzes = await getAllPublishedQuizzes();
 
-		const quizzes = await Promise.all(
-			quizzes0.map(async (eachQuiz) => {
+		const quizzesPublishedByUser = await Promise.all(
+			puublishedQuizzes.map(async (eachQuiz) => {
 				const registered = await checkIfUserIsRegisteredForQuiz(
 					userID,
 					eachQuiz.quizioID,
@@ -71,7 +71,7 @@ const controller = {
 			}),
 		);
 
-		return quizzes ? successResponseWithData(res, { quizzes }) : notFoundResponse(res);
+		return quizzes ? successResponseWithData(res, { quizzesPublishedByUser }) : notFoundResponse(res);
 	},
 
 	getQuizByID: async (req, res) => {
