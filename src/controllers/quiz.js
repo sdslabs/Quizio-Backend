@@ -71,7 +71,7 @@ const controller = {
 			}),
 		);
 
-		return quizzes ? successResponseWithData(res, { quizzesPublishedByUser }) : notFoundResponse(res);
+		return quizzesPublishedByUser ? successResponseWithData(res, { quizzesPublishedByUser }) : notFoundResponse(res);
 	},
 
 	getQuizByID: async (req, res) => {
