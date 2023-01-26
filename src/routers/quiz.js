@@ -35,7 +35,7 @@ router.put(
 router.put(
 	'/sections/questions/:questionID/choices',
 	isAuth,
-	questionController.addChoiceToQuestionByID,
+	questionController.addChoicesToQuestionByID,
 );
 router.delete(
 	'/sections/questions/:questionID/choices/:choiceID',
