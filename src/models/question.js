@@ -50,6 +50,7 @@ export const updateQuestionByID = async (questionID, questionData) => {
 		questionData,
 		{ new: true },
 	);
+	console.log(questionData);
 	return extractQuestionData(updatedQuestion);
 };
 

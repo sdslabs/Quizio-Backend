@@ -26,11 +26,11 @@ router.put(
 	isAuth,
 	questionController.updateQuestionByID,
 );
-router.put(
-	'/sections/questions/:questionID/choices',
-	isAuth,
-	questionController.addChoiceToQuestionByID,
-);
+// router.put(
+// 	'/sections/questions/:questionID/choices',
+// 	isAuth,
+// 	questionController.addChoiceToQuestionByID,
+// );
 router.delete(
 	'/sections/questions/:questionID/choices/:choiceID',
 	isAuth,

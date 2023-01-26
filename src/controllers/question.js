@@ -1,4 +1,3 @@
-import logger from '../helpers/logger';
 import {
 	errorResponse,
 	failureResponseWithMessage,
@@ -11,12 +10,12 @@ import {
 	extractChoicesData,
 	filterQuestionForQuizAdmins,
 	filterQuestionForRegistrant,
-	generateQuizioID,
+	// generateQuizioID,
 } from '../helpers/utils';
 import {
-	addChoiceToQuestionByID,
+	// addChoiceToQuestionByID,
 	addNewQuestionToSection,
-	deleteAllChoicesInQuestionByID,
+	// deleteAllChoicesInQuestionByID,
 	deleteChoiceInQuestionByID,
 	deleteQuestion,
 	getQuestionByID,
@@ -134,20 +133,6 @@ const controller = {
 		if (role === 'superadmin'
 			|| quiz.creator === userID
 			|| quiz.owners.includes(userID)) {
-			// set question type
-			switch (question.type) {
-			case 'mcq':
-				questionData.type = 'subjective';
-				questionData.choices = [];
-				break;
-			case 'subjective':
-				questionData.type = 'mcq';
-				questionData.answer = null;
-				break;
-			default:
-				logger.error(`QUESTION WITH AN INVALID TYPE FOUND! type=${question.type}`);
-			}
-
 			const updatedQuestion = await updateQuestionByID(questionID, questionData);
 			if (updatedQuestion) {
 				return successResponseWithData(res, { msg: 'Question updated successfully!', updatedQuestion });
@@ -155,55 +140,6 @@ const controller = {
 			return errorResponse(res, 'Unable to update Question');
 		}
 		return unauthorizedResponse(res);
-	},
-
-	addChoiceToQuestionByID: async (req, res) => {
-		const { userID, role } = req.user;
-		const { questionID } = req.params;
-		const choicesData = [...req.body];
-
-		const question = await getQuestionByID(questionID);
-		if (!question) return notFoundResponse(res, 'Question not found!');
-
-		if (question.type === 'subjective') {
-			return failureResponseWithMessage(res, 'Cannot add choice to subjective questions!  use `/api/v2/quizzes/sections/questions/:questionID/toggle` to change the type of question');
-		}
-
-		const section = await getSectionByID(question.sectionID);
-		if (!section) return notFoundResponse(res, 'Section not found!');
-
-		const quiz = await getQuizById(section.quizID);
-		if (!quiz) return notFoundResponse(res, 'Quiz not found!');
-
-		if (role === 'superadmin'
-			|| quiz.creator === userID
-			|| quiz.owners.includes(userID)) {
-			const deleteChoices = await deleteAllChoicesInQuestionByID(questionID);
-			if (deleteChoices) {
-				const updatedQuestions = await Promise.all(
-					choicesData.forEach((choice) => {
-						const quizioID = generateQuizioID();
-						const choiceData = { ...choice, quizioID };
-						return addChoiceToQuestionByID(questionID, choiceData);
-					}),
-				);
-				let isChoiceAddedSuccessfully = true;
-				updatedQuestions.forEach((updatedQuestion) => {
-					if (!updatedQuestion) {
-						isChoiceAddedSuccessfully = false;
-					}
-				});
-				if (isChoiceAddedSuccessfully === false) {
-					return failureResponseWithMessage(res, 'Unable to add choice');
-				}
-				return successResponseWithData(res,
-					{
-						msg: 'Choice added successfully!',
-					});
-			}
-			return failureResponseWithMessage(res, 'Unable to delete Choice');
-		}
-		return failureResponseWithMessage(res, 'Unable to add choice');
 	},
 
 	deleteChoiceInQuestionByID: async (req, res) => {
