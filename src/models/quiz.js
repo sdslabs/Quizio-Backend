@@ -24,8 +24,8 @@ export const getAllPublishedQuizzes = async () => {
 
 	let result = [];
 	if (quizzes && publishedQuizzes) {
-		const publishedQuizzesIDs = publishedQuizzes.map((quiz) => quiz.quizID);
-		result = quizzes.filter((quiz) => publishedQuizzesIDs.includes(quiz.quizioID));
+		const publishedQuizzesIDs = publishedQuizzes.map(() => quiz.quizID);
+		result = quizzes.filter(() => publishedQuizzesIDs.includes(quiz.quizioID));
 	}
 	// need to fix the above filter
 	return result ? extractQuizzesData(result) : null;
