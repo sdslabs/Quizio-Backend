@@ -216,9 +216,9 @@ const controller = {
 				choicesData.forEach(async (choice) => {
 					const quizioID = generateQuizioID();
 					const choiceData = { ...choice, quizioID };
-					try{
+					try {
 						await addChoiceToQuestionByID(questionID, choiceData);
-					}catch(err){
+					} catch (err) {
 						logger.error('Error while adding choice', err);
 					}
 				});
