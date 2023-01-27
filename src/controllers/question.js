@@ -213,10 +213,14 @@ const controller = {
 			|| quiz.owners.includes(userID)) {
 			const deleteChoices = await deleteAllChoicesInQuestionByID(questionID);
 			if (deleteChoices) {
-				choicesData.forEach( async (choice) => {
+				choicesData.forEach(async (choice) => {
 					const quizioID = generateQuizioID();
 					const choiceData = { ...choice, quizioID };
-					return await addChoiceToQuestionByID(questionID, choiceData);
+					try{
+						await addChoiceToQuestionByID(questionID, choiceData);
+					}catch(err){
+						logger.error('Error while adding choice', err);
+					}
 				});
 				return successResponseWithData(res,
 					{
