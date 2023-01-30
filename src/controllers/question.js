@@ -190,7 +190,7 @@ const controller = {
 		return unauthorizedResponse(res);
 	},
 
-	addChoiceToQuestionByID: async (req, res) => {
+	addChoicesToQuestionByID: async (req, res) => {
 		const { userID, role } = req.user;
 		const { questionID } = req.params;
 		const choicesData = [...req.body];
@@ -213,22 +213,15 @@ const controller = {
 			|| quiz.owners.includes(userID)) {
 			const deleteChoices = await deleteAllChoicesInQuestionByID(questionID);
 			if (deleteChoices) {
-				const updatedQuestions = await Promise.all(
-					choicesData.forEach((choice) => {
-						const quizioID = generateQuizioID();
-						const choiceData = { ...choice, quizioID };
-						return addChoiceToQuestionByID(questionID, choiceData);
-					}),
-				);
-				let isChoiceAddedSuccessfully = true;
-				updatedQuestions.forEach((updatedQuestion) => {
-					if (!updatedQuestion) {
-						isChoiceAddedSuccessfully = false;
+				choicesData.forEach(async (choice) => {
+					const quizioID = generateQuizioID();
+					const choiceData = { ...choice, quizioID };
+					try {
+						await addChoiceToQuestionByID(questionID, choiceData);
+					} catch (err) {
+						return failureResponseWithMessage(res, 'Error while adding choice');
 					}
 				});
-				if (isChoiceAddedSuccessfully === false) {
-					return failureResponseWithMessage(res, 'Unable to add choice');
-				}
 				return successResponseWithData(res,
 					{
 						msg: 'Choice added successfully!',
