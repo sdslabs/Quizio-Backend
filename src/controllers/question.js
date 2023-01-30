@@ -219,7 +219,7 @@ const controller = {
 					try {
 						await addChoiceToQuestionByID(questionID, choiceData);
 					} catch (err) {
-						return failureResponseWithMessage(res, 'Error while adding choice');
+						logger.error('Error while adding choice', err);
 					}
 				});
 				return successResponseWithData(res,
