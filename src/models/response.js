@@ -11,7 +11,7 @@ export const saveResponse = async (responseData) => {
 	const quizioID = generateQuizioID();
 	const { userID, questionID } = responseData;
 
-	const exists = await response.findOne({ userID, questionID }).exec();
+	const exists = await response.exists({ userID, questionID });
 	if (exists) {
 		const updated = await response.findOneAndUpdate(
 			{ userID, questionID },
