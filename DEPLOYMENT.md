@@ -9,7 +9,7 @@
 
 At this stage, you should have your api working on localhost:5050. Now the task is to write a proxy to forward this local API to a public IP adress (or a domain name). We will use Nginx to do this.
 
-- Copy the nginx conf to the nginx directory: `rm /etc/nginx/sites/available/quizio-backend && cp ./nginx/quizio-backend /etc/nginx/sites/available/quizio-backend`
+- Copy the nginx conf to the nginx directory: `rm /etc/nginx/sites-available/quizio-backend && cp ./nginx/quizio-backend /etc/nginx/sites-available/quizio-backend`
 - Create a sym-link from sites available to sites enabled: `ln -s /etc/nginx/sites-available/quizio-backend /etc/nginx/sites-enabled/quizio-backend`
 - Restart nginx service: `systemctl restart nginx`
 - Now Quizio Backend API should be accesible on the ip adress / domain name specified in the nginx config
