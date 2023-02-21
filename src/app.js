@@ -29,7 +29,7 @@ dotenv.config();
 const app = express();
 const { CLIENT_HOME_PAGE_URL } = process.env;
 const corsOptions = {
-	origin: CLIENT_HOME_PAGE_URL,
+	origin: ['*','http://localhost:3006','http://10.25.1.18:3006'],
 	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 	credentials: true,
 };
