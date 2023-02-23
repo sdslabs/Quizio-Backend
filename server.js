@@ -21,27 +21,32 @@ const server = http.Server(app);
 const io = new Server(server, {
 	cors: {
 		// origin: 'http://localhost:3006',
-		origin: CLIENT_HOME_PAGE_URL,
+		// origin: CLIENT_HOME_PAGE_URL,
+		origin: '*',
+		origin: 'http://10.25.1.18:3006',
+		origin: 'http://localhost:3006',
+		origin: 'http://quizio.ddns.net:3006',
+		origin: 'http://quizio.ddns.net'
 	},
 });
 
 // Initate timer server
 timerService(io);
 
-const getMongoURI = () => {
-	switch (MONGO_CONNECTION_TYPE) {
-	case 'remote':
-		return MONGO_REMOTE_URI;
-	case 'local':
-		return MONGO_LOCAL_URI;
-	default:
-		return MONGO_LOCAL_URI;
-	}
-};
-const MONGOURI = getMongoURI();
+// const getMongoURI = () => {
+// 	switch (MONGO_CONNECTION_TYPE) {
+// 	case 'remote':
+// 		return MONGO_REMOTE_URI;
+// 	case 'local':
+// 		return MONGO_LOCAL_URI;
+// 	default:
+// 		return MONGO_LOCAL_URI;
+// 	}
+// };
+// const MONGOURI = getMongoURI();
 
 // Connect to db
-mongoose.connect(MONGOURI).then(() => logger
+mongoose.connect('mongodb+srv://Reeshi:sdslabs@quizio.qjom0ut.mongodb.net/?retryWrites=true&w=majority').then(() => logger
 	.info('MongoDB successfully connected'))
 	.catch((err) => logger.error(`MongoDB connection failed: ${err}`));
 
@@ -49,3 +54,4 @@ mongoose.connect(MONGOURI).then(() => logger
 server.listen(port, () => {
 	logger.info(`Server started on port ${server.address().port}`);
 });
+

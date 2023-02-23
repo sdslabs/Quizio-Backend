@@ -29,7 +29,7 @@ dotenv.config();
 const app = express();
 const { CLIENT_HOME_PAGE_URL } = process.env;
 const corsOptions = {
-	origin: ['*','http://localhost:3006','http://10.25.1.18:3006'],
+	origin: ['*','http://localhost:3006','http://10.25.1.18:3006','http://quizio.ddns.net','http://quizio.ddns.net:3006'],
 	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 	credentials: true,
 };
